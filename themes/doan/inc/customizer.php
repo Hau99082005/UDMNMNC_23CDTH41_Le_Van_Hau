@@ -1,8 +1,8 @@
 <?php
 /**
- * doan Theme Customizer
+ * Customizer additions
  *
- * @package doan
+ * @package dulichvietnhat
  */
 
 /**
@@ -10,52 +10,81 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function doan_customize_register( $wp_customize ) {
-	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
-	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+function dulichvietnhat_customize_register($wp_customize) {
+    // Remove default sections
+    $wp_customize->remove_section('colors');
+    $wp_customize->remove_section('header_image');
+    $wp_customize->remove_section('background_image');
+    $wp_customize->remove_section('static_front_page');
+    $wp_customize->remove_section('custom_css');
 
-	if ( isset( $wp_customize->selective_refresh ) ) {
-		$wp_customize->selective_refresh->add_partial(
-			'blogname',
-			array(
-				'selector'        => '.site-title a',
-				'render_callback' => 'doan_customize_partial_blogname',
-			)
-		);
-		$wp_customize->selective_refresh->add_partial(
-			'blogdescription',
-			array(
-				'selector'        => '.site-description',
-				'render_callback' => 'doan_customize_partial_blogdescription',
-			)
-		);
-	}
-}
-add_action( 'customize_register', 'doan_customize_register' );
+    // Add Theme Options Panel
+    $wp_customize->add_panel(
+        'theme_options',
+        array(
+            'title'       => __('Theme Options', 'dulichvietnhat'),
+            'description' => __('Theme specific options', 'dulichvietnhat'),
+            'priority'    => 30,
+        )
+    );
 
-/**
- * Render the site title for the selective refresh partial.
- *
- * @return void
- */
-function doan_customize_partial_blogname() {
-	bloginfo( 'name' );
-}
+    // Header Section
+    $wp_customize->add_section(
+        'header_section',
+        array(
+            'title'    => __('Header Settings', 'dulichvietnhat'),
+            'priority' => 10,
+            'panel'    => 'theme_options',
+        )
+    );
 
-/**
- * Render the site tagline for the selective refresh partial.
- *
- * @return void
- */
-function doan_customize_partial_blogdescription() {
-	bloginfo( 'description' );
+    // Header Contact Info
+    $wp_customize->add_setting(
+        'header_phone',
+        array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'header_phone',
+        array(
+            'label'   => __('Phone Number', 'dulichvietnhat'),
+            'section' => 'header_section',
+            'type'    => 'text',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'header_email',
+        array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_email',
+        )
+    );
+
+    $wp_customize->add_control(
+        'header_email',
+        array(
+            'label'   => __('Email Address', 'dulichvietnhat'),
+            'section' => 'header_section',
+            'type'    => 'email',
+        )
+    );
 }
+add_action('customize_register', 'dulichvietnhat_customize_register');
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-function doan_customize_preview_js() {
-	wp_enqueue_script( 'doan-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), _S_VERSION, true );
+function dulichvietnhat_customize_preview_js() {
+    wp_enqueue_script(
+        'dulichvietnhat-customizer',
+        get_template_directory_uri() . '/assets/js/customizer.js',
+        array('customize-preview'),
+        _S_VERSION,
+        true
+    );
 }
-add_action( 'customize_preview_init', 'doan_customize_preview_js' );
+add_action('customize_preview_init', 'dulichvietnhat_customize_preview_js');
