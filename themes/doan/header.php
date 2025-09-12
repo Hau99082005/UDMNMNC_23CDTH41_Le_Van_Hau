@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body <?php body_class(); ?>>
@@ -17,7 +19,7 @@
                 <div class="top-bar-left">
                     <?php if ($phone = get_theme_mod('header_phone', '+84 123 456 789')) : ?>
                         <div class="top-bar-item">
-                            <i class="fas fa-phone-alt"></i>
+                            <i class="fas fa-phone"></i>
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>">
                                 <?php echo esc_html($phone); ?>
                             </a>
@@ -44,7 +46,9 @@
                         );
                         foreach ($socials as $key => $icon) : 
                             if ($url = get_theme_mod('social_' . $key)) : ?>
-                                <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr(ucfirst($key)); ?>">
+                                <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer" 
+                                   aria-label="<?php echo esc_attr(ucfirst($key)); ?>" 
+                                   class="social-link">
                                     <i class="fab fa-<?php echo esc_attr($icon); ?>"></i>
                                 </a>
                             <?php endif;
@@ -71,6 +75,11 @@
                     ?>
                 </div>
 
+                <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                    <span class="menu-icon"></span>
+                    <span class="screen-reader-text"><?php esc_html_e('Menu', 'dulichvietnhat'); ?></span>
+                </button>
+
                 <div class="header-right">
                     <nav id="site-navigation" class="main-navigation">
                         <?php
@@ -88,9 +97,7 @@
 
                     <div class="header-actions">
                         <div class="search-box">
-                            <button class="search-toggle" aria-label="<?php esc_attr_e('Toggle search', 'dulichvietnhat'); ?>">
-                                <i class="fas fa-search"></i>
-                            </button>
+                        
                             <div class="search-form-container">
                                 <?php get_search_form(); ?>
                             </div>
@@ -103,49 +110,26 @@
                                 </a>
                             </div>
                         <?php endif; ?>
-                        <a href="<?php echo esc_url(get_theme_mod('header_cta_url', '#')); ?>" class="btn btn-primary btn-booking">
-                            <?php echo esc_html(get_theme_mod('header_cta_text', 'Đặt Tour Ngay')); ?>
-                        </a>
-                        <button class="mobile-menu-toggle" aria-label="<?php esc_attr_e('Menu', 'dulichvietnhat'); ?>" aria-expanded="false">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </header><!-- #masthead -->
+    </header>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu-container">
-        <div class="mobile-menu-header">
-            <div class="mobile-menu-logo">
-                <?php
-                if (has_custom_logo()) {
-                    the_custom_logo();
-                } else {
-                    echo '<a href="' . esc_url(home_url('/')) . '" rel="home">' . get_bloginfo('name') . '</a>';
-                }
-                ?>
-            </div>
-            <button class="mobile-menu-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="mobile-menu">
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <div class="mobile-menu-inner">
             <?php
             wp_nav_menu(
                 array(
                     'theme_location' => 'primary',
-                    'menu_id'        => 'mobile-primary-menu',
                     'container'      => false,
-                    'menu_class'     => 'mobile-menu-list',
-                    'fallback_cb'    => 'dulichvietnhat_primary_menu_fallback',
+                    'menu_class'     => 'mobile-menu-items',
                 )
             );
             ?>
-        </nav>
+        </div>
     </div>
 
     <!-- Search Overlay -->
@@ -154,18 +138,7 @@
             <button class="search-close">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="container">
-                <?php get_search_form(); ?>
-                <div class="search-suggestions">
-                    <h4><?php esc_html_e('Tìm kiếm phổ biến:', 'dulichvietnhat'); ?></h4>
-                    <div class="suggestion-tags">
-                        <a href="#"><?php esc_html_e('Tour Nhật Bản', 'dulichvietnhat'); ?></a>
-                        <a href="#"><?php esc_html_e('Du lịch Hokkaido', 'dulichvietnhat'); ?></a>
-                        <a href="#"><?php esc_html_e('Mùa hoa anh đào', 'dulichvietnhat'); ?></a>
-                        <a href="#"><?php esc_html_e('Tour tiết kiệm', 'dulichvietnhat'); ?></a>
-                    </div>
-                </div>
-            </div>
+            <?php get_search_form(); ?>
         </div>
     </div>
 

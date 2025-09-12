@@ -129,6 +129,9 @@ function dulichvietnhat_scripts() {
     // Main CSS
     wp_enqueue_style('dulichvietnhat-main-style', get_template_directory_uri() . '/assets/css/main.css', array(), _S_VERSION);
     
+    // Featured Tours CSS
+    wp_enqueue_style('featured-tours-css', get_template_directory_uri() . '/assets/css/featured-tours.css', array(), _S_VERSION);
+    
     // Main JavaScript
     wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
     
@@ -197,6 +200,85 @@ if (defined('JETPACK__VERSION')) {
 if (class_exists('WooCommerce')) {
     require get_template_directory() . '/inc/woocommerce.php';
 }
+
+/**
+ * Register Custom Post Type for Tours
+ */
+function create_tour_post_type() {
+    register_post_type('tour',
+        array(
+            'labels' => array(
+                'name' => __('Tours', 'dulichvietnhat'),
+                'singular_name' => __('Tour', 'dulichvietnhat'),
+                'add_new' => __('Add New', 'dulichvietnhat'),
+                'add_new_item' => __('Add New Tour', 'dulichvietnhat'),
+                'edit_item' => __('Edit Tour', 'dulichvietnhat'),
+                'new_item' => __('New Tour', 'dulichvietnhat'),
+                'view_item' => __('View Tour', 'dulichvietnhat'),
+                'search_items' => __('Search Tours', 'dulichvietnhat'),
+                'not_found' => __('No tours found', 'dulichvietnhat'),
+                'not_found_in_trash' => __('No tours found in Trash', 'dulichvietnhat')
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'tours'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+            'menu_icon' => 'dashicons-palmtree',
+            'show_in_rest' => true,
+        )
+    );
+}
+add_action('init', 'create_tour_post_type');
+
+/**
+ * Register Custom Taxonomies
+ */
+function create_tour_taxonomies() {
+    // Destination Taxonomy
+    register_taxonomy(
+        'destination',
+        'tour',
+        array(
+            'labels' => array(
+                'name' => _x('Destinations', 'taxonomy general name', 'dulichvietnhat'),
+                'singular_name' => _x('Destination', 'taxonomy singular name', 'dulichvietnhat'),
+                'search_items' => __('Search Destinations', 'dulichvietnhat'),
+                'all_items' => __('All Destinations', 'dulichvietnhat'),
+                'edit_item' => __('Edit Destination', 'dulichvietnhat'),
+                'update_item' => __('Update Destination', 'dulichvietnhat'),
+                'add_new_item' => __('Add New Destination', 'dulichvietnhat'),
+                'new_item_name' => __('New Destination Name', 'dulichvietnhat'),
+                'menu_name' => __('Destinations', 'dulichvietnhat'),
+            ),
+            'hierarchical' => true,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'destination'),
+        )
+    );
+    
+    // Tour Type Taxonomy
+    register_taxonomy(
+        'tour_type',
+        'tour',
+        array(
+            'labels' => array(
+                'name' => _x('Tour Types', 'taxonomy general name', 'dulichvietnhat'),
+                'singular_name' => _x('Tour Type', 'taxonomy singular name', 'dulichvietnhat'),
+                'search_items' => __('Search Tour Types', 'dulichvietnhat'),
+                'all_items' => __('All Tour Types', 'dulichvietnhat'),
+                'edit_item' => __('Edit Tour Type', 'dulichvietnhat'),
+                'update_item' => __('Update Tour Type', 'dulichvietnhat'),
+                'add_new_item' => __('Add New Tour Type', 'dulichvietnhat'),
+                'new_item_name' => __('New Tour Type Name', 'dulichvietnhat'),
+                'menu_name' => __('Tour Types', 'dulichvietnhat'),
+            ),
+            'hierarchical' => true,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'tour-type'),
+        )
+    );
+}
+add_action('init', 'create_tour_taxonomies', 0);
 
 /**
  * Add custom image sizes
