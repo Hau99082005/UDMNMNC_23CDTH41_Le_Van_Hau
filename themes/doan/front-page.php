@@ -110,97 +110,87 @@ get_header(); ?>
             </div>
             
             <div class="destinations-grid">
-                <!-- Tokyo -->
-                <div class="destination-card">
-                    <div class="destination-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/tokyo-destination.jpg" 
-                             alt="Tokyo - Thủ đô Nhật Bản">
-                        <div class="destination-overlay">
-                            <div class="destination-info">
-                                <h3>Tokyo</h3>
-                                <p>Thủ đô hiện đại với văn hóa truyền thống</p>
-                                <div class="destination-features">
-                                    <span><i class="fas fa-map-marker-alt"></i> Thủ đô</span>
-                                    <span><i class="fas fa-users"></i> 37 triệu dân</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-content">
-                        <h3>Tokyo</h3>
-                        <p>Khám phá thủ đô sôi động với những tòa nhà chọc trời, đền thờ cổ kính và ẩm thực tuyệt vời.</p>
-                        <a href="#" class="btn btn-outline">Xem tour Tokyo</a>
-                    </div>
-                </div>
+                <?php
+                // Prefer sticky posts for this section; fallback to latest posts
+                $sticky = get_option('sticky_posts');
+                if (!empty($sticky)) {
+                    $dest_args = array(
+                        'post_type'           => 'post',
+                        'posts_per_page'      => 4,
+                        'post__in'            => $sticky,
+                        'ignore_sticky_posts' => 1,
+                    );
+                } else {
+                    $dest_args = array(
+                        'post_type'      => 'post',
+                        'posts_per_page' => 4,
+                        'post_status'    => 'publish',
+                        'orderby'        => 'date',
+                        'order'          => 'DESC',
+                    );
+                }
 
-                <!-- Kyoto -->
-                <div class="destination-card">
-                    <div class="destination-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/kyoto-destination.jpg" 
-                             alt="Kyoto - Cố đô Nhật Bản">
-                        <div class="destination-overlay">
-                            <div class="destination-info">
-                                <h3>Kyoto</h3>
-                                <p>Cố đô với hơn 1000 năm lịch sử</p>
-                                <div class="destination-features">
-                                    <span><i class="fas fa-temple"></i> 2000 đền thờ</span>
-                                    <span><i class="fas fa-leaf"></i> Mùa thu đẹp</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-content">
-                        <h3>Kyoto</h3>
-                        <p>Trải nghiệm văn hóa truyền thống với những ngôi đền cổ, vườn Nhật và geisha.</p>
-                        <a href="#" class="btn btn-outline">Xem tour Kyoto</a>
-                    </div>
-                </div>
+                $destinations_query = new WP_Query($dest_args);
 
-                <!-- Osaka -->
-                <div class="destination-card">
-                    <div class="destination-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/osaka-destination.jpg" 
-                             alt="Osaka - Thành phố ẩm thực">
-                        <div class="destination-overlay">
-                            <div class="destination-info">
-                                <h3>Osaka</h3>
-                                <p>Thành phố ẩm thực và giải trí</p>
-                                <div class="destination-features">
-                                    <span><i class="fas fa-utensils"></i> Ẩm thực</span>
-                                    <span><i class="fas fa-smile"></i> Vui vẻ</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-content">
-                        <h3>Osaka</h3>
-                        <p>Thưởng thức ẩm thực đường phố tuyệt vời và khám phá lâu đài Osaka cổ kính.</p>
-                        <a href="#" class="btn btn-outline">Xem tour Osaka</a>
-                    </div>
-                </div>
+                if ($destinations_query->have_posts()) :
+                    while ($destinations_query->have_posts()) : $destinations_query->the_post(); ?>
+                        <div class="destination-card">
+                            <div class="destination-image">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <a href="<?php the_permalink(); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>">
+                                        <?php the_post_thumbnail('large'); ?>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="<?php the_permalink(); ?>" class="post-image-placeholder" aria-label="<?php echo esc_attr(get_the_title()); ?>">
+                                        <div class="placeholder-content">
+                                            <i class="fas fa-mountain"></i>
+                                            <span><?php echo esc_html(get_bloginfo('name')); ?></span>
+                                        </div>
+                                    </a>
+                                <?php endif; ?>
 
-                <!-- Mount Fuji -->
-                <div class="destination-card">
-                    <div class="destination-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/fuji-destination.jpg" 
-                             alt="Núi Phú Sĩ - Biểu tượng Nhật Bản">
-                        <div class="destination-overlay">
-                            <div class="destination-info">
-                                <h3>Núi Phú Sĩ</h3>
-                                <p>Biểu tượng thiêng liêng của Nhật Bản</p>
-                                <div class="destination-features">
-                                    <span><i class="fas fa-mountain"></i> 3776m</span>
-                                    <span><i class="fas fa-camera"></i> Chụp ảnh</span>
+                                <!-- Floating badges/top controls -->
+                                <div class="destination-topbar">
+                                    <span class="destination-badge">
+                                        <?php
+                                        $cat = get_the_category();
+                                        echo !empty($cat) ? esc_html($cat[0]->name) : 'Bài viết';
+                                        ?>
+                                    </span>
+                                    <button class="destination-like" type="button" aria-label="Yêu thích">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Date badge -->
+                                <div class="destination-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span><?php echo get_the_date('d/m/Y'); ?></span>
+                                </div>
+
+                                <div class="destination-overlay">
+                                    <div class="destination-info">
+                                        <h3><?php the_title(); ?></h3>
+                                        <p><?php echo wp_trim_words(get_the_excerpt(), 18, '...'); ?></p>
+                                        <div class="destination-features">
+                                            <span><i class="fas fa-eye"></i> <?php echo number_format_i18n(rand(120, 980)); ?> lượt xem</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="destination-content">
+                                <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                <div class="destination-meta">
+                                    <span><i class="far fa-calendar-alt"></i><?php echo get_the_date('d/m/Y'); ?></span>
+                                </div>
+                                <p><?php echo wp_trim_words(get_the_excerpt(), 24, '...'); ?></p>
+                                <a href="<?php the_permalink(); ?>" class="btn btn-outline">Xem bài viết</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="destination-content">
-                        <h3>Núi Phú Sĩ</h3>
-                        <p>Chiêm ngưỡng ngọn núi thiêng liêng và tham quan hồ Kawaguchi tuyệt đẹp.</p>
-                        <a href="#" class="btn btn-outline">Xem tour Phú Sĩ</a>
-                    </div>
-                </div>
+                    <?php endwhile; wp_reset_postdata();
+                else : ?>
+                    <p>Chưa có bài viết nào.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>
