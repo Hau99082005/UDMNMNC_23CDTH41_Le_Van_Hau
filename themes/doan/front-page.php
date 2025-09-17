@@ -6,40 +6,95 @@
 get_header(); ?>
 
 <main id="primary" class="site-main">
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>Khám phá những chuyến đi tuyệt vời</h1>
-            <p>Trải nghiệm du lịch độc đáo với dịch vụ chuyên nghiệp</p>
-            <a href="#featured-tours" class="btn btn-primary">Khám phá ngay</a>
-        </div>
-    </section>
+    <!-- Modern Hero Banner - Realistic and Beautiful -->
+    <?php
+    $banner_type = get_theme_mod('banner_type', 'gradient');
+    
+    if ($banner_type === 'image') {
+        get_template_part('template-parts/banner-image');
+    } elseif ($banner_type === 'video') {
+        get_template_part('template-parts/banner-video');
+    } else {
+        // VJLINK Style Hero Section
+        ?>
+        <?php
+    }
+    ?>
 
-    <!-- Featured Tours -->
-    <section id="featured-tours" class="featured-tours section-padding">
+    <!-- Featured Posts -->
+    <section id="featured-posts" class="featured-posts section-padding">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Tour Nổi Bật</h2>
-                <p>Những chuyến đi được yêu thích nhất</p>
+                <h2 class="section-title">Bài Viết Nổi Bật</h2>
+                <p>Những bài viết về du lịch Nhật Bản được yêu thích nhất</p>
             </div>
             
-            <div class="tours-grid">
+            <div class="posts-grid">
                 <?php
                 $args = array(
-                    'post_type' => 'tour',
+                    'post_type' => 'post',
                     'posts_per_page' => 6,
-                    'meta_key' => 'featured_tour',
-                    'meta_value' => '1'
+                    'post_status' => 'publish',
+                    'orderby' => 'date',
+                    'order' => 'DESC'
                 );
-                $featured_tours = new WP_Query($args);
+                $featured_posts = new WP_Query($args);
 
-                if ($featured_tours->have_posts()) :
-                    while ($featured_tours->have_posts()) : $featured_tours->the_post();
-                        get_template_part('template-parts/content', 'tour');
+                if ($featured_posts->have_posts()) :
+                    while ($featured_posts->have_posts()) : $featured_posts->the_post();
+                        ?>
+                        <article class="post-card">
+                            <div class="post-thumbnail">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <a href="<?php the_permalink(); ?>">
+                                        <?php the_post_thumbnail('large', array('class' => 'post-image')); ?>
+                                    </a>
+                                <?php else : ?>
+                                    <a href="<?php the_permalink(); ?>" class="post-image-placeholder">
+                                        <div class="placeholder-content">
+                                            <i class="fas fa-mountain"></i>
+                                            <span>Du lịch Nhật Bản</span>
+                                        </div>
+                                    </a>
+                                <?php endif; ?>
+                                <div class="post-category">
+                                    <?php
+                                    $categories = get_the_category();
+                                    if (!empty($categories) && $categories[0]->name !== 'Uncategorized') {
+                                        echo '<span class="category-tag">' . esc_html($categories[0]->name) . '</span>';
+                                    } else {
+                                        echo '<span class="category-tag">Du lịch</span>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <h3 class="post-title">
+                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                </h3>
+                                <div class="post-excerpt">
+                                    <?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?>
+                                </div>
+                                <div class="post-meta">
+                                    <span class="post-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <?php echo get_the_date('d/m/Y'); ?>
+                                    </span>
+                                    <span class="post-views">
+                                        <i class="fas fa-eye"></i>
+                                        <?php echo rand(50, 500); ?> lượt xem
+                                    </span>
+                                </div>
+                                <a href="<?php the_permalink(); ?>" class="read-more-btn">
+                                    Đọc thêm <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                        <?php
                     endwhile;
                     wp_reset_postdata();
                 else :
-                    echo '<p>Không có tour nào được tìm thấy.</p>';
+                    echo '<p>Không có bài viết nào được tìm thấy.</p>';
                 endif;
                 ?>
             </div>

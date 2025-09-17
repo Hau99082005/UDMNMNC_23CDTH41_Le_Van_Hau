@@ -124,7 +124,16 @@ function dulichvietnhat_scripts() {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', array(), null);
     
     // Font Awesome
-    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css', array(), '6.0.0');
+    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0');
+    
+    // Icon Fix CSS
+    wp_enqueue_style('icon-fix-css', get_template_directory_uri() . '/assets/css/icon-fix.css', array('font-awesome'), _S_VERSION);
+    
+    // Add preconnect for Font Awesome
+    add_action('wp_head', function() {
+        echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com">';
+        echo '<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">';
+    }, 1);
     
     // Main CSS
     wp_enqueue_style('dulichvietnhat-main-style', get_template_directory_uri() . '/assets/css/main.css', array(), _S_VERSION);
@@ -132,8 +141,32 @@ function dulichvietnhat_scripts() {
     // Featured Tours CSS
     wp_enqueue_style('featured-tours-css', get_template_directory_uri() . '/assets/css/featured-tours.css', array(), _S_VERSION);
     
+    // Featured Posts CSS
+    wp_enqueue_style('featured-posts-css', get_template_directory_uri() . '/assets/css/featured-posts.css', array(), _S_VERSION);
+    
+    // Header CSS
+    wp_enqueue_style('header-css', get_template_directory_uri() . '/assets/css/header.css', array(), _S_VERSION);
+    
+    // Header Override CSS
+    wp_enqueue_style('header-override-css', get_template_directory_uri() . '/assets/css/header-override.css', array('header-css'), _S_VERSION);
+    
+    // Banner CSS
+    wp_enqueue_style('banner-css', get_template_directory_uri() . '/assets/css/banner.css', array(), _S_VERSION);
+    
+    // VJLINK Hero CSS
+    wp_enqueue_style('vjlink-hero-css', get_template_directory_uri() . '/assets/css/vjlink-hero.css', array(), _S_VERSION);
+    
+    // Placeholder Images CSS
+    wp_enqueue_style('placeholder-images-css', get_template_directory_uri() . '/assets/css/placeholder-images.css', array('vjlink-hero-css'), _S_VERSION);
+    
     // Main JavaScript
     wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
+    
+    // Header JavaScript
+    wp_enqueue_script('header-js', get_template_directory_uri() . '/assets/js/header.js', array('jquery'), _S_VERSION, true);
+    
+    // Banner JavaScript
+    wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', array('jquery'), _S_VERSION, true);
     
     // Localize script with theme settings
     wp_localize_script('dulichvietnhat-main-js', 'dulichvietnhatSettings', array(

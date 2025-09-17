@@ -224,26 +224,50 @@ img {
     position: relative;
 }
 
+/* Ensure menu items with children are treated as regular menu items */
+.primary-menu > li.menu-item-has-children > a {
+    /* No special styling - treat as regular menu item */
+    display: block;
+    padding: 10px 15px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: var(--transition);
+    position: relative;
+}
+
+/* Remove any arrows or indicators for menu items with children */
+.primary-menu > li.menu-item-has-children > a::after {
+    display: none !important;
+}
+
+.primary-menu > li.menu-item-has-children > a::before {
+    display: none !important;
+}
+
 .primary-menu > li > a:hover,
 .primary-menu > li.current-menu-item > a,
 .primary-menu > li.current-menu-ancestor > a {
     color: var(--primary-color);
 }
 
+/* Modern Dropdown Menu Styles */
 .primary-menu .sub-menu {
     position: absolute;
     top: 100%;
     left: 0;
     background: #fff;
-    min-width: 220px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 100;
-    padding: 10px 0;
-    border-radius: 4px;
+    padding: 15px 0;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
 }
 
 .primary-menu > li:hover > .sub-menu {
@@ -254,21 +278,58 @@ img {
 
 .primary-menu .sub-menu li {
     position: relative;
+    list-style: none;
 }
 
 .primary-menu .sub-menu a {
     display: block;
-    padding: 8px 20px;
+    padding: 12px 20px;
     color: #333;
     text-decoration: none;
     font-size: 14px;
-    transition: var(--transition);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
 }
 
 .primary-menu .sub-menu a:hover {
     background-color: #f8f9fa;
     color: var(--primary-color);
     padding-left: 25px;
+    border-left-color: var(--primary-color);
+}
+
+/* Remove bullet points from dropdown menu */
+.primary-menu .sub-menu li::before {
+    display: none !important;
+}
+
+.primary-menu .sub-menu li {
+    list-style: none !important;
+}
+
+/* Dropdown toggle button */
+.primary-menu .dropdown-toggle {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 12px;
+    padding: 5px;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.primary-menu .dropdown-toggle:hover {
+    color: var(--primary-color);
+}
+
+.primary-menu .dropdown-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.primary-menu > li:hover .dropdown-toggle i {
+    transform: rotate(180deg);
 }
 
 .header-actions {

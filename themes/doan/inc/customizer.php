@@ -38,6 +38,318 @@ function dulichvietnhat_customize_register($wp_customize) {
         )
     );
 
+    // Banner Section
+    $wp_customize->add_section(
+        'banner_section',
+        array(
+            'title'    => __('Banner Settings', 'dulichvietnhat'),
+            'priority' => 5,
+            'panel'    => 'theme_options',
+        )
+    );
+
+    // Banner Type
+    $wp_customize->add_setting(
+        'banner_type',
+        array(
+            'default'           => 'gradient',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_type',
+        array(
+            'type'    => 'select',
+            'label'   => __('Banner Type', 'dulichvietnhat'),
+            'section' => 'banner_section',
+            'choices' => array(
+                'gradient' => __('Gradient Background', 'dulichvietnhat'),
+                'image'    => __('Image Background', 'dulichvietnhat'),
+                'video'    => __('Video Background', 'dulichvietnhat'),
+            ),
+        )
+    );
+
+    // Banner Background Image
+    $wp_customize->add_setting(
+        'banner_background_image',
+        array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Image_Control(
+            $wp_customize,
+            'banner_background_image',
+            array(
+                'label'    => __('Banner Background Image', 'dulichvietnhat'),
+                'section'  => 'banner_section',
+                'settings' => 'banner_background_image',
+            )
+        )
+    );
+
+    // Banner Title
+    $wp_customize->add_setting(
+        'banner_title',
+        array(
+            'default'           => 'Khám phá những chuyến đi tuyệt vời',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_title',
+        array(
+            'type'    => 'text',
+            'label'   => __('Banner Title', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Banner Subtitle
+    $wp_customize->add_setting(
+        'banner_subtitle',
+        array(
+            'default'           => 'Trải nghiệm du lịch độc đáo với dịch vụ chuyên nghiệp',
+            'sanitize_callback' => 'sanitize_textarea_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_subtitle',
+        array(
+            'type'    => 'textarea',
+            'label'   => __('Banner Subtitle', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Banner Primary Button Text
+    $wp_customize->add_setting(
+        'banner_primary_text',
+        array(
+            'default'           => 'Khám phá ngay',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_primary_text',
+        array(
+            'type'    => 'text',
+            'label'   => __('Primary Button Text', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Banner Primary Button Link
+    $wp_customize->add_setting(
+        'banner_primary_link',
+        array(
+            'default'           => '#featured-tours',
+            'sanitize_callback' => 'esc_url_raw',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_primary_link',
+        array(
+            'type'    => 'url',
+            'label'   => __('Primary Button Link', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Banner Secondary Button Text
+    $wp_customize->add_setting(
+        'banner_secondary_text',
+        array(
+            'default'           => 'Xem video',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_secondary_text',
+        array(
+            'type'    => 'text',
+            'label'   => __('Secondary Button Text', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Banner Secondary Button Link
+    $wp_customize->add_setting(
+        'banner_secondary_link',
+        array(
+            'default'           => '#destinations',
+            'sanitize_callback' => 'esc_url_raw',
+        )
+    );
+
+    $wp_customize->add_control(
+        'banner_secondary_link',
+        array(
+            'type'    => 'url',
+            'label'   => __('Secondary Button Link', 'dulichvietnhat'),
+            'section' => 'banner_section',
+        )
+    );
+
+    // Stats Section
+    $wp_customize->add_section(
+        'banner_stats_section',
+        array(
+            'title'    => __('Banner Statistics', 'dulichvietnhat'),
+            'priority' => 6,
+            'panel'    => 'theme_options',
+        )
+    );
+
+    // Stat 1
+    $wp_customize->add_setting(
+        'stat_1_number',
+        array(
+            'default'           => '500+',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_1_number',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 1 Number', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'stat_1_label',
+        array(
+            'default'           => 'Khách hàng hài lòng',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_1_label',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 1 Label', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    // Stat 2
+    $wp_customize->add_setting(
+        'stat_2_number',
+        array(
+            'default'           => '50+',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_2_number',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 2 Number', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'stat_2_label',
+        array(
+            'default'           => 'Điểm đến',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_2_label',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 2 Label', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    // Stat 3
+    $wp_customize->add_setting(
+        'stat_3_number',
+        array(
+            'default'           => '10+',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_3_number',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 3 Number', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'stat_3_label',
+        array(
+            'default'           => 'Năm kinh nghiệm',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_3_label',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 3 Label', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    // Stat 4
+    $wp_customize->add_setting(
+        'stat_4_number',
+        array(
+            'default'           => '24/7',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_4_number',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 4 Number', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
+    $wp_customize->add_setting(
+        'stat_4_label',
+        array(
+            'default'           => 'Hỗ trợ khách hàng',
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
+    $wp_customize->add_control(
+        'stat_4_label',
+        array(
+            'type'    => 'text',
+            'label'   => __('Statistic 4 Label', 'dulichvietnhat'),
+            'section' => 'banner_stats_section',
+        )
+    );
+
     // Header Contact Info
     $wp_customize->add_setting(
         'header_phone',
