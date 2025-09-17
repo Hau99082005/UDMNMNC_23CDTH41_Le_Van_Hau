@@ -998,6 +998,14 @@ img {
     transform: translateY(-2px) scale(1.05);
 }
 
+.social-icons a i {
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover i {
+    transform: translateY(-2px);
+}
+
 /* Individual Social Icon Colors */
 .social-icons a[aria-label="Facebook"]:hover {
     background: linear-gradient(135deg, #1877f2, #42a5f5);
@@ -1307,8 +1315,9 @@ img {
 /* Back to Top Button - Modern Design */
 .back-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    left: 20px;   /* move to left */
+    right: auto;  /* override previous right positioning */
+    bottom: 140px;
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, #ff6b35, #f7931e);
@@ -1324,7 +1333,7 @@ img {
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 999;
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
@@ -1367,6 +1376,14 @@ img {
 
 .back-to-top:hover i {
     transform: translateY(-2px);
+}
+
+@media (max-width: 991px) {
+  .back-to-top { bottom: 120px; left: 16px; }
+}
+
+@media (max-width: 576px) {
+  .back-to-top { bottom: 110px; left: 14px; }
 }
 
 /* Responsive */
@@ -1424,8 +1441,8 @@ img {
     .mc4wp-form-fields {
         gap: 8px;
     }
-    
-    
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
     .footer-widgets {
@@ -1492,7 +1509,7 @@ img {
         height: 50px;
         font-size: 18px;
         bottom: 20px;
-        right: 20px;
+        left: 20px;
     }
 }
 
@@ -1617,16 +1634,10 @@ img {
 
 .form-control {
     width: 100%;
-    padding: 12px 15px;
+    padding: 10px 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 0.95rem;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
 /* Section Styling */
@@ -1650,12 +1661,12 @@ img {
 .section-title h2:after {
     content: '';
     position: absolute;
-    width: 60px;
-    height: 3px;
-    background: var(--primary-color);
-    bottom: -10px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
 }
 
 .section-title p {
@@ -1696,10 +1707,10 @@ img {
     top: 15px;
     right: 15px;
     background: var(--primary-color);
-    color: #fff;
+    color: var(--white);
     padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    border-radius: 4px;
+    font-size: 12px;
     font-weight: 500;
     z-index: 2;
 }
@@ -2086,7 +2097,6 @@ img {
 .news-content h3 a {
     color: #333;
     text-decoration: none;
-    transition: color 0.3s;
 }
 
 .news-content h3 a:hover {
@@ -2314,384 +2324,271 @@ img {
 }
 
 .destination-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-12px) scale(1.01);
 }
 
-.destination-image {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
-}
-
-.destination-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.destination-card:hover .destination-image img {
-    transform: scale(1.1);
-}
-
-.destination-overlay {
+/* Better readability on images */
+.destination-image::after {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
+    opacity: 1; /* keep slight gradient even when not hovered */
+    pointer-events: none;
+    transition: opacity .3s ease;
 }
 
-.destination-card:hover .destination-overlay {
+.destination-card:hover .destination-image::after {
     opacity: 1;
 }
 
-.destination-info {
-    text-align: center;
-    color: #ffffff;
-    padding: 20px;
-}
-
-.destination-info h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #ffffff;
-}
-
-.destination-info p {
-    font-size: 14px;
-    margin-bottom: 15px;
-    opacity: 0.9;
-}
-
-.destination-features {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.destination-features span {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    backdrop-filter: blur(10px);
-}
-
-.destination-features i {
-    margin-right: 5px;
-}
-
-.destination-content {
-    padding: 25px;
-}
-
-.destination-content h3 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 15px;
+/* Title and excerpt clamping for cleaner layout */
+.destination-content h3,
+.destination-content h3 a {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .destination-content p {
-    color: #6c757d;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 18px;
 }
 
-.destination-content .btn {
-    width: 100%;
-    text-align: center;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
+/* Subtle hover accent on button */
 .destination-content .btn-outline {
-    background: transparent;
-    border: 2px solid #ff6b35;
-    color: #ff6b35;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 0 0 rgba(231,76,60,0.2);
 }
 
 .destination-content .btn-outline:hover {
-    background: #ff6b35;
-    color: #ffffff;
+    box-shadow: 0 8px 18px rgba(231,76,60,0.25);
+}
+
+/* Optional small meta row if present */
+.destination-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #6c757d;
+    font-size: 13px;
+    margin-top: -6px;
+    margin-bottom: 12px;
+}
+
+.destination-meta i { color: #a0a7ad; margin-right: 6px; }
+
+/* Responsive polish */
+@media (max-width: 991px) {
+    .destinations { padding: 60px 0; }
+    .destination-image { height: 220px; }
+}
+
+@media (max-width: 576px) {
+    .destinations { padding: 50px 0; }
+    .destination-card { border-radius: 16px; }
+    .destination-image { height: 200px; }
+}
+
+/* Destinations: topbar controls, badge, like, date */
+.destination-topbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.destination-badge {
+    background: rgba(255,255,255,0.9);
+    color: #2c3e50;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.destination-like {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.06);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.destination-like i { color: #ff4d4f; }
+
+.destination-like:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 8px 16px rgba(255,77,79,0.25);
+    background: #fff;
 }
 
-/* Responsive for Destinations */
-@media (max-width: 768px) {
-    .destinations-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .destination-image {
-        height: 200px;
-    }
-    
-    .destination-content {
-        padding: 20px;
-    }
-    
-    .destination-features {
-        gap: 10px;
-    }
+.destination-date {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    z-index: 2;
 }
 
-/* Contact Form Section */
+/* === Liên Hệ Tư Vấn - Modern Defaults === */
 .contact-form-section {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-    padding: 80px 0 !important;
+    position: relative;
+    isolation: isolate;
 }
 
-.contact-form-wrapper {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 60px !important;
-    align-items: start !important;
+/* Header polish */
+.contact-form-section .section-header { text-align: left !important; }
+@media (max-width: 991px){ .contact-form-section .section-header { text-align: center !important; } }
+
+/* Form container card */
+.contact-form-container, .custom-contact-form, .wpcf7-form {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
 }
 
-.contact-form-content {
-    padding-right: 30px !important;
+/* Ensure spacing inside CF7 wrapper */
+.contact-form-container .wpcf7-form { padding: 24px !important; border: 0 !important; box-shadow: none !important; background: transparent !important; }
+
+/* Inputs */
+.contact-form-section input[type="text"],
+.contact-form-section input[type="email"],
+.contact-form-section input[type="tel"],
+.contact-form-section select,
+.contact-form-section textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #e6e8eb;
+    border-radius: 12px;
+    background: #fff;
+    transition: box-shadow .2s ease, border-color .2s ease, transform .05s ease;
 }
 
-.contact-info {
-    margin-top: 40px !important;
+.contact-form-section input:focus,
+.contact-form-section select:focus,
+.contact-form-section textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, .12);
 }
 
-.contact-item {
-    display: flex !important;
-    align-items: center !important;
-    margin-bottom: 30px !important;
-    padding: 20px !important;
-    background: #ffffff !important;
-    border-radius: 15px !important;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08) !important;
-    transition: all 0.3s ease !important;
-}
-
-.contact-item:hover {
-    transform: translateY(-5px) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
-}
-
-.contact-icon {
-    width: 60px !important;
-    height: 60px !important;
-    background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-right: 20px !important;
-    flex-shrink: 0 !important;
-}
-
-.contact-icon i {
-    color: #ffffff !important;
-    font-size: 20px !important;
-}
-
-.contact-details h4 {
-    font-size: 18px !important;
+/* Submit button */
+.contact-form-section .btn,
+.contact-form-section .wpcf7-submit {
+    border-radius: 12px !important;
+    padding: 14px 18px !important;
     font-weight: 700 !important;
-    color: #2c3e50 !important;
-    margin-bottom: 5px !important;
+    letter-spacing: .3px !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 10px;
 }
 
-.contact-details p {
-    color: #6c757d !important;
-    margin: 0 !important;
-    line-height: 1.5 !important;
+/* Inline grid for first row (name/phone) if using fallback form) */
+.contact-form-section .form-row { row-gap: 12px; }
+
+/* Validation states (CF7) */
+.wpcf7-not-valid { border-color: #ff4d4f !important; box-shadow: 0 0 0 3px rgba(255,77,79,.1) !important; }
+.wpcf7-not-valid-tip { color: #ff4d4f !important; font-size: 12px !important; margin-top: 6px !important; }
+.wpcf7-response-output { border-radius: 12px !important; padding: 14px 16px !important; }
+.wpcf7-form.sent .wpcf7-response-output { border-color: #28a745 !important; color: #216e39 !important; background: #e9f7ef !important; }
+
+/* === Optional Themes (add class to section.contact-form-section) === */
+
+/* 1) Glassmorphism */
+.contact-form-section.theme-glass {
+    background: radial-gradient(1200px 600px at 0% 0%, #fff 0%, #f6f7fb 30%, #eef1f6 100%) !important;
+}
+.contact-form-section.theme-glass .section-title,
+.contact-form-section.theme-glass .contact-form-content p { color: #2c3e50 !important; }
+.contact-form-section.theme-glass .contact-form-container,
+.contact-form-section.theme-glass .custom-contact-form,
+.contact-form-section.theme-glass .wpcf7-form {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 20px 50px rgba(31,38,135,0.12);
 }
 
-.contact-form-container {
-    background: #ffffff !important;
-    padding: 40px !important;
-    border-radius: 20px !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+/* 2) Dark Elegant */
+.contact-form-section.theme-dark { background: linear-gradient(135deg, #0f172a, #111827) !important; }
+.contact-form-section.theme-dark .section-title, 
+.contact-form-section.theme-dark p { color: #e5e7eb !important; }
+.contact-form-section.theme-dark .contact-form-container,
+.contact-form-section.theme-dark .custom-contact-form,
+.contact-form-section.theme-dark .wpcf7-form {
+    background: #0b1220;
+    border-color: rgba(255,255,255,0.06);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
 }
-
-.custom-contact-form {
-    width: 100% !important;
+.contact-form-section.theme-dark input,
+.contact-form-section.theme-dark select,
+.contact-form-section.theme-dark textarea {
+    background: #0f172a;
+    color: #e5e7eb;
+    border-color: #1f2937;
 }
+.contact-form-section.theme-dark input::placeholder,
+.contact-form-section.theme-dark textarea::placeholder { color: #9ca3af; }
+.contact-form-section.theme-dark .btn,
+.contact-form-section.theme-dark .wpcf7-submit { background: #ef4444 !important; }
 
-.form-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 20px !important;
-    margin-bottom: 20px !important;
+/* 3) Brand Gradient */
+.contact-form-section.theme-gradient {
+    background: linear-gradient(120deg, #ff6b35 0%, #ff9f43 50%, #ffd07a 100%) !important;
 }
+.contact-form-section.theme-gradient .section-title, 
+.contact-form-section.theme-gradient p { color: #fff !important; }
+.contact-form-section.theme-gradient .contact-form-container,
+.contact-form-section.theme-gradient .custom-contact-form,
+.contact-form-section.theme-gradient .wpcf7-form { background: rgba(255,255,255,0.96); }
+.contact-form-section.theme-gradient .wpcf7-submit { background: #ff6b35 !important; }
 
-.form-group {
-    margin-bottom: 25px !important;
+/* 4) Background Image + overlay */
+.contact-form-section.theme-image { 
+    background: url('assets/images/hoang-hon-ba-na-600x400.jpg') center/cover no-repeat; 
 }
-
-.form-group label {
-    display: block !important;
-    font-weight: 600 !important;
-    color: #2c3e50 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
+.contact-form-section.theme-image::before {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35));
 }
+.contact-form-section.theme-image .section-title,
+.contact-form-section.theme-image .contact-form-content p { color: #fff !important; }
+.contact-form-section.theme-image .contact-form-container,
+.contact-form-section.theme-image .custom-contact-form,
+.contact-form-section.theme-image .wpcf7-form { background: rgba(255,255,255,0.96); }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100% !important;
-    padding: 15px 20px !important;
-    border: 2px solid #e9ecef !important;
-    border-radius: 10px !important;
-    font-size: 16px !important;
-    transition: all 0.3s ease !important;
-    background: #ffffff !important;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none !important;
-    border-color: #ff6b35 !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
-}
-
-.form-group textarea {
-    resize: vertical !important;
-    min-height: 120px !important;
-}
-
-.btn-full {
-    width: 100% !important;
-    padding: 18px 30px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    border-radius: 10px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-.btn-full i {
-    font-size: 18px !important;
-}
-
-/* Contact Form 7 Styles */
-.wpcf7-form {
-    width: 100% !important;
-}
-
-.wpcf7-form p {
-    margin-bottom: 20px !important;
-}
-
-.wpcf7-form label {
-    display: block !important;
-    font-weight: 600 !important;
-    color: #2c3e50 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-}
-
-.wpcf7-form input[type="text"],
-.wpcf7-form input[type="email"],
-.wpcf7-form input[type="tel"],
-.wpcf7-form select,
-.wpcf7-form textarea {
-    width: 100% !important;
-    padding: 15px 20px !important;
-    border: 2px solid #e9ecef !important;
-    border-radius: 10px !important;
-    font-size: 16px !important;
-    transition: all 0.3s ease !important;
-    background: #ffffff !important;
-}
-
-.wpcf7-form input[type="text"]:focus,
-.wpcf7-form input[type="email"]:focus,
-.wpcf7-form input[type="tel"]:focus,
-.wpcf7-form select:focus,
-.wpcf7-form textarea:focus {
-    outline: none !important;
-    border-color: #ff6b35 !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
-}
-
-.wpcf7-form textarea {
-    resize: vertical !important;
-    min-height: 120px !important;
-}
-
-.wpcf7-submit {
-    width: 100% !important;
-    padding: 18px 30px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    border-radius: 10px !important;
-    background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
-    color: #ffffff !important;
-    border: none !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    font-size: 13px !important;
-    letter-spacing: 0.5px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.wpcf7-submit:hover {
-    background: linear-gradient(135deg, #ff8c42, #ffa726) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3) !important;
-}
-
-/* Responsive for Contact Form */
-@media (max-width: 768px) {
-    .contact-form-wrapper {
-        grid-template-columns: 1fr !important;
-        gap: 40px !important;
-    }
-    
-    .contact-form-content {
-        padding-right: 0 !important;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-    }
-    
-    .contact-form-container {
-        padding: 30px 20px !important;
-    }
-    
-    .contact-item {
-        padding: 15px !important;
-    }
-    
-    .contact-icon {
-        width: 50px !important;
-        height: 50px !important;
-        margin-right: 15px !important;
-    }
-    
-    .contact-icon i {
-        font-size: 16px !important;
-    }
+/* Small devices */
+@media (max-width: 768px){
+    .contact-form-section .contact-form-wrapper { grid-template-columns: 1fr !important; gap: 30px !important; }
+    .contact-form-section .section-header { text-align: center !important; }
 }
 
 .animate-fadeInUp {
@@ -2715,11 +2612,11 @@ img {
 .contact-form-section .section-title::after {
     content: '' !important;
     position: absolute !important;
-    bottom: -10px !important;
+    bottom: 0 !important;
     left: 0 !important;
     width: 60px !important;
     height: 4px !important;
-    background: linear-gradient(90deg, #ff6b35 0%, #3498db 100%) !important;
+    background: linear-gradient(90deg, #ff6b35, #3498db) !important;
     border-radius: 2px !important;
 }
 
@@ -2745,144 +2642,414 @@ img {
 
 /* === Destinations - Modern Enhancements === */
 .destinations .section-header .section-title {
-  letter-spacing: 0.3px;
+    letter-spacing: 0.3px;
 }
 
 .destination-card {
-  border: 1px solid rgba(0,0,0,0.06);
-  backdrop-filter: saturate(110%);
+    border: 1px solid rgba(0,0,0,0.06);
+    backdrop-filter: saturate(110%);
 }
 
 .destination-card:hover {
-  transform: translateY(-12px) scale(1.01);
+    transform: translateY(-10px) scale(1.01);
 }
 
 /* Better readability on images */
 .destination-image::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
-  opacity: 1; /* keep slight gradient even when not hovered */
-  pointer-events: none;
-  transition: opacity .3s ease;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
+    opacity: 1; /* keep slight gradient even when not hovered */
+    pointer-events: none;
+    transition: opacity .3s ease;
 }
 
 .destination-card:hover .destination-image::after {
-  opacity: 1;
+    opacity: 1;
 }
 
 /* Title and excerpt clamping for cleaner layout */
 .destination-content h3,
 .destination-content h3 a {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .destination-content p {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 18px;
 }
 
 /* Subtle hover accent on button */
 .destination-content .btn-outline {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  box-shadow: 0 0 0 0 rgba(231,76,60,0.2);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 0 0 rgba(231,76,60,0.2);
 }
 
 .destination-content .btn-outline:hover {
-  box-shadow: 0 8px 18px rgba(231,76,60,0.25);
+    box-shadow: 0 8px 18px rgba(231,76,60,0.25);
 }
 
 /* Optional small meta row if present */
 .destination-meta {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  color: #6c757d;
-  font-size: 13px;
-  margin-top: -6px;
-  margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #6c757d;
+    font-size: 13px;
+    margin-top: -6px;
+    margin-bottom: 12px;
 }
 
 .destination-meta i { color: #a0a7ad; margin-right: 6px; }
 
 /* Responsive polish */
 @media (max-width: 991px) {
-  .destinations { padding: 60px 0; }
-  .destination-image { height: 220px; }
+    .destinations { padding: 60px 0; }
+    .destination-image { height: 220px; }
 }
 
 @media (max-width: 576px) {
-  .destinations { padding: 50px 0; }
-  .destination-card { border-radius: 16px; }
-  .destination-image { height: 200px; }
+    .destinations { padding: 50px 0; }
+    .destination-card { border-radius: 16px; }
+    .destination-image { height: 200px; }
 }
 
 /* Destinations: topbar controls, badge, like, date */
 .destination-topbar {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 2;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
 }
 
 .destination-badge {
-  background: rgba(255,255,255,0.9);
-  color: #2c3e50;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.9);
+    color: #2c3e50;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 .destination-like {
-  background: rgba(255,255,255,0.95);
-  border: 1px solid rgba(0,0,0,0.06);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.06);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
 .destination-like i { color: #ff4d4f; }
 
 .destination-like:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(255,77,79,0.25);
-  background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255,77,79,0.25);
+    background: #fff;
 }
 
 .destination-date {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(0,0,0,0.55);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  z-index: 2;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    z-index: 2;
 }
 
+/* === Liên Hệ Tư Vấn - Minimal Theme === */
+.contact-form-section.theme-minimal { 
+  background: #f6f7fb !important; 
+}
+.contact-form-section.theme-minimal .section-title,
+.contact-form-section.theme-minimal .contact-form-content p { color: #2c3e50 !important; }
+.contact-form-section.theme-minimal .contact-form-container,
+.contact-form-section.theme-minimal .custom-contact-form,
+.contact-form-section.theme-minimal .wpcf7-form {
+  background: #fff;
+  border: 1px solid #e7e9ee;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+}
+.contact-form-section.theme-minimal input,
+.contact-form-section.theme-minimal select,
+.contact-form-section.theme-minimal textarea {
+  border: 1px solid #e3e6eb;
+  background: #fff;
+}
+.contact-form-section.theme-minimal input:focus,
+.contact-form-section.theme-minimal select:focus,
+.contact-form-section.theme-minimal textarea:focus {
+  border-color: #c9ced6;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+}
+/* Buttons: calm primary */
+.contact-form-section.theme-minimal .wpcf7-submit,
+.contact-form-section.theme-minimal .btn {
+  background: #2d3748 !important; /* slate */
+  color: #fff !important;
+}
+.contact-form-section.theme-minimal .wpcf7-submit:hover,
+.contact-form-section.theme-minimal .btn:hover {
+  background: #1f2937 !important;
+  box-shadow: 0 8px 20px rgba(31,41,55,0.18) !important;
+}
+/* Icons or accents in info list */
+.contact-form-section.theme-minimal .contact-item { box-shadow: none !important; border: 1px solid #eceff3 !important; }
+.contact-form-section.theme-minimal .contact-icon { background: #edf2f7 !important; }
+.contact-form-section.theme-minimal .contact-icon i { color: #4a5568 !important; }
+
+/* === Social Icons: Brand Colors Override === */
+/* Apply platform brand colors by aria-label. These override the default orange gradient. */
+.social-icons a[aria-label="Facebook"] {
+  background: #1877f2 !important;
+  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3) !important;
+}
+.social-icons a[aria-label="Facebook"]:hover {
+  background: #166fe5 !important;
+  box-shadow: 0 8px 25px rgba(24, 119, 242, 0.4) !important;
+}
+
+/* Instagram uses a multi-color gradient */
+.social-icons a[aria-label="Instagram"] {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+  box-shadow: 0 4px 15px rgba(214, 36, 159, 0.25) !important;
+}
+.social-icons a[aria-label="Instagram"]:hover {
+  filter: brightness(1.05) !important;
+  box-shadow: 0 8px 25px rgba(214, 36, 159, 0.35) !important;
+}
+
+.social-icons a[aria-label="YouTube"] {
+  background: #ff0000 !important;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3) !important;
+}
+.social-icons a[aria-label="YouTube"]:hover {
+  background: #e60000 !important;
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* WeChat brand green (also apply to Zalo button if used differently) */
+.social-icons a[aria-label="WeChat"],
+.social-icons a[aria-label="Wechat"],
+.social-icons a[aria-label="WECHAT"],
+.social-icons a[aria-label="Zalo"] {
+  background: #09b83e !important;
+  box-shadow: 0 4px 15px rgba(9, 184, 62, 0.25) !important;
+}
+.social-icons a[aria-label="WeChat"]:hover,
+.social-icons a[aria-label="Wechat"]:hover,
+.social-icons a[aria-label="WECHAT"]:hover,
+.social-icons a[aria-label="Zalo"]:hover {
+  background: #08a238 !important;
+  box-shadow: 0 8px 25px rgba(9, 184, 62, 0.35) !important;
+}
+
+/* Ensure icon glyphs remain white for contrast */
+.social-icons a i { color: #ffffff !important; }
+/* === Back-to-Top: align above phone/Zalo floating buttons === */
+/* Adjust vertical offset so it sits just above the contact widgets on the right. */
+.back-to-top {
+  right: 20px;      /* align with phone button on the right */
+  bottom: 140px;    /* place above phone/zalo widget stack */
+  z-index: 999;     /* stay above page content but below chat overlays if any */
+}
+
+@media (max-width: 991px) {
+  .back-to-top { bottom: 120px; right: 16px; }
+}
+
+@media (max-width: 576px) {
+  .back-to-top { bottom: 110px; right: 14px; }
+}
+
+/* === Contact Form: Readability & Contrast (theme-minimal and default) === */
+/* Stronger heading and body text */
+.contact-form-section .section-title h2 { color: #111827; font-weight: 800; }
+.contact-form-section .contact-form-content p { color: #374151 !important; font-size: 16px; }
+
+/* Inputs and placeholders */
+.contact-form-section input,
+.contact-form-section select,
+.contact-form-section textarea { color: #111827; }
+.contact-form-section ::placeholder { color: #6b7280; opacity: 1; }
+
+/* Contact info boxes inside the section */
+.contact-form-section .contact-item { background: #ffffff !important; border-color: #dfe3ea !important; }
+.contact-form-section .contact-item *,
+.contact-form-section .contact-details p,
+.contact-form-section .contact-details span,
+.contact-form-section .contact-details a { color: #374151 !important; }
+.contact-form-section .contact-details h4 { color: #111827 !important; font-weight: 700 !important; }
+.contact-form-section .contact-icon { background: #eef2f7 !important; }
+.contact-form-section .contact-icon i { color: #1f2937 !important; }
+
+/* Theme-minimal specific fine-tune */
+.contact-form-section.theme-minimal .section-title h2 { color: #0f172a; }
+.contact-form-section.theme-minimal .contact-form-container { border-color: #e5e7eb; }
+
+/* === Liên Hệ Tư Vấn - Travel Theme === */
+.contact-form-section.theme-travel {
+  /* airy sky-like background suitable for travel sites */
+  background: linear-gradient(180deg, #f7fafc 0%, #f1f5f9 60%, #eef2f7 100%) !important;
+  position: relative;
+}
+/* subtle decorative pattern overlay */
+.contact-form-section.theme-travel::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(45,55,72,0.06) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0));
+}
+.contact-form-section.theme-travel .section-title h2 { color: #0f172a; letter-spacing: .2px; }
+.contact-form-section.theme-travel .section-title::after { background: linear-gradient(90deg, #ff6b35, #3498db); }
+
+/* Card container */
+.contact-form-section.theme-travel .contact-form-container,
+.contact-form-section.theme-travel .custom-contact-form,
+.contact-form-section.theme-travel .wpcf7-form {
+  background: #ffffff;
+  border: 1px solid #e7ecf1;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(16, 24, 40, 0.10);
+}
+
+/* Info pills row */
+.contact-form-section.theme-travel .contact-item { 
+  background: #f8fafc !important; 
+  border: 1px solid #e6edf4 !important; 
+  border-radius: 12px !important; 
+  box-shadow: none !important; 
+}
+.contact-form-section.theme-travel .contact-icon { 
+  background: #eaf2ff !important; 
+}
+.contact-form-section.theme-travel .contact-icon i { color: #2563eb !important; }
+.contact-form-section.theme-travel .contact-details h4 { color: #0f172a !important; font-weight: 700 !important; }
+.contact-form-section.theme-travel .contact-details p { color: #334155 !important; }
+
+/* Inputs */
+.contact-form-section.theme-travel input[type="text"],
+.contact-form-section.theme-travel input[type="email"],
+.contact-form-section.theme-travel input[type="tel"],
+.contact-form-section.theme-travel select,
+.contact-form-section.theme-travel textarea {
+  border: 1.5px solid #e4e7ec;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px 16px;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+.contact-form-section.theme-travel input:focus,
+.contact-form-section.theme-travel select:focus,
+.contact-form-section.theme-travel textarea:focus {
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+.contact-form-section.theme-travel ::placeholder { color: #9aa4b2; }
+
+/* CTA Button */
+.contact-form-section.theme-travel .wpcf7-submit,
+.contact-form-section.theme-travel .btn {
+  background: linear-gradient(135deg, #ff6b35, #ff9f43) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 14px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 24px rgba(255, 107, 53, 0.25) !important;
+}
+.contact-form-section.theme-travel .wpcf7-submit:hover,
+.contact-form-section.theme-travel .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(255, 107, 53, 0.35) !important;
+}
+.contact-form-section.theme-travel .btn i { transition: transform .25s ease; }
+.contact-form-section.theme-travel .btn:hover i { transform: translateX(3px); }
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .contact-form-section.theme-travel .wpcf7-submit { width: 100% !important; }
+  .contact-form-section.theme-travel .contact-form-container,
+  .contact-form-section.theme-travel .wpcf7-form { padding: 18px !important; }
+}
+
+/* === Contact (Travel) – Modern Polish === */
+/* Section header spacing and accent */
+.contact-form-section.theme-travel .section-header { margin-bottom: 24px !important; }
+.contact-form-section.theme-travel .section-title { margin-bottom: 10px; }
+.contact-form-section.theme-travel .section-title::after { height: 4px; border-radius: 2px; }
+
+/* Info row: compact, equal columns, modern chips */
+.contact-form-section.theme-travel .contact-info {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 14px !important;
+  margin-top: 18px !important;
+}
+.contact-form-section.theme-travel .contact-item { 
+  display: flex !important; align-items: center !important; gap: 14px !important; 
+  padding: 14px 16px !important; border-radius: 14px !important; 
+}
+.contact-form-section.theme-travel .contact-icon { 
+  width: 42px !important; height: 42px !important; border-radius: 999px !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+}
+.contact-form-section.theme-travel .contact-details h4 { margin: 0 0 4px !important; font-size: 14px !important; opacity: .9; }
+.contact-form-section.theme-travel .contact-details p { margin: 0 !important; font-size: 14px !important; }
+
+/* Form labels and inputs */
+.contact-form-section.theme-travel .form-group label,
+.contact-form-section.theme-travel .wpcf7-form label { color: #222; font-weight: 600; font-size: 14px; }
+.contact-form-section.theme-travel input[type="text"],
+.contact-form-section.theme-travel input[type="email"],
+.contact-form-section.theme-travel input[type="tel"],
+.contact-form-section.theme-travel select,
+.contact-form-section.theme-travel textarea { min-height: 48px; }
+.contact-form-section.theme-travel textarea { min-height: 140px; }
+
+/* CTA: more premium, slightly pill */
+.contact-form-section.theme-travel .wpcf7-submit,
+.contact-form-section.theme-travel .btn {
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8a3d 50%, #ffa046 100%) !important;
+  box-shadow: 0 12px 28px rgba(255, 115, 68, 0.28) !important;
+}
+.contact-form-section.theme-travel .wpcf7-submit:hover,
+.contact-form-section.theme-travel .btn:hover { transform: translateY(-3px); }
+
+/* Container depth and padding */
+.contact-form-section.theme-travel .contact-form-container,
+.contact-form-section.theme-travel .custom-contact-form,
+.contact-form-section.theme-travel .wpcf7-form { padding: 26px !important; box-shadow: 0 24px 60px rgba(16, 24, 40, 0.10); }
+
+/* Mobile refinements */
+@media (max-width: 768px) {
+  .contact-form-section.theme-travel .wpcf7-submit { width: 100% !important; }
+  .contact-form-section.theme-travel .contact-form-container,
+  .contact-form-section.theme-travel .wpcf7-form { padding: 18px !important; }
 }

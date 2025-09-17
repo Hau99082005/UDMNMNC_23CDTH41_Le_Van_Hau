@@ -297,7 +297,7 @@ get_header(); ?>
     </section>
 
     <!-- Contact Form Section -->
-    <section class="contact-form-section section-padding">
+    <section class="contact-form-section section-padding theme-minimal">
         <div class="container">
             <div class="contact-form-wrapper">
                 <div class="contact-form-content">

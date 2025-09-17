@@ -118,7 +118,8 @@ add_action('widgets_init', 'dulichvietnhat_widgets_init');
  */
 function dulichvietnhat_scripts() {
     // Theme stylesheet
-    wp_enqueue_style('dulichvietnhat-style', get_stylesheet_uri(), array(), _S_VERSION);
+    $style_version = file_exists(get_stylesheet_directory() . '/style.css') ? filemtime(get_stylesheet_directory() . '/style.css') : _S_VERSION;
+    wp_enqueue_style('dulichvietnhat-style', get_stylesheet_uri(), array(), $style_version);
     
     // Google Fonts
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', array(), null);
