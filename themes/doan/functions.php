@@ -186,6 +186,45 @@ function dulichvietnhat_scripts() {
 add_action('wp_enqueue_scripts', 'dulichvietnhat_scripts');
 
 /**
+ * Handle custom contact form submission
+ */
+function handle_contact_form_submission() {
+    if (isset($_POST['contact_form_nonce']) && wp_verify_nonce($_POST['contact_form_nonce'], 'contact_form_action')) {
+        $name = sanitize_text_field($_POST['contact_name']);
+        $phone = sanitize_text_field($_POST['contact_phone']);
+        $email = sanitize_email($_POST['contact_email']);
+        $tour = sanitize_text_field($_POST['contact_tour']);
+        $message = sanitize_textarea_field($_POST['contact_message']);
+        
+        // Email content
+        $subject = 'Yêu cầu tư vấn tour từ ' . $name;
+        $body = "Thông tin khách hàng:\n\n";
+        $body .= "Họ và tên: " . $name . "\n";
+        $body .= "Số điện thoại: " . $phone . "\n";
+        $body .= "Email: " . $email . "\n";
+        $body .= "Tour quan tâm: " . $tour . "\n";
+        $body .= "Tin nhắn: " . $message . "\n\n";
+        $body .= "Thời gian: " . current_time('d/m/Y H:i:s');
+        
+        // Send email
+        $admin_email = get_option('admin_email');
+        $headers = array('Content-Type: text/plain; charset=UTF-8');
+        
+        if (wp_mail($admin_email, $subject, $body, $headers)) {
+            // Success message
+            add_action('wp_footer', function() {
+                echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.");
+                    });
+                </script>';
+            });
+        }
+    }
+}
+add_action('init', 'handle_contact_form_submission');
+
+/**
  * Add preconnect for Google Fonts.
  *
  * @param array  $urls          URLs to print for resource hints.

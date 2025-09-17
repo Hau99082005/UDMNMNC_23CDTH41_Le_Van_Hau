@@ -110,55 +110,97 @@ get_header(); ?>
             </div>
             
             <div class="destinations-grid">
-                <?php
-                // First, get the destination terms
-                $destination_terms = get_terms(array(
-                    'taxonomy' => 'destination',
-                    'hide_empty' => true,
-                    'number' => 4
-                ));
-
-                if (!empty($destination_terms) && !is_wp_error($destination_terms)) :
-                    // Get the term IDs
-                    $term_ids = wp_list_pluck($destination_terms, 'term_id');
-                    
-                    // Query posts that have these destination terms
-                    $args = array(
-                        'post_type' => 'post',
-                        'posts_per_page' => 4,
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'destination',
-                                'field'    => 'term_id',
-                                'terms'    => $term_ids,
-                            ),
-                        ),
-                    );
-
-                    $query = new WP_Query($args);
-
-                    if ($query->have_posts()) :
-                        while ($query->have_posts()) : $query->the_post(); ?>
-                            <div class="destination-card">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'large'); ?>" 
-                                         alt="<?php the_title_attribute(); ?>">
-                                <?php else : ?>
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/placeholder.jpg" 
-                                         alt="No image">
-                                <?php endif; ?>
-                                
-                                <div class="destination-content">
-                                    <h3><?php the_title(); ?></h3>
-                                    <a href="<?php the_permalink(); ?>" class="btn btn-outline">Xem tour</a>
+                <!-- Tokyo -->
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/tokyo-destination.jpg" 
+                             alt="Tokyo - Thủ đô Nhật Bản">
+                        <div class="destination-overlay">
+                            <div class="destination-info">
+                                <h3>Tokyo</h3>
+                                <p>Thủ đô hiện đại với văn hóa truyền thống</p>
+                                <div class="destination-features">
+                                    <span><i class="fas fa-map-marker-alt"></i> Thủ đô</span>
+                                    <span><i class="fas fa-users"></i> 37 triệu dân</span>
                                 </div>
                             </div>
-                        <?php 
-                        endwhile;
-                        wp_reset_postdata();
-                    endif;
-                endif;
-                ?>
+                        </div>
+                    </div>
+                    <div class="destination-content">
+                        <h3>Tokyo</h3>
+                        <p>Khám phá thủ đô sôi động với những tòa nhà chọc trời, đền thờ cổ kính và ẩm thực tuyệt vời.</p>
+                        <a href="#" class="btn btn-outline">Xem tour Tokyo</a>
+                    </div>
+                </div>
+
+                <!-- Kyoto -->
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/kyoto-destination.jpg" 
+                             alt="Kyoto - Cố đô Nhật Bản">
+                        <div class="destination-overlay">
+                            <div class="destination-info">
+                                <h3>Kyoto</h3>
+                                <p>Cố đô với hơn 1000 năm lịch sử</p>
+                                <div class="destination-features">
+                                    <span><i class="fas fa-temple"></i> 2000 đền thờ</span>
+                                    <span><i class="fas fa-leaf"></i> Mùa thu đẹp</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destination-content">
+                        <h3>Kyoto</h3>
+                        <p>Trải nghiệm văn hóa truyền thống với những ngôi đền cổ, vườn Nhật và geisha.</p>
+                        <a href="#" class="btn btn-outline">Xem tour Kyoto</a>
+                    </div>
+                </div>
+
+                <!-- Osaka -->
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/osaka-destination.jpg" 
+                             alt="Osaka - Thành phố ẩm thực">
+                        <div class="destination-overlay">
+                            <div class="destination-info">
+                                <h3>Osaka</h3>
+                                <p>Thành phố ẩm thực và giải trí</p>
+                                <div class="destination-features">
+                                    <span><i class="fas fa-utensils"></i> Ẩm thực</span>
+                                    <span><i class="fas fa-smile"></i> Vui vẻ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destination-content">
+                        <h3>Osaka</h3>
+                        <p>Thưởng thức ẩm thực đường phố tuyệt vời và khám phá lâu đài Osaka cổ kính.</p>
+                        <a href="#" class="btn btn-outline">Xem tour Osaka</a>
+                    </div>
+                </div>
+
+                <!-- Mount Fuji -->
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/fuji-destination.jpg" 
+                             alt="Núi Phú Sĩ - Biểu tượng Nhật Bản">
+                        <div class="destination-overlay">
+                            <div class="destination-info">
+                                <h3>Núi Phú Sĩ</h3>
+                                <p>Biểu tượng thiêng liêng của Nhật Bản</p>
+                                <div class="destination-features">
+                                    <span><i class="fas fa-mountain"></i> 3776m</span>
+                                    <span><i class="fas fa-camera"></i> Chụp ảnh</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="destination-content">
+                        <h3>Núi Phú Sĩ</h3>
+                        <p>Chiêm ngưỡng ngọn núi thiêng liêng và tham quan hồ Kawaguchi tuyệt đẹp.</p>
+                        <a href="#" class="btn btn-outline">Xem tour Phú Sĩ</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -260,6 +302,166 @@ get_header(); ?>
                 <h2>Bạn đã sẵn sàng cho chuyến đi tiếp theo?</h2>
                 <p>Liên hệ ngay với chúng tôi để được tư vấn tour phù hợp nhất</p>
                 <a href="<?php echo esc_url(home_url('/lien-he')); ?>" class="btn btn-primary">Liên hệ ngay</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section section-padding">
+        <div class="container">
+            <div class="contact-form-wrapper">
+                <div class="contact-form-content">
+                    <div class="section-header">
+                        <h2 class="section-title">Liên Hệ Tư Vấn</h2>
+                        <p>Điền thông tin để nhận tư vấn miễn phí về tour du lịch Nhật Bản</p>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Hotline</h4>
+                                <p>0267732290</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>info@vjlink.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Địa chỉ</h4>
+                                <p>73 Phan Đình Phùng - Phường Vĩnh Ninh - TP Huế</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <?php
+                    // Check if Contact Form 7 is active
+                    if (function_exists('wpcf7_contact_form')) {
+                        // Try to get Contact Form 7 form
+                        $contact_form = get_posts(array(
+                            'post_type' => 'wpcf7_contact_form',
+                            'posts_per_page' => 1,
+                            'post_status' => 'publish'
+                        ));
+                        
+                        if (!empty($contact_form)) {
+                            echo do_shortcode('[contact-form-7 id="' . $contact_form[0]->ID . '"]');
+                        } else {
+                            // Fallback custom form
+                            ?>
+                            <form class="custom-contact-form" method="post" action="">
+                                <?php wp_nonce_field('contact_form_action', 'contact_form_nonce'); ?>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="contact_name">Họ và tên *</label>
+                                        <input type="text" id="contact_name" name="contact_name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_phone">Số điện thoại *</label>
+                                        <input type="tel" id="contact_phone" name="contact_phone" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="contact_email">Email *</label>
+                                        <input type="email" id="contact_email" name="contact_email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_tour">Tour quan tâm</label>
+                                        <select id="contact_tour" name="contact_tour">
+                                            <option value="">Chọn tour</option>
+                                            <option value="tokyo">Tour Tokyo</option>
+                                            <option value="kyoto">Tour Kyoto</option>
+                                            <option value="osaka">Tour Osaka</option>
+                                            <option value="fuji">Tour Núi Phú Sĩ</option>
+                                            <option value="combo">Tour Combo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="contact_message">Tin nhắn</label>
+                                    <textarea id="contact_message" name="contact_message" rows="5" placeholder="Mô tả chi tiết về nhu cầu du lịch của bạn..."></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-full">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Gửi yêu cầu tư vấn
+                                    </button>
+                                </div>
+                            </form>
+                            <?php
+                        }
+                    } else {
+                        // Custom form if Contact Form 7 is not available
+                        ?>
+                        <form class="custom-contact-form" method="post" action="">
+                            <?php wp_nonce_field('contact_form_action', 'contact_form_nonce'); ?>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact_name">Họ và tên *</label>
+                                    <input type="text" id="contact_name" name="contact_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact_phone">Số điện thoại *</label>
+                                    <input type="tel" id="contact_phone" name="contact_phone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact_email">Email *</label>
+                                    <input type="email" id="contact_email" name="contact_email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact_tour">Tour quan tâm</label>
+                                    <select id="contact_tour" name="contact_tour">
+                                        <option value="">Chọn tour</option>
+                                        <option value="tokyo">Tour Tokyo</option>
+                                        <option value="kyoto">Tour Kyoto</option>
+                                        <option value="osaka">Tour Osaka</option>
+                                        <option value="fuji">Tour Núi Phú Sĩ</option>
+                                        <option value="combo">Tour Combo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact_message">Tin nhắn</label>
+                                <textarea id="contact_message" name="contact_message" rows="5" placeholder="Mô tả chi tiết về nhu cầu du lịch của bạn..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-full">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Gửi yêu cầu tư vấn
+                                </button>
+                            </div>
+                        </form>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </section>
