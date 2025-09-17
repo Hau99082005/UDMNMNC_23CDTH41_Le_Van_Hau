@@ -164,17 +164,17 @@
             <div class="slider-wrapper">
                 <div class="slide active">
                     <div class="slide-image">
-                        <img src="<?php echo do_shortcode('[metaslider id="58"]') ?>" alt="Banner 1">
+                        <?php echo do_shortcode('[metaslider id="58"]') ?>
                     </div>
                 </div>
                 <div class="slide">
                     <div class="slide-image">
-                        <img src="<?php echo do_shortcode('[metaslider id="60"]') ?>" alt="Banner 2">
+                        <?php echo do_shortcode('[metaslider id="73"]') ?>
                     </div>
                 </div>
                 <div class="slide">
                     <div class="slide-image">
-                        <img src="<?php echo do_shortcode('[metaslider id="63"]') ?>" alt="Banner 3">
+                        <?php echo do_shortcode('[metaslider id="79"]') ?>
                     </div>
                 </div>
             </div>

@@ -111,29 +111,52 @@ get_header(); ?>
             
             <div class="destinations-grid">
                 <?php
-                $destinations = get_terms(array(
+                // First, get the destination terms
+                $destination_terms = get_terms(array(
                     'taxonomy' => 'destination',
                     'hide_empty' => true,
                     'number' => 4
                 ));
 
-                if (!empty($destinations) && !is_wp_error($destinations)) :
-                    foreach ($destinations as $destination) :
-                        $term_id = $destination->term_id;
-                        $image_id = get_term_meta($term_id, 'destination_image', true);
-                        $image_url = wp_get_attachment_image_url($image_id, 'large');
-                        ?>
-                        <div class="destination-card">
-                            <?php if ($image_url) : ?>
-                                <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($destination->name); ?>">
-                            <?php endif; ?>
-                            <div class="destination-content">
-                                <h3><?php echo esc_html($destination->name); ?></h3>
-                                <a href="<?php echo esc_url(get_term_link($destination)); ?>" class="btn btn-outline">Xem tour</a>
+                if (!empty($destination_terms) && !is_wp_error($destination_terms)) :
+                    // Get the term IDs
+                    $term_ids = wp_list_pluck($destination_terms, 'term_id');
+                    
+                    // Query posts that have these destination terms
+                    $args = array(
+                        'post_type' => 'post',
+                        'posts_per_page' => 4,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'destination',
+                                'field'    => 'term_id',
+                                'terms'    => $term_ids,
+                            ),
+                        ),
+                    );
+
+                    $query = new WP_Query($args);
+
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post(); ?>
+                            <div class="destination-card">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'large'); ?>" 
+                                         alt="<?php the_title_attribute(); ?>">
+                                <?php else : ?>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/placeholder.jpg" 
+                                         alt="No image">
+                                <?php endif; ?>
+                                
+                                <div class="destination-content">
+                                    <h3><?php the_title(); ?></h3>
+                                    <a href="<?php the_permalink(); ?>" class="btn btn-outline">Xem tour</a>
+                                </div>
                             </div>
-                        </div>
-                        <?php
-                    endforeach;
+                        <?php 
+                        endwhile;
+                        wp_reset_postdata();
+                    endif;
                 endif;
                 ?>
             </div>

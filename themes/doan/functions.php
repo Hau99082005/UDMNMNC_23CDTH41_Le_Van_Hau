@@ -168,8 +168,11 @@ function dulichvietnhat_scripts() {
     // Banner JavaScript
     wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', array('jquery'), _S_VERSION, true);
     
+    // Custom JavaScript
+    wp_enqueue_script('dulichvietnhat-custom-js', get_template_directory_uri() . '/assets/js/custom.js', array('jquery'), _S_VERSION, true);
+    
     // Localize script with theme settings
-    wp_localize_script('dulichvietnhat-main-js', 'dulichvietnhatSettings', array(
+    wp_localize_script('dulichvietnhat-custom-js', 'dulichvietnhatSettings', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'homeUrl' => home_url(),
         'isMobile' => wp_is_mobile(),

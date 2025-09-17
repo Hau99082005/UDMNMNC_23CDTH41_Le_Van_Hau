@@ -1,105 +1,93 @@
     </div><!-- #content -->
 
-    <footer id="colophon" class="site-footer">
-        <div class="footer-main">
-            <div class="container">
-                <div class="footer-widgets">
-                    <!-- About Widget -->
-                    <div class="footer-widget footer-about">
-                        <?php if (is_active_sidebar('footer-1')) : ?>
-                            <?php dynamic_sidebar('footer-1'); ?>
-                        <?php else : ?>
-                            <h3 class="widget-title"><?php bloginfo('name'); ?></h3>
-                            <p><?php echo esc_html__('Chuyên tổ chức các tour du lịch Nhật Bản chất lượng cao với nhiều năm kinh nghiệm.', 'dulichvietnhat'); ?></p>
-                            <div class="footer-social">
-                                <?php 
-                                $socials = array('facebook', 'instagram', 'youtube', 'tiktok');
-                                foreach ($socials as $social) : 
-                                    if ($url = get_theme_mod('social_' . $social)) : ?>
-                                        <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer">
-                                            <i class="fab fa-<?php echo esc_attr($social); ?>"></i>
-                                        </a>
-                                    <?php endif;
-                                endforeach; ?>
-                            </div>
-                        <?php endif; ?>
+<footer id="colophon" class="site-footer">
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-widgets">
+                <!-- Contact Information -->
+                <div class="footer-widget">
+                    <h3 class="widget-title"><?php esc_html_e('Thông tin liên hệ', 'dulichvietnhat'); ?></h3>
+                    <div class="contact-details">
+                        <p class="address"><?php echo esc_html(get_theme_mod('contact_address', '73 phan đình phùng - phường vĩnh ninh - TP Huế')); ?></p>
+                        <p class="hotline"><?php esc_html_e('Hotline:', 'dulichvietnhat'); ?> <a href="tel:0367722389">0367722389</a></p>
+                        <p class="email"><?php esc_html_e('Email:', 'dulichvietnhat'); ?> <a href="mailto:info@dulichvietnhat.vn">hau99082005@gmail.com</a></p>
+                        <div class="office-branch">
+                            <p class="office-title"><?php esc_html_e('Văn phòng Vũng Tàu', 'dulichvietnhat'); ?></p>
+                            <p class="office-address"><?php echo esc_html(get_theme_mod('office_vungtau', '70 Nguyễn Huệ')); ?></p>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Quick Links -->
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('footer-2')) : ?>
-                            <?php dynamic_sidebar('footer-2'); ?>
-                        <?php else : ?>
-                            <h3 class="widget-title"><?php esc_html_e('Liên kết nhanh', 'dulichvietnhat'); ?></h3>
-                            <?php
-                            wp_nav_menu(array(
-                                'theme_location' => 'footer-menu-1',
-                                'menu_class'     => 'footer-menu',
-                                'fallback_cb'    => false,
-                                'depth'          => 1,
-                            ));
-                            ?>
-                        <?php endif; ?>
-                    </div>
+                <!-- Company Info -->
+                <div class="footer-widget">
+                    <h3 class="widget-title"><?php esc_html_e('Du lịch Việt Nhật', 'dulichvietnhat'); ?></h3>
+                    <ul class="company-links">
+                        <li><a href="<?php echo esc_url(home_url('/gioi-thieu')); ?>"><?php esc_html_e('Giới thiệu Công ty', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/faq')); ?>"><?php esc_html_e('Câu hỏi thường gặp', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/tuyen-dung')); ?>"><?php esc_html_e('Tuyển dụng', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/chinh-sach-bao-mat')); ?>"><?php esc_html_e('Chính sách bảo mật', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/quyen-rieng-tu')); ?>"><?php esc_html_e('Quyền riêng tư', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/chinh-sach-hoan-huy')); ?>"><?php esc_html_e('Chính sách hoàn/hủy', 'dulichvietnhat'); ?></a></li>
+                    </ul>
+                </div>
 
-                    <!-- Contact Info -->
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('footer-3')) : ?>
-                            <?php dynamic_sidebar('footer-3'); ?>
-                        <?php else : ?>
-                            <h3 class="widget-title"><?php esc_html_e('Liên hệ', 'dulichvietnhat'); ?></h3>
-                            <ul class="contact-info">
-                                <?php if ($address = get_theme_mod('contact_address')) : ?>
-                                    <li><i class="fas fa-map-marker-alt"></i> <?php echo esc_html($address); ?></li>
-                                <?php endif; ?>
-                                <?php if ($phone = get_theme_mod('contact_phone')) : ?>
-                                    <li><i class="fas fa-phone"></i> <?php echo esc_html($phone); ?></li>
-                                <?php endif; ?>
-                                <?php if ($email = get_theme_mod('contact_email')) : ?>
-                                    <li><i class="fas fa-envelope"></i> <?php echo esc_html($email); ?></li>
-                                <?php endif; ?>
-                                <?php if ($hours = get_theme_mod('contact_hours')) : ?>
-                                    <li><i class="far fa-clock"></i> <?php echo esc_html($hours); ?></li>
-                                <?php endif; ?>
-                            </ul>
-                        <?php endif; ?>
-                    </div>
+                <!-- Contact Services -->
+                <div class="footer-widget">
+                    <h3 class="widget-title"><?php esc_html_e('Liên hệ', 'dulichvietnhat'); ?></h3>
+                    <ul class="contact-services">
+                        <li><a href="<?php echo esc_url(home_url('/dai-ly')); ?>"><?php esc_html_e('Đại lý', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/faq')); ?>"><?php esc_html_e('FAQ', 'dulichvietnhat'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/tour-rieng')); ?>"><?php esc_html_e('Làm tour riêng', 'dulichvietnhat'); ?></a></li>
+                    </ul>
+                </div>
 
-                    <!-- Newsletter -->
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('footer-4')) : ?>
-                            <?php dynamic_sidebar('footer-4'); ?>
-                        <?php else : ?>
-                            <h3 class="widget-title"><?php esc_html_e('Đăng ký nhận tin', 'dulichvietnhat'); ?></h3>
-                            <p><?php esc_html_e('Đăng ký để nhận thông tin khuyến mãi và tour mới nhất.', 'dulichvietnhat'); ?></p>
-                            <?php echo do_shortcode('[mc4wp_form id="1"]'); ?>
-                        <?php endif; ?>
+                <!-- Social Media -->
+                <div class="footer-widget">
+                    <h3 class="widget-title"><?php esc_html_e('Social', 'dulichvietnhat'); ?></h3>
+                    <div class="social-icons">
+                        <a href="<?php echo esc_url(get_theme_mod('social_facebook', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="<?php echo esc_url(get_theme_mod('social_instagram', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="<?php echo esc_url(get_theme_mod('social_youtube', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="<?php echo esc_url(get_theme_mod('social_zalo', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Zalo">
+                            <i class="fas fa-comments"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="footer-bottom-inner">
-                    <div class="copyright">
-                        &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. <?php esc_html_e('All rights reserved.', 'dulichvietnhat'); ?>
-                    </div>
-                    <div class="footer-menu">
-                        <?php
-                        wp_nav_menu(array(
-                            'theme_location' => 'footer-menu-2',
-                            'menu_class'     => 'footer-bottom-menu',
-                            'fallback_cb'    => false,
-                            'depth'          => 1,
-                        ));
-                        ?>
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-bottom-inner">
+                <div class="copyright">
+                    <?php esc_html_e('© Copyright Du Lịch Việt Nhật', 'dulichvietnhat'); ?>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-discover"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-jcb"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </footer><!-- #colophon -->
+    </div>
+
+    <!-- Back to top button -->
+    <a href="#" id="back-to-top" class="back-to-top" aria-label="<?php esc_attr_e('Lên đầu trang', 'dulichvietnhat'); ?>">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

@@ -18,16 +18,23 @@ if ($featured_tours->have_posts()) : ?>
             <div class="tours-grid">
                 <?php while ($featured_tours->have_posts()) : $featured_tours->the_post(); ?>
                     <article id="post-<?php the_ID(); ?>" <?php post_class('tour-card'); ?>>
-                        <?php if (has_post_thumbnail()) : ?>
-                            <div class="tour-thumbnail">
-                                <a href="<?php the_permalink(); ?>">
-                                    <?php the_post_thumbnail('large', ['class' => 'tour-image']); ?>
-                                </a>
+                        <div class="tour-thumbnail">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php 
+                                if (has_post_thumbnail()) {
+                                    the_post_thumbnail('large', ['class' => 'tour-image']);
+                                } else {
+                                    // Display a default/placeholder image if no featured image is set
+                                    echo '<img src="' . get_template_directory_uri() . '/assets/images/placeholder.jpg" alt="' . get_the_title() . '" class="tour-image">';
+                                }
+                                ?>
+                            </a>
+                            <?php if (get_field('price')) : ?>
                                 <div class="tour-price">
-                                    <?php echo get_field('price') ? get_field('price') : 'Liên hệ'; ?>
+                                    <?php echo get_field('price'); ?>
                                 </div>
-                            </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
 
                         <div class="tour-content">
                             <header class="entry-header">
