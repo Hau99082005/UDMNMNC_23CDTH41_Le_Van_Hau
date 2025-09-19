@@ -23,7 +23,8 @@
             <div class="top-bar-content">
                 <div class="contact-info">
                     <?php if ($phone = get_theme_mod('header_phone', '0123456798')) : ?>
-                        <div class="contact-item">
+                        <div class="contact-item"
+                        >
                             <i class="fas fa-phone-alt"></i>
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>">
                                 <?php echo esc_html($phone); ?>
@@ -44,7 +45,7 @@
                         <i class="fas fa-search"></i>
                     </button>
                     <div class="language-selector">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/vietnam-flag.png" alt="Vietnam" class="flag-icon">
+                        <i class="fas fa-flag flag-icon" aria-hidden="true"></i>
                         <span>VI</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
@@ -197,4 +198,3 @@
     </section>
 
     <div id="content" class="site-content">
-

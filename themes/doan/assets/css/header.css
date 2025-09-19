@@ -1017,3 +1017,14 @@ html {
     width: 1px;
     overflow: hidden;
 }
+
+/* Override: make phone/email text in top bar black for better visibility */
+.top-bar .contact-item,
+.top-bar .contact-item a {
+    color: #000000 !important;
+}
+
+.top-bar .contact-item a:hover {
+    color: #000000 !important;
+    text-decoration: underline;
+}

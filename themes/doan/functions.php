@@ -117,9 +117,22 @@ add_action('widgets_init', 'dulichvietnhat_widgets_init');
  * Enqueue scripts and styles.
  */
 function dulichvietnhat_scripts() {
-    // Theme stylesheet
-    $style_version = file_exists(get_stylesheet_directory() . '/style.css') ? filemtime(get_stylesheet_directory() . '/style.css') : _S_VERSION;
+    // Theme stylesheet (style.css header and base overrides)
+    $style_path = get_stylesheet_directory() . '/style.css';
+    $style_version = file_exists($style_path) ? filemtime($style_path) : _S_VERSION;
     wp_enqueue_style('dulichvietnhat-style', get_stylesheet_uri(), array(), $style_version);
+
+    // Enqueue main.css if present (moved bulk CSS here)
+    $main_path = get_stylesheet_directory() . '/main.css';
+    if (file_exists($main_path)) {
+        $main_version = filemtime($main_path);
+        wp_enqueue_style(
+            'dulichvietnhat-main',
+            get_stylesheet_directory_uri() . '/main.css',
+            array('dulichvietnhat-style'),
+            $main_version
+        );
+    }
     
     // Google Fonts
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', array(), null);
@@ -135,9 +148,6 @@ function dulichvietnhat_scripts() {
         echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com">';
         echo '<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">';
     }, 1);
-    
-    // Main CSS
-    wp_enqueue_style('dulichvietnhat-main-style', get_template_directory_uri() . '/assets/css/main.css', array(), _S_VERSION);
     
     // Featured Tours CSS
     wp_enqueue_style('featured-tours-css', get_template_directory_uri() . '/assets/css/featured-tours.css', array(), _S_VERSION);
@@ -386,3 +396,53 @@ function dulichvietnhat_excerpt_more($more) {
     return '...';
 }
 add_filter('excerpt_more', 'dulichvietnhat_excerpt_more');
+
+/**
+ * Add custom rewrite rules for tour pages
+ */
+function add_tour_rewrite_rules() {
+    add_rewrite_rule(
+        '^tour-7-ngay-6-dem/?$',
+        'index.php?pagename=tour-7-ngay-6-dem',
+        'top'
+    );
+    
+    add_rewrite_rule(
+        '^tour-nhat-ban-mua-thu-2025/?$',
+        'index.php?pagename=tour-nhat-ban-mua-thu-2025',
+        'top'
+    );
+    
+    add_rewrite_rule(
+        '^tour-6-ngay-5-dem/?$',
+        'index.php?pagename=tour-6-ngay-5-dem',
+        'top'
+    );
+    
+    add_rewrite_rule(
+        '^tour-5-ngay-4-dem/?$',
+        'index.php?pagename=tour-5-ngay-4-dem',
+        'top'
+    );
+}
+add_action('init', 'add_tour_rewrite_rules');
+
+/**
+ * Flush rewrite rules on theme activation
+ */
+function flush_tour_rewrite_rules() {
+    add_tour_rewrite_rules();
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'flush_tour_rewrite_rules');
+
+/**
+ * Force flush rewrite rules on admin init
+ */
+function force_flush_rewrite_rules() {
+    if (get_option('tour_rewrite_rules_flushed') !== 'yes') {
+        flush_rewrite_rules();
+        update_option('tour_rewrite_rules_flushed', 'yes');
+    }
+}
+add_action('admin_init', 'force_flush_rewrite_rules');

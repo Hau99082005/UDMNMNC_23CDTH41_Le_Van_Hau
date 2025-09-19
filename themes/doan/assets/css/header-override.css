@@ -601,7 +601,7 @@
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
-    color: #ffffff !important;
+    color: #000000 !important;
     transition: all 0.3s ease !important;
 }
 
@@ -611,11 +611,27 @@
 }
 
 .contact-item a {
-    color: #ffffff !important;
+    color: #000000 !important;
     text-decoration: none !important;
     transition: all 0.3s ease !important;
 }
 
 .contact-item:hover a {
     color: #f39c12 !important;
+}
+
+/* Force phone/email in top bar to show as black */
+.top-bar .contact-item,
+.top-bar .contact-item a {
+    color: #000000 !important;
+}
+
+.top-bar .contact-item i {
+    color: #000000 !important;
+    opacity: 1 !important;
+}
+
+.top-bar .contact-item a:hover {
+    color: #000000 !important;
+    text-decoration: underline !important;
 }
