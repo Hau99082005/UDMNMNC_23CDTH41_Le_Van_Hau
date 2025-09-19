@@ -510,3 +510,213 @@ Stack trace:
 [19-Sep-2025 09:15:30 UTC]   Automatic plugin updates starting...
 [19-Sep-2025 09:15:30 UTC]   Automatic plugin updates complete.
 [19-Sep-2025 09:15:31 UTC] Automatic updates complete.
+[19-Sep-2025 11:25:24 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\page-lich-khoi-hanh.php(8): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:25:24 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:25:24 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:25:57 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\front-page.php(6): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:25:58 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:25:58 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:26:00 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\front-page.php(6): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:26:00 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 11:26:00 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "is_page" in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php:162
+Stack trace:
+#0 C:\xampp\htdocs\wordpress\wp-includes\template.php(810): require_once()
+#1 C:\xampp\htdocs\wordpress\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#2 C:\xampp\htdocs\wordpress\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#3 C:\xampp\htdocs\wordpress\wp-content\themes\doan\index.php(2): get_header()
+#4 C:\xampp\htdocs\wordpress\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\wordpress\index.php(17): require('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress\wp-content\themes\doan\header.php on line 162
+[19-Sep-2025 14:42:40 UTC] [Loco.debug] "Error extracting package.json: Invalid JSON" in src/gettext/Extraction.php:125
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:54 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:53:58 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\script-loader.php:3015) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 14:54:06 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\wordpress\wp-includes\class-wp-styles.php:290) in C:\xampp\htdocs\wordpress\wp-content\themes\doan\functions.php on line 482
+[19-Sep-2025 15:02:08 UTC] PHP Warning:  plugins_api(): An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/forums/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in C:\xampp\htdocs\wordpress\wp-includes\functions.php on line 6121
+[19-Sep-2025 15:02:44 UTC] PHP Warning:  wp_version_check(): An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/forums/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in C:\xampp\htdocs\wordpress\wp-includes\functions.php on line 6121
+[19-Sep-2025 15:03:25 UTC] PHP Warning:  wp_update_plugins(): An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/forums/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in C:\xampp\htdocs\wordpress\wp-includes\functions.php on line 6121

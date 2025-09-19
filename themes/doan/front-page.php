@@ -72,9 +72,7 @@ get_header(); ?>
                                 <h3 class="post-title">
                                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                 </h3>
-                                <div class="post-excerpt">
-                                    <?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?>
-                                </div>
+                               
                                 <div class="post-meta">
                                     <span class="post-date">
                                         <i class="fas fa-calendar-alt"></i>
