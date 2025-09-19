@@ -15,29 +15,40 @@ get_header(); ?>
     } elseif ($banner_type === 'video') {
         get_template_part('template-parts/banner-video');
     } else {
-        // VJLINK Style Hero Section
         ?>
         <?php
     }
     ?>
-
-    <!-- Featured Posts -->
     <section id="featured-posts" class="featured-posts section-padding">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Bài Viết Nổi Bật</h2>
-                <p>Những bài viết về du lịch Nhật Bản được yêu thích nhất</p>
+                <h2 class="section-title">
+                    <?php echo esc_html( get_theme_mod('featured_section_title', 'Bài Viết Nổi Bật') ); ?>
+                </h2>
+                <p>
+                    <?php echo esc_html( get_theme_mod('featured_section_subtitle', 'Những bài viết về du lịch Nhật Bản được yêu thích nhất') ); ?>
+                </p>
             </div>
             
             <div class="posts-grid">
                 <?php
-                $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 6,
-                    'post_status' => 'publish',
-                    'orderby' => 'date',
-                    'order' => 'DESC'
-                );
+                $sticky_posts = get_option('sticky_posts');
+                if ( ! empty($sticky_posts) ) {
+                    $args = array(
+                        'post_type'           => 'post',
+                        'posts_per_page'      => 6,
+                        'post__in'            => $sticky_posts,
+                        'ignore_sticky_posts' => 1,
+                    );
+                } else {
+                    $args = array(
+                        'post_type'      => 'post',
+                        'posts_per_page' => 6,
+                        'post_status'    => 'publish',
+                        'orderby'        => 'date',
+                        'order'          => 'DESC',
+                    );
+                }
                 $featured_posts = new WP_Query($args);
 
                 if ($featured_posts->have_posts()) :
