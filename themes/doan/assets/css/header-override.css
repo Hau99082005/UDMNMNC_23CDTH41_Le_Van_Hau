@@ -333,6 +333,9 @@
     opacity: 0 !important;
     visibility: hidden !important;
     transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .mobile-menu-overlay.active {
@@ -634,4 +637,33 @@
 .top-bar .contact-item a:hover {
     color: #000000 !important;
     text-decoration: underline !important;
+}
+
+/* === Spacing fixes (remove white gap above header) === */
+/* Ensure no top margins create a gap */
+.top-bar, .site-header, #page.site { margin-top: 0 !important; }
+
+/* When admin bar is visible, place the sticky header just under it */
+.admin-bar .site-header { top: 32px !important; }
+@media (max-width: 782px) { /* WP admin bar height on mobile */
+  .admin-bar .site-header { top: 46px !important; }
+}
+
+/* Make sure icons in header use Font Awesome color */
+.top-bar .contact-item i,
+.header-actions i,
+.main-navigation .dropdown-icon { color: inherit; }
+
+/* Remove WP admin bar default push-down to avoid white gap */
+@media screen and (min-width: 783px) {
+  html { margin-top: 0 !important; }
+  body { margin-top: 0 !important; }
+  .admin-bar .top-bar { margin-top: 32px !important; }
+  .admin-bar .site-header { top: 32px !important; }
+}
+@media screen and (max-width: 782px) {
+  html { margin-top: 0 !important; }
+  body { margin-top: 0 !important; }
+  .admin-bar .top-bar { margin-top: 46px !important; }
+  .admin-bar .site-header { top: 46px !important; }
 }

@@ -43,22 +43,9 @@
 
                 <!-- Social Media -->
                 <div class="footer-widget">
-                    <h3 class="widget-title"><?php esc_html_e('Social', 'dulichvietnhat'); ?></h3>
-                    <div class="social-icons">
-                        <a href="<?php echo esc_url(get_theme_mod('social_facebook', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="<?php echo esc_url(get_theme_mod('social_instagram', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="<?php echo esc_url(get_theme_mod('social_youtube', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="<?php echo esc_url(get_theme_mod('social_zalo', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Zalo">
-                            <i class="fas fa-comments"></i>
-                        </a>
-                    </div>
+                    <?php echo do_shortcode('[jv_social_icons title="Social"]'); ?>
                 </div>
+
             </div>
         </div>
     </div>
@@ -68,7 +55,7 @@
         <div class="container">
             <div class="footer-bottom-inner">
                 <div class="copyright">
-                    <?php esc_html_e('© Copyright Du Lịch Việt Nhật', 'dulichvietnhat'); ?>
+                    <?php esc_html_e('Copyright Du Lịch Việt Nhật', 'dulichvietnhat'); ?>
                 </div>
                 <div class="payment-methods">
                     <div class="payment-icons">

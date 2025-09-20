@@ -131,6 +131,9 @@ function dulichvietnhat_scripts() {
     $style_version = file_exists($style_path) ? filemtime($style_path) : _S_VERSION;
     wp_enqueue_style('dulichvietnhat-style', get_stylesheet_uri(), array(), $style_version);
 
+    // Ensure Font Awesome is available for header icons
+    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css', array(), '6.5.0');
+
     $assets = array(
         'header-css'              => '/assets/css/header.css',
         'header-override-css'     => '/assets/css/header-override.css',
@@ -143,8 +146,14 @@ function dulichvietnhat_scripts() {
         $path = get_stylesheet_directory() . $rel;
         if (file_exists($path)) {
             $ver = filemtime($path);
-            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('dulichvietnhat-style'), $ver);
+            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('dulichvietnhat-style','fontawesome'), $ver);
         }
+    }
+
+    // Enqueue icon-fix.css if present
+    $icon_fix = get_stylesheet_directory() . '/assets/css/icon-fix.css';
+    if (file_exists($icon_fix)) {
+        wp_enqueue_style('icon-fix', get_stylesheet_directory_uri() . '/assets/css/icon-fix.css', array('fontawesome'), filemtime($icon_fix));
     }
 
     wp_enqueue_script('jquery');
