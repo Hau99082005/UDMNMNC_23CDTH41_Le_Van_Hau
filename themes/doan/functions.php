@@ -534,7 +534,10 @@ if (!function_exists('pll_current_language') && !defined('ICL_SITEPRESS_VERSION'
         if ($locale) { switch_to_locale($locale); }
     });
 
-    add_action('init', 'dln_set_lang_cookie', 0);
+    // Only set cookies on the front-end to avoid headers sent warnings during admin/plugin activation
+    if (!is_admin() && !wp_doing_ajax()) {
+        add_action('init', 'dln_set_lang_cookie', 0);
+    }
 }
 
 add_action('change_locale', function($locale){
@@ -583,6 +586,10 @@ function dln_lang_switcher($show_labels = true) {
 }
 
 function dln_set_lang_cookie() {
+    // Extra safety: never attempt to modify headers in admin or after output started
+    if (is_admin() || (function_exists('wp_doing_ajax') && wp_doing_ajax())) {
+        return;
+    }
     if (!headers_sent() && isset($_GET['lang'])) {
         $supported = array('vi','en','ja','fr','zh');
         $q = strtolower(sanitize_text_field($_GET['lang']));
@@ -594,3 +601,27 @@ function dln_set_lang_cookie() {
         }
     }
 }
+
+// Auto ensure temp directory exists for plugin/theme installs on local
+function dln_ensure_temp_dir() {
+    if (defined('WP_TEMP_DIR') && WP_TEMP_DIR && !is_dir(WP_TEMP_DIR)) {
+        wp_mkdir_p(WP_TEMP_DIR);
+    }
+}
+add_action('init', 'dln_ensure_temp_dir', 0);
+
+// On local environment only, relax SSL verification for WordPress.org endpoints to avoid cURL CA issues on localhost
+function dln_relax_ssl_on_local($args, $url) {
+    if (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local') {
+        $host = parse_url($url, PHP_URL_HOST);
+        if (in_array($host, array('api.wordpress.org','downloads.wordpress.org','wordpress.org'), true)) {
+            $args['sslverify'] = false; // local-only fallback; fix php.ini CA for production
+        }
+        // Also raise timeout for slow Windows cURL on localhost
+        if (empty($args['timeout']) || $args['timeout'] < 60) {
+            $args['timeout'] = 60;
+        }
+    }
+    return $args;
+}
+add_filter('http_request_args', 'dln_relax_ssl_on_local', 10, 2);

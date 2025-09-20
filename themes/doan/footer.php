@@ -43,7 +43,31 @@
 
                 <!-- Social Media -->
                 <div class="footer-widget">
-                    <?php echo do_shortcode('[jv_social_icons title="Social"]'); ?>
+                    <h3 class="widget-title"><?php esc_html_e('Social', 'dulichvietnhat'); ?></h3>
+                    <div class="social-icons">
+                        <a class="social-btn facebook" href="<?php echo esc_url(get_theme_mod('social_facebook', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a class="social-btn instagram" href="<?php echo esc_url(get_theme_mod('social_instagram', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a class="social-btn youtube" href="<?php echo esc_url(get_theme_mod('social_youtube', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                        <a class="social-btn zalo" href="<?php echo esc_url(get_theme_mod('social_zalo', '#')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Zalo">
+                            <i class="fas fa-comments" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <style>
+                        .footer-widget .social-icons{display:flex;gap:14px;align-items:center;margin-top:12px}
+                        .footer-widget .social-icons .social-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;color:#fff;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.12);transition:transform .15s ease, box-shadow .15s ease}
+                        .footer-widget .social-icons .social-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,.18)}
+                        .footer-widget .social-icons .social-btn i{font-size:18px;line-height:1}
+                        .footer-widget .social-icons .social-btn.facebook{background:#1877F2}
+                        .footer-widget .social-icons .social-btn.youtube{background:#FF0000}
+                        .footer-widget .social-icons .social-btn.zalo{background:#25D366}
+                        .footer-widget .social-icons .social-btn.instagram{background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)}
+                    </style>
                 </div>
 
             </div>

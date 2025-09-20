@@ -350,6 +350,42 @@ function dulichvietnhat_customize_register($wp_customize) {
         )
     );
 
+    // Social Links Section
+    $wp_customize->add_section(
+        'social_links_section',
+        array(
+            'title'    => __('Social Links', 'dulichvietnhat'),
+            'priority' => 15,
+            'panel'    => 'theme_options',
+        )
+    );
+
+    $social_fields = array(
+        'social_facebook'  => __('Facebook URL', 'dulichvietnhat'),
+        'social_instagram' => __('Instagram URL', 'dulichvietnhat'),
+        'social_tiktok'    => __('TikTok URL', 'dulichvietnhat'),
+        'social_youtube'   => __('YouTube URL', 'dulichvietnhat'),
+        'social_twitter'   => __('Twitter/X URL', 'dulichvietnhat'),
+        'social_zalo'      => __('Zalo/Chat URL', 'dulichvietnhat'),
+    );
+    foreach ($social_fields as $setting_id => $label) {
+        $wp_customize->add_setting(
+            $setting_id,
+            array(
+                'default'           => '',
+                'sanitize_callback' => 'esc_url_raw',
+            )
+        );
+        $wp_customize->add_control(
+            $setting_id,
+            array(
+                'label'   => $label,
+                'section' => 'social_links_section',
+                'type'    => 'url',
+            )
+        );
+    }
+
     // Header Contact Info
     $wp_customize->add_setting(
         'header_phone',
