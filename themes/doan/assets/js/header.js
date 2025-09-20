@@ -266,183 +266,141 @@
         // Add loading class to body
         $('body').addClass('header-loaded');
         
-        // VJLINK Image Slider Functionality
-        let currentSlideIndex = 0;
-        const slides = $('.slide');
-        const totalSlides = slides.length;
-        let slideInterval;
-        
-        // Auto slide function
-        function autoSlide() {
-            if (totalSlides > 1) {
-                slideInterval = setInterval(() => {
-                    changeSlide(1);
-                }, 5000); // Change slide every 5 seconds
+        // VJLINK Image Slider Functionality (desktop only to avoid conflicts on mobile)
+        (function() {
+            const isMobile = $(window).width() <= 768;
+            if (isMobile) {
+                return; // Skip custom outer slider on mobile; let MetaSlider handle itself
             }
-        }
-        
-        // Change slide function
-        window.changeSlide = function(direction) {
-            if (totalSlides <= 1) return;
-            
-            // Clear existing interval
-            clearInterval(slideInterval);
-            
-            // Remove active class from current slide
-            slides.eq(currentSlideIndex).removeClass('active');
-            
-            // Calculate new slide index
-            currentSlideIndex += direction;
-            
-            // Handle slide boundaries
-            if (currentSlideIndex >= totalSlides) {
-                currentSlideIndex = 0;
-            } else if (currentSlideIndex < 0) {
-                currentSlideIndex = totalSlides - 1;
-            }
-            
-            // Add active class to new slide
-            slides.eq(currentSlideIndex).addClass('active');
-            
-            // Update dots
-            $('.dot').removeClass('active');
-            $('.dot').eq(currentSlideIndex).addClass('active');
-            
-            // Restart auto slide
-            autoSlide();
-        };
-        
-        // Go to specific slide
-        window.currentSlide = function(slideNumber) {
-            if (totalSlides <= 1) return;
-            
-            clearInterval(slideInterval);
-            
-            // Remove active class from current slide
-            slides.eq(currentSlideIndex).removeClass('active');
-            
-            // Set new slide index
-            currentSlideIndex = slideNumber - 1;
-            
-            // Add active class to new slide
-            slides.eq(currentSlideIndex).addClass('active');
-            
-            // Update dots
-            $('.dot').removeClass('active');
-            $('.dot').eq(currentSlideIndex).addClass('active');
-            
-            // Restart auto slide
-            autoSlide();
-        };
-        
-        // Pause auto slide on hover
-        $('.image-slider-section').hover(
-            function() {
-                clearInterval(slideInterval);
-            },
-            function() {
-                autoSlide();
-            }
-        );
-        
-        // Start auto slide
-        autoSlide();
-        
-        // Touch/swipe support for mobile
-        let startX = 0;
-        let endX = 0;
-        
-        $('.slider-wrapper').on('touchstart', function(e) {
-            startX = e.originalEvent.touches[0].clientX;
-        });
-        
-        $('.slider-wrapper').on('touchend', function(e) {
-            endX = e.originalEvent.changedTouches[0].clientX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            const threshold = 50; // Minimum swipe distance
-            const diff = startX - endX;
-            
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0) {
-                    // Swipe left - next slide
-                    changeSlide(1);
-                } else {
-                    // Swipe right - previous slide
-                    changeSlide(-1);
+
+            let currentSlideIndex = 0;
+            const slides = $('.slide');
+            const totalSlides = slides.length;
+            let slideInterval;
+
+            function autoSlide() {
+                if (totalSlides > 1) {
+                    slideInterval = setInterval(() => {
+                        changeSlide(1);
+                    }, 5000);
                 }
             }
-        }
- 
-    });
 
-    // Add CSS for animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .site-header {
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .site-header.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .mobile-menu-items li {
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideInRight 0.3s ease forwards;
-        }
-        
-        @keyframes slideInRight {
-            to {
+            window.changeSlide = function(direction) {
+                if (totalSlides <= 1) return;
+                clearInterval(slideInterval);
+                slides.eq(currentSlideIndex).removeClass('active');
+                currentSlideIndex += direction;
+                if (currentSlideIndex >= totalSlides) {
+                    currentSlideIndex = 0;
+                } else if (currentSlideIndex < 0) {
+                    currentSlideIndex = totalSlides - 1;
+                }
+                slides.eq(currentSlideIndex).addClass('active');
+                $('.dot').removeClass('active');
+                $('.dot').eq(currentSlideIndex).addClass('active');
+                autoSlide();
+            };
+
+            window.currentSlide = function(slideNumber) {
+                if (totalSlides <= 1) return;
+                clearInterval(slideInterval);
+                slides.eq(currentSlideIndex).removeClass('active');
+                currentSlideIndex = slideNumber - 1;
+                slides.eq(currentSlideIndex).addClass('active');
+                $('.dot').removeClass('active');
+                $('.dot').eq(currentSlideIndex).addClass('active');
+                autoSlide();
+            };
+
+            $('.image-slider-section').hover(
+                function() { clearInterval(slideInterval); },
+                function() { autoSlide(); }
+            );
+
+            autoSlide();
+
+            // Desktop swipe support (optional)
+            let startX = 0, endX = 0;
+            $('.slider-wrapper').on('touchstart', function(e) {
+                startX = e.originalEvent.touches[0].clientX;
+            });
+            $('.slider-wrapper').on('touchend', function(e) {
+                endX = e.originalEvent.changedTouches[0].clientX;
+                const diff = startX - endX, threshold = 50;
+                if (Math.abs(diff) > threshold) {
+                    changeSlide(diff > 0 ? 1 : -1);
+                }
+            });
+        })();
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .site-header {
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .site-header.loaded {
                 opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        .cart-contents.clicked {
-            transform: scale(0.95);
-            transition: transform 0.2s ease;
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-        
-        .header-loaded .top-bar {
-            animation: slideDown 0.6s ease;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
                 transform: translateY(0);
             }
-        }
-        
-        body.menu-open {
-            overflow: hidden;
-        }
-        
-        body.search-open {
-            overflow: hidden;
-        }
-    `;
-    document.head.appendChild(style);
+            
+            .mobile-menu-items li {
+                opacity: 0;
+                transform: translateX(20px);
+                animation: slideInRight 0.3s ease forwards;
+            }
+            
+            @keyframes slideInRight {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            
+            .cart-contents.clicked {
+                transform: scale(0.95);
+                transition: transform 0.2s ease;
+            }
+            
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .header-loaded .top-bar {
+                animation: slideDown 0.6s ease;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
+            
+            body.menu-open {
+                overflow: hidden;
+            }
+            
+            body.search-open {
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(style);
+
+    });
 
 })(jQuery);

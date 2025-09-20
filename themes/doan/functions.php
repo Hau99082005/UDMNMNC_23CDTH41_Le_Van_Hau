@@ -507,9 +507,6 @@ function dln_detect_locale_from_request() {
     $supported = array(
         'vi' => 'vi',
         'en' => 'en_US',
-        'ja' => 'ja',
-        'fr' => 'fr_FR',
-        'zh' => 'zh_CN'
     );
     $locale = '';
     if (isset($_GET['lang'])) {
@@ -565,7 +562,7 @@ function dln_lang_switcher($show_labels = true) {
     $langs = array(
         'vi' => 'VI',
         'en' => 'EN',
-        'ja' => 'JA'
+     
     );
     $current_param = isset($_COOKIE['site_lang']) ? strtolower(sanitize_text_field($_COOKIE['site_lang'])) : '';
     if (!$current_param) {

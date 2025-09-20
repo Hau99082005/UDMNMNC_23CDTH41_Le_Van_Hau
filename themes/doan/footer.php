@@ -93,8 +93,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Back to top button -->
     <a href="#" id="back-to-top" class="back-to-top" aria-label="<?php esc_attr_e('Lên đầu trang', 'dulichvietnhat'); ?>">
         <i class="fas fa-arrow-up"></i>
     </a>
