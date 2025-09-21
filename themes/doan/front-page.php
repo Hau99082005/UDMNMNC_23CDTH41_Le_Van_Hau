@@ -23,32 +23,23 @@ get_header(); ?>
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <?php echo esc_html( get_theme_mod('featured_section_title', 'Bài Viết Nổi Bật') ); ?>
+                    <?php
+                    $pto = get_post_type_object( 'bai-viet-noi-bat' );
+                    $section_title = $pto && isset( $pto->labels->name ) ? $pto->labels->name : __( 'Bài Viết Nổi Bật', 'doan' );
+                    echo esc_html( $section_title );
+                    ?>
                 </h2>
-                <p>
-                    <?php echo esc_html( get_theme_mod('featured_section_subtitle', 'Những bài viết về du lịch Nhật Bản được yêu thích nhất') ); ?>
-                </p>
             </div>
             
             <div class="posts-grid">
                 <?php
-                $sticky_posts = get_option('sticky_posts');
-                if ( ! empty($sticky_posts) ) {
-                    $args = array(
-                        'post_type'           => 'post',
-                        'posts_per_page'      => 6,
-                        'post__in'            => $sticky_posts,
-                        'ignore_sticky_posts' => 1,
-                    );
-                } else {
-                    $args = array(
-                        'post_type'      => 'post',
-                        'posts_per_page' => 6,
-                        'post_status'    => 'publish',
-                        'orderby'        => 'date',
-                        'order'          => 'DESC',
-                    );
-                }
+                $args = array(
+                    'post_type'      => 'bai-viet-noi-bat',
+                    'posts_per_page' => 6,
+                    'post_status'    => 'publish',
+                    'orderby'        => 'date',
+                    'order'          => 'DESC',
+                );
                 $featured_posts = new WP_Query($args);
 
                 if ($featured_posts->have_posts()) :
@@ -69,13 +60,27 @@ get_header(); ?>
                                     </a>
                                 <?php endif; ?>
                                 <div class="post-category">
-                                    <?php
-                                    $categories = get_the_category();
-                                    if (!empty($categories) && $categories[0]->name !== 'Uncategorized') {
-                                        echo '<span class="category-tag">' . esc_html($categories[0]->name) . '</span>';
-                                    } else {
-                                        echo '<span class="category-tag">Du lịch</span>';
+                                      <?php
+                                    $term_label = '';
+                                    $tax_objects = get_object_taxonomies( get_post_type(), 'objects' );
+                                    if ( ! empty( $tax_objects ) ) {
+                                        foreach ( $tax_objects as $tax ) {
+                                            if ( ! $tax->hierarchical ) { continue; }
+                                            $terms = get_the_terms( get_the_ID(), $tax->name );
+                                            if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+                                                $term_label = $terms[0]->name;
+                                                break;
+                                            }
+                                        }
                                     }
+                        
+                                    if ( empty( $term_label ) ) {
+                                        $categories = get_the_terms( get_the_ID(), 'category' );
+                                        if ( ! is_wp_error( $categories ) && ! empty( $categories ) ) {
+                                            $term_label = $categories[0]->name;
+                                        }
+                                    }
+                                    echo '<span class="category-tag">' . esc_html( $term_label ? $term_label : 'Du lịch' ) . '</span>';
                                     ?>
                                 </div>
                             </div>
@@ -83,7 +88,7 @@ get_header(); ?>
                                 <h3 class="post-title">
                                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                 </h3>
-                               
+                                <p class="post-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '…' ) ); ?></p>
                                 <div class="post-meta">
                                     <span class="post-date">
                                         <i class="fas fa-calendar-alt"></i>
@@ -112,58 +117,43 @@ get_header(); ?>
 
   
 
-    <!-- Testimonials -->
     <section class="testimonials section-padding">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Khách hàng nói gì về chúng tôi</h2>
+                <?php $pto = get_post_type_object('diem-den'); $sec_title = $pto && isset($pto->labels->name) ? $pto->labels->name : __('Hình ảnh thực tế','doan'); ?>
+                <h2 class="section-title"><?php echo esc_html($sec_title); ?></h2>
             </div>
-            
-            <div class="testimonials-slider">
+            <div class="destinations-gallery">
                 <?php
-                $testimonials = get_posts(array(
-                    'post_type' => 'testimonial',
-                    'posts_per_page' => 3
+                $dest_q = new WP_Query(array(
+                    'post_type' => 'diem-den',
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'orderby' => 'menu_order date',
+                    'order' => 'ASC'
                 ));
-
-                if ($testimonials) :
-                    foreach ($testimonials as $testimonial) :
-                        $name = get_the_title($testimonial->ID);
-                        $content = $testimonial->post_content;
-                        $position = get_post_meta($testimonial->ID, 'position', true);
-                        $rating = get_post_meta($testimonial->ID, 'rating', true);
-                        ?>
-                        <div class="testimonial-item">
-                            <div class="testimonial-content">
-                                <?php echo wpautop($content); ?>
-                            </div>
-                            <div class="testimonial-author">
-                                <h4><?php echo esc_html($name); ?></h4>
-                                <?php if ($position) : ?>
-                                    <span class="position"><?php echo esc_html($position); ?></span>
-                                <?php endif; ?>
-                                <?php if ($rating) : ?>
-                                    <div class="rating">
-                                        <?php for ($i = 1; $i <= 5; $i++) : ?>
-                                            <i class="fas fa-star<?php echo $i <= $rating ? ' active' : ''; ?>"></i>
-                                        <?php endfor; ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <?php
-                    endforeach;
-                endif;
+                if ($dest_q->have_posts()):
+                    $tabs = array();
+                    $panels = array();
+                    $i = 0;
+                    while ($dest_q->have_posts()): $dest_q->the_post();
+                        $slug = get_post_field('post_name', get_the_ID());
+                        $is_active = $i === 0 ? ' active' : '';
+                        $tabs[] = '<button type="button" class="gallery-tab' . $is_active . '" data-target="panel-' . esc_attr($slug) . '">' . esc_html(get_the_title()) . '</button>';
+                        $imgs = array();
+                        if (function_exists('dln_get_gallery_image_ids')) { $ids = dln_get_gallery_image_ids(get_the_ID()); if ($ids) { foreach ($ids as $id) { $imgs[] = wp_get_attachment_image($id, 'large'); } } }
+                        if (empty($imgs) && has_post_thumbnail()) { $imgs[] = get_the_post_thumbnail(get_the_ID(), 'large'); }
+                        $panel = '<div class="gallery-panel' . $is_active . '" id="panel-' . esc_attr($slug) . '">';
+                        if ($imgs) { $panel .= '<div class="gallery-grid">' . implode('', $imgs) . '</div>'; } else { $panel .= '<p>' . esc_html__('Chưa có hình ảnh.', 'doan') . '</p>'; }
+                        $panel .= '</div>';
+                        $panels[] = $panel;
+                        $i++;
+                    endwhile;
+                    wp_reset_postdata();
+                    if (!empty($tabs)) { echo '<div class="gallery-tabs" role="tablist">' . implode('', $tabs) . '</div>'; }
+                    if (!empty($panels)) { echo '<div class="gallery-panels">' . implode('', $panels) . '</div>'; }
+                else echo '<p>' . esc_html__('Chưa có nội dung.', 'doan') . '</p>'; endif;
                 ?>
-            </div>
-        </div>
-    </section>
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Bạn đã sẵn sàng cho chuyến đi tiếp theo?</h2>
-                <p>Liên hệ ngay với chúng tôi để được tư vấn tour phù hợp nhất</p>
-                <a href="<?php echo esc_url(home_url('/lien-he')); ?>" class="btn btn-primary">Liên hệ ngay</a>
             </div>
         </div>
     </section>
@@ -176,6 +166,57 @@ get_header(); ?>
                 echo '<p>Vui lòng kích hoạt plugin <strong>JV Contact Form</strong> để hiển thị form liên hệ.</p>';
             }
             ?>
+        </div>
+    </section>
+    <section class="news-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <?php
+                $news_pto = post_type_exists('tin-tuc') ? get_post_type_object('tin-tuc') : null;
+                $news_title = $news_pto && isset($news_pto->labels->name) ? $news_pto->labels->name : __('Tin tức & Thông tin hữu ích','doan');
+                ?>
+                <h2 class="section-title"><?php echo esc_html($news_title); ?></h2>
+            </div>
+
+            <div class="news-grid news-slider">
+                <?php
+        
+                $pt = post_type_exists('tin-tuc') ? 'tin-tuc' : 'post';
+                $news_q = new WP_Query(array(
+                    'post_type'      => $pt,
+                    'posts_per_page' => 6,
+                    'post_status'    => 'publish',
+                    'orderby'        => 'date',
+                    'order'          => 'DESC',
+                ));
+                if ($news_q->have_posts()) :
+                    while ($news_q->have_posts()) : $news_q->the_post(); ?>
+                        <article class="news-card">
+                            <a class="news-thumb" href="<?php the_permalink(); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>">
+                                <?php if (has_post_thumbnail()) {
+                                    the_post_thumbnail('post-thumbnail-large', array('alt' => get_the_title()));
+                                } else { ?>
+                                    <span class="news-thumb--placeholder" aria-hidden="true"></span>
+                                <?php } ?>
+                                <?php
+                                $d = get_the_date('d');
+                                $m = get_the_date('m');
+                                $y = get_the_date('Y');
+                                ?>
+                                <span class="news-date-badge" aria-hidden="true"><?php echo esc_html($d . '/' . $m . '/' . $y); ?></span>
+                            </a>
+                            <div class="news-content">
+                                <h3 class="news-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                              
+                                <p class="news-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18, '…' ) ); ?></p>
+                                <a class="news-readmore" href="<?php the_permalink(); ?>"><?php esc_html_e('Đọc thêm','doan'); ?> <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </article>
+                    <?php endwhile; wp_reset_postdata();
+                else :
+                    echo '<p>' . esc_html__('Chưa có bài viết.', 'doan') . '</p>';
+                endif; ?>
+            </div>
         </div>
     </section>
 </main>

@@ -94,7 +94,6 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // Initialize any sliders
     if ($.fn.slick) {
         $('.testimonial-slider').slick({
             dots: true,
@@ -104,6 +103,25 @@ jQuery(document).ready(function($) {
             pauseOnHover: true,
             adaptiveHeight: true
         });
+
+        var $news = $('.news-slider');
+        if ($news.length && !$news.hasClass('slick-initialized')) {
+            $news.slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                infinite: false,
+                speed: 350,
+                dots: true,
+                arrows: true,
+                prevArrow: '<button type="button" class="slick-prev" aria-label="Previous">‹</button>',
+                nextArrow: '<button type="button" class="slick-next" aria-label="Next">›</button>',
+                responsive: [
+                    { breakpoint: 1200, settings: { slidesToShow: 3 } },
+                    { breakpoint: 992,  settings: { slidesToShow: 2 } },
+                    { breakpoint: 576,  settings: { slidesToShow: 1 } }
+                ]
+            });
+        }
     }
 
     // Lazy load images
@@ -135,4 +153,62 @@ jQuery(document).ready(function($) {
     }).on('blur', function() {
         $(this).parent().removeClass('focused');
     });
+
+    (function(){
+        var $wrap = $('.destinations-gallery');
+        if (!$wrap.length) return;
+        function setContainerHeight($g){
+            var $container = $g.find('.gallery-panels');
+            var $active = $container.find('.gallery-panel.active');
+            if ($active.length){
+                $container.height($active.outerHeight(true));
+            }
+        }
+        $wrap.each(function(){
+            var $g = $(this);
+            var $tabs = $g.find('.gallery-tab');
+            var $panels = $g.find('.gallery-panel');
+            if ($tabs.length && $panels.length){
+                var $firstTab = $tabs.filter('.active').eq(0);
+                if (!$firstTab.length) { $firstTab = $tabs.eq(0); }
+                var firstTarget = $firstTab.data('target');
+                $tabs.removeClass('active');
+                $panels.stop(true,true).hide().removeClass('active');
+                $firstTab.addClass('active');
+                $g.find('#'+firstTarget).stop(true,true).show().addClass('active');
+                var $firstPanel = $g.find('#'+firstTarget);
+                setTimeout(function(){ setContainerHeight($g); }, 50);
+                $firstPanel.find('img').each(function(){
+                    if (this.complete) return;
+                    $(this).one('load', function(){ setContainerHeight($g); });
+                });
+            }
+        });
+
+        $(document).on('click', '.gallery-tab', function(e){
+            e.preventDefault();
+            var $btn = $(this);
+            var $g = $btn.closest('.destinations-gallery');
+            var target = $btn.data('target');
+            if (!target) return;
+            var $container = $g.find('.gallery-panels');
+            var $target = $g.find('#'+target);
+            if (!$target.length) return;
+            $g.find('.gallery-tab').removeClass('active');
+            $btn.addClass('active');
+            var $panels = $container.find('.gallery-panel');
+            $panels.stop(true,true).hide().removeClass('active');
+            $target.stop(true,true).fadeIn(250).addClass('active');
+            setTimeout(function(){ setContainerHeight($g); }, 50);
+            $target.find('img').each(function(){
+                if (this.complete) return;
+                $(this).one('load', function(){ setContainerHeight($g); });
+            });
+            return false;
+        });
+
+        $(window).on('resize', function(){
+            $wrap.each(function(){ setContainerHeight($(this)); });
+        });
+    })();
 });

@@ -123,6 +123,33 @@ function dulichvietnhat_widgets_init() {
 }
 add_action('widgets_init', 'dulichvietnhat_widgets_init');
 
+add_action('acf/init', function () {
+    // Thêm "Taxonomy Term" vào danh sách Location Rules
+    add_filter('acf/location/rule_types', function ($choices) {
+        $choices['Taxonomy']['taxonomy_term'] = 'Taxonomy Term';
+        return $choices;
+    });
+
+    // Liệt kê các taxonomy có trong site
+    add_filter('acf/location/rule_values/taxonomy_term', function ($choices) {
+        $taxonomies = get_taxonomies([], 'objects');
+        foreach ($taxonomies as $taxonomy) {
+            $choices[$taxonomy->name] = $taxonomy->label;
+        }
+        return $choices;
+    });
+
+    // Match taxonomy khi chọn rule
+    add_filter('acf/location/rule_match/taxonomy_term', function ($match, $rule, $options) {
+        if (isset($options['taxonomy']) && $options['taxonomy'] == $rule['value']) {
+            $match = true;
+        }
+        return $match;
+    }, 10, 3);
+});
+
+
+
 /**
  * Enqueue scripts and styles.
  */
@@ -133,6 +160,9 @@ function dulichvietnhat_scripts() {
 
     // Ensure Font Awesome is available for header icons
     wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css', array(), '6.5.0');
+
+    // Bootstrap CSS for components (e.g., Carousel)
+    wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.css', array(), _S_VERSION);
 
     $assets = array(
         'header-css'              => '/assets/css/header.css',
@@ -146,15 +176,51 @@ function dulichvietnhat_scripts() {
         $path = get_stylesheet_directory() . $rel;
         if (file_exists($path)) {
             $ver = filemtime($path);
-            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('dulichvietnhat-style','fontawesome'), $ver);
+            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('dulichvietnhat-style','fontawesome','bootstrap-css'), $ver);
         }
     }
 
-    // Enqueue icon-fix.css if present
+    
     $icon_fix = get_stylesheet_directory() . '/assets/css/icon-fix.css';
     if (file_exists($icon_fix)) {
         wp_enqueue_style('icon-fix', get_stylesheet_directory_uri() . '/assets/css/icon-fix.css', array('fontawesome'), filemtime($icon_fix));
     }
+    wp_enqueue_style('slick-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css', array(), '1.8.1');
+    wp_enqueue_style('slick-theme-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', array('slick-css'), '1.8.1');
+    wp_enqueue_script('slick-js', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js', array('jquery'), '1.8.1', true);
+
+    $news_slider_init = <<<'JS'
+(function($){
+  $(function(){
+    var $el = $('.news-grid.news-slider');
+    if(!$el.length) return;
+    if($el.hasClass('slick-initialized')) return;
+    $el.slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      infinite: false,
+      speed: 500,
+      cssEase: 'cubic-bezier(.22,.61,.36,1)',
+      autoplay: true,
+      autoplaySpeed: 3500,
+      pauseOnHover: true,
+      swipeToSlide: true,
+      touchThreshold: 12,
+      adaptiveHeight: false,
+      arrows: true,
+      dots: true,
+      prevArrow: '<button type="button" class="slick-prev" aria-label="Previous" title="Previous">\n         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n           <path d="M15 18L9 12L15 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>\n         </svg>\n       </button>',
+      nextArrow: '<button type="button" class="slick-next" aria-label="Next" title="Next">\n         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n           <path d="M9 6L15 12L9 18" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>\n         </svg>\n       </button>',
+      responsive: [
+        { breakpoint: 1280, settings: { slidesToShow: 3 } },
+        { breakpoint: 992,  settings: { slidesToShow: 2 } },
+        { breakpoint: 576,  settings: { slidesToShow: 1 } }
+      ]
+    });
+  });
+})(jQuery);
+JS;
+     wp_add_inline_script('slick-js', $news_slider_init);
 
     wp_enqueue_script('jquery');
     wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
@@ -387,6 +453,14 @@ function dulichvietnhat_excerpt_more($more) {
     return '...';
 }
 add_filter('excerpt_more', 'dulichvietnhat_excerpt_more');
+
+// Ensure external CPTs like 'slider' support thumbnails (featured images)
+add_action('init', function(){
+    if (post_type_exists('slider')) {
+        add_post_type_support('slider', array('thumbnail', 'title', 'editor')); 
+    }
+}, 20);
+
 function add_tour_rewrite_rules() {
     add_rewrite_rule(
         '^tour-7-ngay-6-dem/?$',
@@ -606,15 +680,12 @@ function dln_ensure_temp_dir() {
     }
 }
 add_action('init', 'dln_ensure_temp_dir', 0);
-
-// On local environment only, relax SSL verification for WordPress.org endpoints to avoid cURL CA issues on localhost
 function dln_relax_ssl_on_local($args, $url) {
     if (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local') {
         $host = parse_url($url, PHP_URL_HOST);
         if (in_array($host, array('api.wordpress.org','downloads.wordpress.org','wordpress.org'), true)) {
-            $args['sslverify'] = false; // local-only fallback; fix php.ini CA for production
+            $args['sslverify'] = false; 
         }
-        // Also raise timeout for slow Windows cURL on localhost
         if (empty($args['timeout']) || $args['timeout'] < 60) {
             $args['timeout'] = 60;
         }
@@ -622,3 +693,73 @@ function dln_relax_ssl_on_local($args, $url) {
     return $args;
 }
 add_filter('http_request_args', 'dln_relax_ssl_on_local', 10, 2);
+
+add_action('add_meta_boxes', function(){
+    $pts = get_post_types(array('public' => true), 'names');
+    foreach ($pts as $pt) {
+        add_meta_box('dln_gallery_metabox', __('Gallery', 'dulichvietnhat'), 'dln_gallery_metabox_html', $pt, 'normal', 'default');
+    }
+});
+
+function dln_gallery_metabox_html($post){
+    $ids = get_post_meta($post->ID, '_dln_gallery_ids', true);
+    $ids = is_array($ids) ? $ids : array();
+    wp_nonce_field('dln_gallery_save', 'dln_gallery_nonce');
+    echo '<div class="dln-gallery-wrapper">';
+    echo '<input type="hidden" class="dln-gallery-ids" name="dln_gallery_ids" value="' . esc_attr(implode(',', array_map('intval', $ids))) . '">';
+    echo '<div class="dln-gallery-items" style="display:flex;gap:10px;flex-wrap:wrap;">';
+    foreach ($ids as $id) {
+        $thumb = wp_get_attachment_image($id, 'thumbnail', false, array('style' => 'border:1px solid #ddd;border-radius:4px;'));
+        echo '<div class="dln-gallery-item" data-id="' . intval($id) . '" style="position:relative">' . $thumb . '<button type="button" class="button-link dln-remove" style="position:absolute;top:-6px;right:-6px;background:#fff;border:1px solid #ddd;border-radius:50%;width:22px;height:22px;line-height:20px;text-align:center;">×</button></div>';
+    }
+    echo '</div>';
+    echo '<p><button type="button" class="button button-primary dln-gallery-add">' . esc_html__('Add Images', 'dulichvietnhat') . '</button> ';
+    echo '<button type="button" class="button dln-gallery-clear">' . esc_html__('Clear', 'dulichvietnhat') . '</button></p>';
+    echo '</div>';
+}
+
+add_action('save_post', function($post_id){
+    if (!isset($_POST['dln_gallery_nonce']) || !wp_verify_nonce($_POST['dln_gallery_nonce'], 'dln_gallery_save')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    $raw = isset($_POST['dln_gallery_ids']) ? sanitize_text_field($_POST['dln_gallery_ids']) : '';
+    $ids = $raw ? array_filter(array_map('intval', array_map('trim', explode(',', $raw)))) : array();
+    update_post_meta($post_id, '_dln_gallery_ids', $ids);
+});
+
+add_action('admin_enqueue_scripts', function($hook){
+    if ($hook !== 'post.php' && $hook !== 'post-new.php') return;
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (!$screen) return;
+    wp_enqueue_media();
+    wp_enqueue_script('jquery');
+    add_action('admin_print_footer_scripts', function(){ ?>
+        <script>
+        (function($){var f;function u(w){var a=[];w.find('.dln-gallery-item').each(function(){a.push($(this).data('id'));});w.find('.dln-gallery-ids').val(a.join(','));}
+        $(document).on('click','.dln-gallery-add',function(e){e.preventDefault();var $wrap=$(this).closest('.dln-gallery-wrapper');if(!f){f=wp.media({title:'<?php echo esc_js(__('Select images','dulichvietnhat')); ?>',multiple:true,library:{type:'image'}});}f.off('select');f.on('select',function(){var s=f.state().get('selection'),w=$wrap;s.each(function(att){att=att.toJSON();var h='<div class="dln-gallery-item" data-id="'+att.id+'" style="position:relative">'+
+        '<img src="'+(att.sizes&&att.sizes.thumbnail?att.sizes.thumbnail.url:att.url)+'" style="border:1px solid #ddd;border-radius:4px;" />'+
+        '<button type="button" class="button-link dln-remove" style="position:absolute;top:-6px;right:-6px;background:#fff;border:1px solid #ddd;border-radius:50%;width:22px;height:22px;line-height:20px;text-align:center;">×</button>'+
+        '</div>';w.find('.dln-gallery-items').append(h);});u($wrap);});f.open();});
+        $(document).on('click','.dln-gallery-item .dln-remove',function(){var $wrap=$(this).closest('.dln-gallery-wrapper');$(this).closest('.dln-gallery-item').remove();u($wrap);});
+        $(document).on('click','.dln-gallery-clear',function(){var $wrap=$(this).closest('.dln-gallery-wrapper');$wrap.find('.dln-gallery-items').empty();u($wrap);});})(jQuery);
+        </script>
+        <style>
+            #dln-gallery-wrapper .dln-gallery-item img{display:block;width:100px;height:100px;object-fit:cover}
+        </style>
+    <?php });
+});
+
+function dln_get_gallery_image_ids($post_id = null){
+    $post_id = $post_id ? $post_id : get_the_ID();
+    $ids = get_post_meta($post_id, '_dln_gallery_ids', true);
+    return is_array($ids) ? array_map('intval', $ids) : array();
+}
+
+function dln_render_gallery($post_id = null){
+    $ids = dln_get_gallery_image_ids($post_id);
+    if (empty($ids)) return '';
+    $html = '<div class="dln-gallery">';
+    foreach ($ids as $id){ $html .= '<a href="' . esc_url(wp_get_attachment_url($id)) . '" class="dln-gallery-link">' . wp_get_attachment_image($id, 'large') . '</a>'; }
+    $html .= '</div>';
+    return $html;
+}
