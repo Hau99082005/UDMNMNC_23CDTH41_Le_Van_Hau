@@ -1,7 +1,8 @@
 <?php
 
 if (!defined('_S_VERSION')) {
-    define('_S_VERSION', '2.0.0'); // MAJOR version bump - force complete reload
+    // Force cache bust - use timestamp + random
+    define('_S_VERSION', '99.' . time()); // FINAL: Removed ALL duplicate CSS - Only header.php
 }
 
 function dulichvietnhat_setup() {
@@ -209,69 +210,76 @@ function dulichvietnhat_scripts() {
     $style_version = file_exists($style_path) ? filemtime($style_path) : _S_VERSION;
     wp_enqueue_style('dulichvietnhat-style', get_stylesheet_uri(), array(), $style_version);
     
-    // Add critical CSS inline
-    wp_add_inline_style('dulichvietnhat-style', $critical_css);
+    // Add ULTRA critical CSS inline - icons + search + gallery
+    $ultra_critical = '
+        /* FontAwesome icons force display */
+        .fas,.far,.fab,i[class*="fa-"]{font-family:"Font Awesome 6 Free"!important;font-weight:900;display:inline-block!important;visibility:visible!important;opacity:1!important;}
+        .fab{font-family:"Font Awesome 6 Brands"!important;font-weight:400!important;}
+        
+        /* Search overlay emergency fix */
+        .search-overlay.active{display:flex!important;position:fixed!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;z-index:999999!important;background:rgba(0,0,0,0.85)!important;opacity:1!important;visibility:visible!important;}
+        
+        /* Gallery tabs clickable */
+        .gallery-tab{cursor:pointer!important;pointer-events:auto!important;z-index:100!important;}
+        .gallery-panel{display:none!important;}
+        .gallery-panel.active{display:block!important;}
+    ';
     
-    // FontAwesome - CRITICAL - Load in HEAD with highest priority
-    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css', array(), '6.5.0');
+    wp_add_inline_style('dulichvietnhat-style', $critical_css . $ultra_critical);
     
-    // Fallback: Load từ nhiều nguồn để chắc chắn
-    wp_add_inline_style('fontawesome', '
-        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
-        .fas,.far,.fab{font-family:"Font Awesome 6 Free","Font Awesome 6 Brands"!important;font-weight:900;display:inline-block!important}
-        .fab{font-weight:400!important}
-    ');
+    // FontAwesome - REMOVED from here (already in header.php to prevent duplicates)
     
-    // Font Display Fix - Optimize font loading
-    $font_display_fix_path = get_stylesheet_directory() . '/assets/css/font-display-fix.css';
-    if (file_exists($font_display_fix_path)) {
-        wp_enqueue_style('font-display-fix', get_stylesheet_directory_uri() . '/assets/css/font-display-fix.css', array('fontawesome'), filemtime($font_display_fix_path), 'all');
-    }
+    // Font Display Fix - Skip to avoid duplicate FontAwesome
+    // Removed - FontAwesome already in header.php
     
-    // Use Bootstrap min version instead of full (saves ~100KB)
+    // ============================================
+    // CRITICAL: DEQUEUE ALL CONFLICTING CSS
+    // ONLY KEEP ESSENTIAL: Bootstrap + Inline CSS
+    // ============================================
+    
+    // Use Bootstrap min version (ONLY THIS)
     wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), _S_VERSION);
-
-    // CRITICAL CSS - Load normally (NO DEFER) to prevent layout breaking
-    $assets = array(
-        'header-css'              => '/assets/css/header.css',
+    
+    // MODERN CSS - Now in header.php directly (NO DUPLICATE HERE)
+    // Removed duplicate CSS (lines 244-652) - All styles are in header.php now
+    
+    // Continue with essential CSS - ALL CSS NOW IN HEADER.PHP
+    
+    // DEQUEUE ALL CONFLICTING CSS FILES (INCLUDING MAIN.CSS)
+    add_action('wp_enqueue_scripts', function() {
+        // Remove ALL CSS that conflicts with inline styles
+        wp_dequeue_style('dulichvietnhat-main'); // MAIN CSS CONFLICTS!
+        wp_dequeue_style('header-css');
+        wp_dequeue_style('header-clean');
+        wp_dequeue_style('header-override-css');
+        wp_dequeue_style('comprehensive-layout-fix');
+        wp_dequeue_style('mobile-responsive-fix');
+        wp_dequeue_style('responsive-layout-pro');
+        wp_dequeue_style('professional-layout');
+        wp_dequeue_style('mobile-first-layout');
+        wp_dequeue_style('professional-upgrade');
+        wp_dequeue_style('responsive-enhancements');
+        wp_dequeue_style('premium-design');
+        wp_dequeue_style('slider-enhancements');
+    }, 999);
+    
+    // ONLY LOAD ESSENTIAL CSS (NOT HEADER-RELATED)
+    $essential_css = array(
         'banner-css'              => '/assets/css/banner.css',
         'featured-posts-css'      => '/assets/css/featured-posts.css',
         'featured-tours-css'      => '/assets/css/featured-tours.css',
-        'placeholder-images-css'  => '/assets/css/placeholder-images.css',
-        'tour-pages-css'          => '/assets/css/tour-pages.css'
     );
     
-    foreach ($assets as $handle => $rel) {
+    foreach ($essential_css as $handle => $rel) {
         $path = get_stylesheet_directory() . $rel;
         if (file_exists($path)) {
             $ver = filemtime($path);
-            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('dulichvietnhat-style','fontawesome','bootstrap-css'), $ver);
+            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array('bootstrap-css'), $ver);
         }
     }
 
-    // DEFER ALL ENHANCEMENT CSS - Load after page render
-    $enhancement_styles = array(
-        'professional-upgrade' => '/assets/css/professional-upgrade.css',
-        'responsive-enhancements' => '/assets/css/responsive-enhancements.css',
-        'premium-design' => '/assets/css/premium-design.css',
-        'slider-enhancements' => '/assets/css/slider-enhancements.css',
-        'professional-layout' => '/assets/css/professional-layout.css',
-        'image-fix-override' => '/assets/css/image-fix-override.css',
-        'instant-load' => '/assets/css/instant-load.css',
-        'force-clear-blur' => '/assets/css/force-clear-blur.css',
-        'mobile-first-layout' => '/assets/css/mobile-first-layout.css'
-    );
-    
-    foreach ($enhancement_styles as $handle => $rel) {
-        $path = get_stylesheet_directory() . $rel;
-        if (file_exists($path)) {
-            $ver = filemtime($path);
-            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array(), $ver, 'all');
-            wp_style_add_data($handle, 'defer', true);
-        }
-    }
-
-    // Balanced optimization đã được gộp vào mobile-first-layout.css
+    // DISABLED ALL ENHANCEMENT CSS - They cause conflicts with inline styles
+    // All critical styles are now inline in wp_head
 
     // Enqueue search page CSS for search results
     if (is_search()) {
@@ -291,10 +299,7 @@ function dulichvietnhat_scripts() {
     }
 
     
-    $icon_fix = get_stylesheet_directory() . '/assets/css/icon-fix.css';
-    if (file_exists($icon_fix)) {
-        wp_enqueue_style('icon-fix', get_stylesheet_directory_uri() . '/assets/css/icon-fix.css', array('fontawesome'), filemtime($icon_fix));
-    }
+    // Icon fix removed - not needed anymore
     // Slick slider - Load async/defer để không block render
     wp_enqueue_style('slick-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css', array(), '1.8.1', 'all');
     wp_enqueue_style('slick-theme-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', array('slick-css'), '1.8.1', 'all');
@@ -340,6 +345,12 @@ JS;
     
     // Header JS - Always needed for navigation
     wp_enqueue_script('header-js', get_template_directory_uri() . '/assets/js/header.js', array('jquery'), _S_VERSION, true);
+    
+    // Modern Header Effects - Pure JavaScript (no jQuery)
+    $modern_header_js = get_template_directory() . '/assets/js/modern-header.js';
+    if (file_exists($modern_header_js)) {
+        wp_enqueue_script('modern-header', get_template_directory_uri() . '/assets/js/modern-header.js', array(), _S_VERSION, true);
+    }
     
     // Main JS - Always needed
     wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
@@ -388,27 +399,11 @@ JS;
         }
     }
 
-    // CONDITIONAL: Mobile menu CSS & JS - Always needed for responsive
-    $mobile_menu_css_path = get_stylesheet_directory() . '/assets/css/mobile-menu-pro.css';
-    if (file_exists($mobile_menu_css_path)) {
-        wp_enqueue_style('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/css/mobile-menu-pro.css', array('mobile-first-layout'), filemtime($mobile_menu_css_path));
-    }
+    // CSS đã enqueue ở enhancement_styles - load JS only
     
     $mobile_menu_js_path = get_stylesheet_directory() . '/assets/js/mobile-menu-pro.js';
     if (file_exists($mobile_menu_js_path)) {
         wp_enqueue_script('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/js/mobile-menu-pro.js', array('jquery'), filemtime($mobile_menu_js_path), true);
-    }
-
-    // Search overlay CSS & JS - HIGHEST PRIORITY
-    $search_overlay_css_path = get_stylesheet_directory() . '/assets/css/search-overlay-fix.css';
-    if (file_exists($search_overlay_css_path)) {
-        wp_enqueue_style('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/css/search-overlay-fix.css', array(), filemtime($search_overlay_css_path));
-    }
-    
-    // Search Overlay Ultra Fix - Load LAST to override everything
-    $search_ultra_fix_path = get_stylesheet_directory() . '/assets/css/search-overlay-ultra-fix.css';
-    if (file_exists($search_ultra_fix_path)) {
-        wp_enqueue_style('search-overlay-ultra-fix', get_stylesheet_directory_uri() . '/assets/css/search-overlay-ultra-fix.css', array('search-overlay-fix'), filemtime($search_ultra_fix_path));
     }
     
     $search_overlay_js_path = get_stylesheet_directory() . '/assets/js/search-overlay-fix.js';
@@ -416,47 +411,9 @@ JS;
         wp_enqueue_script('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/js/search-overlay-fix.js', array('jquery'), filemtime($search_overlay_js_path), true);
     }
 
-    // Gallery accessibility - Load on front page and pages with gallery
     $gallery_a11y_js_path = get_stylesheet_directory() . '/assets/js/gallery-accessibility.js';
     if (file_exists($gallery_a11y_js_path)) {
-        // Always load on front page (has gallery tabs)
         wp_enqueue_script('gallery-accessibility', get_stylesheet_directory_uri() . '/assets/js/gallery-accessibility.js', array(), filemtime($gallery_a11y_js_path), true);
-    }
-
-    // Gallery tabs CSS fix
-    $gallery_tabs_fix_path = get_stylesheet_directory() . '/assets/css/gallery-tabs-fix.css';
-    if (file_exists($gallery_tabs_fix_path)) {
-        wp_enqueue_style('gallery-tabs-fix', get_stylesheet_directory_uri() . '/assets/css/gallery-tabs-fix.css', array(), filemtime($gallery_tabs_fix_path), 'all');
-    }
-    
-    // Mobile responsive fix - user icon and banner
-    $mobile_responsive_fix_path = get_stylesheet_directory() . '/assets/css/mobile-responsive-fix.css';
-    if (file_exists($mobile_responsive_fix_path)) {
-        wp_enqueue_style('mobile-responsive-fix', get_stylesheet_directory_uri() . '/assets/css/mobile-responsive-fix.css', array(), filemtime($mobile_responsive_fix_path), 'all');
-    }
-    
-    // FORCE ICONS VISIBLE - Emergency fix for all icons
-    $force_icons_path = get_stylesheet_directory() . '/assets/css/force-icons-visible.css';
-    if (file_exists($force_icons_path)) {
-        wp_enqueue_style('force-icons-visible', get_stylesheet_directory_uri() . '/assets/css/force-icons-visible.css', array('fontawesome'), filemtime($force_icons_path), 'all');
-    }
-    
-    // Professional Responsive Layout - Like dulichvietnhat.vn
-    $responsive_pro_path = get_stylesheet_directory() . '/assets/css/responsive-layout-pro.css';
-    if (file_exists($responsive_pro_path)) {
-        wp_enqueue_style('responsive-layout-pro', get_stylesheet_directory_uri() . '/assets/css/responsive-layout-pro.css', array(), filemtime($responsive_pro_path), 'all');
-    }
-    
-    // FINAL FIX ALL - One CSS to fix everything (HIGHEST PRIORITY)
-    $final_fix_path = get_stylesheet_directory() . '/assets/css/final-fix-all.css';
-    if (file_exists($final_fix_path)) {
-        wp_enqueue_style('final-fix-all', get_stylesheet_directory_uri() . '/assets/css/final-fix-all.css', array(), filemtime($final_fix_path), 'all');
-    }
-    
-    // Floating Contact Buttons Fix - Responsive
-    $floating_contact_fix = get_stylesheet_directory() . '/assets/css/floating-contact-fix.css';
-    if (file_exists($floating_contact_fix)) {
-        wp_enqueue_style('floating-contact-fix', get_stylesheet_directory_uri() . '/assets/css/floating-contact-fix.css', array(), filemtime($floating_contact_fix), 'all');
     }
 
     // CONDITIONAL: Slick slider fixes - Only if Slick is used (front page with news slider)
@@ -498,29 +455,7 @@ JS;
         wp_add_inline_script('form-accessibility', $inline_fix, 'before');
     }
 
-    // Enqueue color contrast fix CSS - WCAG AA compliant
-    $color_contrast_path = get_stylesheet_directory() . '/assets/css/color-contrast-fix.css';
-    if (file_exists($color_contrast_path)) {
-        wp_enqueue_style('color-contrast-fix', get_stylesheet_directory_uri() . '/assets/css/color-contrast-fix.css', array(), filemtime($color_contrast_path), 'all');
-    }
-    
-    // Enqueue form accessibility fix CSS - WCAG 2.1 Level AA
-    $form_a11y_css_path = get_stylesheet_directory() . '/assets/css/form-accessibility-fix.css';
-    if (file_exists($form_a11y_css_path)) {
-        wp_enqueue_style('form-accessibility-fix', get_stylesheet_directory_uri() . '/assets/css/form-accessibility-fix.css', array(), filemtime($form_a11y_css_path), 'all');
-    }
-    
-    // Enqueue modal text fix CSS - Ensure text is visible in modals/popups
-    $modal_text_fix_path = get_stylesheet_directory() . '/assets/css/modal-text-fix.css';
-    if (file_exists($modal_text_fix_path)) {
-        wp_enqueue_style('modal-text-fix', get_stylesheet_directory_uri() . '/assets/css/modal-text-fix.css', array(), filemtime($modal_text_fix_path), 'all');
-    }
-    
-    // TEMPORARY DISABLE no-loading-final.css - It's breaking search overlay
-    // $no_loading_final_path = get_stylesheet_directory() . '/assets/css/no-loading-final.css';
-    // if (file_exists($no_loading_final_path)) {
-    //     wp_enqueue_style('no-loading-final', get_stylesheet_directory_uri() . '/assets/css/no-loading-final.css', array(), filemtime($no_loading_final_path), 'all');
-    // }
+    // CSS đã được enqueue ở trên trong enhancement_styles - skip duplicates
 
     // Only enqueue comment reply if needed
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -530,25 +465,21 @@ JS;
     $main_path = get_stylesheet_directory() . '/main.css';
     if (file_exists($main_path)) {
         $main_version = filemtime($main_path);
-        wp_enqueue_style('dulichvietnhat-main', get_stylesheet_directory_uri() . '/main.css', array('dulichvietnhat-style','header-css','banner-css','featured-posts-css','featured-tours-css'), $main_version);
+        // main.css loads AFTER header-clean to prevent override
+        $deps = array('dulichvietnhat-style','bootstrap-css');
+        if (wp_style_is('header-clean', 'registered') || wp_style_is('header-clean', 'enqueued')) {
+            $deps[] = 'header-clean';
+        }
+        wp_enqueue_style('dulichvietnhat-main', get_stylesheet_directory_uri() . '/main.css', $deps, $main_version);
+        
         $overlay_fix_css = '.posts-grid .post-category,.post-card .post-category,.tour-card .post-category,.card .post-category,.category-tag,.post-badge,.image-badge{display:none!important}.post-thumbnail .overlay,.post-thumbnail::before,.post-thumbnail::after,.post-thumbnail .post-category,.post-image::before,.post-image::after,.tour-image::before,.tour-image::after,.destination-image::before,.destination-image::after,.entry-media::before,.entry-media::after{content:none!important;display:none!important;background:transparent!important;opacity:0!important}.post-thumbnail img,.post-image img,.tour-image img,.destination-image img,.entry-media img{filter:none!important;opacity:1!important}.custom-logo{max-height:48px;width:auto;height:auto}.site-header .logo-text{margin-left:10px;display:inline-block;vertical-align:middle}';
         wp_add_inline_style('dulichvietnhat-main', $overlay_fix_css);
     }
 
     // All CSS files have been restored for full functionality
 
-    // Enqueue header-override.css LAST so it can override previous styles (depends on main if present)
-    $header_override_path = get_stylesheet_directory() . '/assets/css/header-override.css';
-    if (file_exists($header_override_path)) {
-        $deps = array('dulichvietnhat-style','fontawesome','bootstrap-css');
-        if (wp_style_is('dulichvietnhat-main', 'registered') || wp_style_is('dulichvietnhat-main', 'enqueued')) {
-            $deps[] = 'dulichvietnhat-main';
-        } else {
-            // still ensure it comes after header.css
-            $deps[] = 'header-css';
-        }
-        wp_enqueue_style('header-override-css', get_stylesheet_directory_uri() . '/assets/css/header-override.css', $deps, filemtime($header_override_path));
-    }
+    // DISABLED header-override.css - conflicts with inline header CSS
+    // Using inline CSS in wp_head with priority 1 instead
     
     // Enqueue tour pages stylesheet last so it overrides where needed
     $tour_pages_css = get_stylesheet_directory() . '/assets/css/tour-pages.css';
@@ -565,44 +496,34 @@ JS;
 }
 add_action('wp_enqueue_scripts', 'dulichvietnhat_scripts', 100);
 
-// DEFER ONLY NON-CRITICAL CSS - Keep layout CSS normal to prevent breaking
+// DEFER CHỈ Slick CSS - Không defer layout CSS
 add_filter('style_loader_tag', function($html, $handle, $href, $media) {
-    // Critical styles that must load normally (NO DEFER)
-    $critical_styles = array(
-        'fontawesome',              // Icons must show immediately
+    // KHÔNG BAO GIỜ DEFER - Critical layout styles
+    $never_defer = array(
         'dulichvietnhat-style',
-        'dulichvietnhat-main',
         'bootstrap-css',
+        'header-clean',           // NEW: Header clean CSS
+        'comprehensive-layout-fix',
         'header-css',
-        'banner-css',
-        'featured-posts-css',
-        'featured-tours-css',
-        'tour-pages-css',
-        'mobile-menu-pro',
-        'search-overlay-fix',
-        'search-overlay-ultra-fix',
-        'gallery-tabs-fix',
-        'modal-text-fix'
+        'dulichvietnhat-main'
     );
     
-    // Skip critical styles - load normally
-    if (in_array($handle, $critical_styles)) {
-        return $html;
+    if (in_array($handle, $never_defer)) {
+        return $html; // Load normally
     }
     
-    // Only defer optional/enhancement styles
-    $defer_styles = array(
+    // CHỈ defer Slick slider CSS (không cần cho initial render)
+    $defer_only = array(
         'slick-css',
-        'slick-theme-css',
-        'icon-fix',
-        'search-page'
+        'slick-theme-css'
     );
     
-    if (in_array($handle, $defer_styles)) {
-        // Use preload + onload trick
+    if (in_array($handle, $defer_only)) {
+        // Async load - không block render
         return '<link rel="preload" as="style" href="' . esc_url($href) . '" onload="this.onload=null;this.rel=\'stylesheet\'" media="print"><noscript><link rel="stylesheet" href="' . esc_url($href) . '"></noscript>';
     }
     
+    // Load tất cả CSS khác normally để tránh vỡ layout
     return $html;
 }, 10, 4);
 
@@ -987,29 +908,16 @@ function dulichvietnhat_kill_thumbnail_overlays_css() {
 }
 add_action('wp_head', 'dulichvietnhat_kill_thumbnail_overlays_css', 999);
 
-// ULTRA CRITICAL - Force show search overlay + gallery tabs clickable in <head>
+// DEBUG: Show which CSS files are loaded
 add_action('wp_head', function() {
-    ?>
-    <style id="emergency-fix-all">
-    /* Search Overlay */
-    .search-overlay.active{display:flex!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;opacity:1!important;visibility:visible!important;z-index:999999!important;background:rgba(0,0,0,0.85)!important;align-items:center!important;justify-content:center!important}
-    .search-overlay.active .search-overlay-content{display:block!important;visibility:visible!important;opacity:1!important;background:#ffffff!important;border-radius:20px!important;width:90%!important;max-width:600px!important;padding:0!important;position:relative!important;z-index:1000000!important}
-    .search-overlay.active .search-header{display:flex!important;visibility:visible!important;opacity:1!important;padding:24px 28px!important;border-bottom:1px solid #f3f4f6!important}
-    .search-overlay.active .search-header h3{display:block!important;visibility:visible!important;opacity:1!important;color:#1f2937!important;font-size:24px!important;font-weight:700!important;margin:0!important}
-    .search-overlay.active .search-close{display:flex!important;visibility:visible!important;width:44px!important;height:44px!important;background:#f3f4f6!important;border:none!important;border-radius:10px!important;color:#6b7280!important;cursor:pointer!important}
-    .search-overlay.active .search-form-wrapper{display:block!important;visibility:visible!important;opacity:1!important;padding:28px!important;background:#ffffff!important}
-    .search-overlay.active .search-form{display:block!important;visibility:visible!important;opacity:1!important}
-    .search-overlay.active .search-field,
-    .search-overlay.active input[type="search"]{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;padding:16px 20px!important;font-size:16px!important;border:2px solid #e5e7eb!important;border-radius:12px!important;background:#f9fafb!important;color:#1f2937!important}
-    .search-overlay.active .search-submit{display:inline-block!important;margin-top:16px!important;padding:12px 32px!important;background:#ef4444!important;color:#fff!important;border:none!important;border-radius:10px!important}
-    
-    /* Gallery Tabs - FORCE CLICKABLE */
-    .gallery-tab{cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:100!important;user-select:none!important}
-    .gallery-panel{display:none!important}
-    .gallery-panel.active{display:block!important;opacity:1!important;visibility:visible!important}
-    </style>
-    <?php
-}, 1);
+    if (current_user_can('administrator')) {
+        echo '<!-- CSS Load Order Debug -->' . "\n";
+        echo '<!-- header-clean.css: ' . (wp_style_is('header-clean', 'enqueued') ? 'LOADED' : 'NOT LOADED') . ' -->' . "\n";
+        echo '<!-- main.css: ' . (wp_style_is('dulichvietnhat-main', 'enqueued') ? 'LOADED' : 'NOT LOADED') . ' -->' . "\n";
+    }
+}, 999);
+
+// REMOVED - All critical CSS now in header.php directly (no duplicate)
 
 function dulichvietnhat_strip_overlays_dom() {
     ?>

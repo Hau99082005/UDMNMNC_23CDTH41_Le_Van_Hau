@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Close button (X) clicked');
             closeMenu();
         });
-        console.log('Close button found and initialized');
+        console.log('✅ Close button found and initialized');
     } else {
-        console.error('Close button NOT found');
+        console.log('ℹ️ Close button not found (probably not on this page)');
     }
     
     // Overlay click
