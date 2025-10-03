@@ -142,11 +142,6 @@ jQuery(document).ready(function($) {
         $('body').addClass('no-touch');
     }
 
-    // Handle preloader
-    $(window).on('load', function() {
-        $('.preloader').fadeOut('slow');
-    });
-
     // Add focus class to form elements
     $('input, textarea, select').on('focus', function() {
         $(this).parent().addClass('focused');

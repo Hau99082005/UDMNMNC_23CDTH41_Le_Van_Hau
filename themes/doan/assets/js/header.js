@@ -250,6 +250,25 @@
             }
         });
 
+        // Mobile submenu toggle for 'Lịch khởi hành'
+        $('.mobile-menu-items').on('click', '.mobile-sub-toggle', function(e){
+            e.preventDefault();
+            const $btn = $(this);
+            const $li = $btn.closest('li.has-sub');
+            const $sub = $li.find('> .mobile-sub-menu');
+            const expanded = $btn.attr('aria-expanded') === 'true';
+
+            // close others
+            $('.mobile-menu-items li.has-sub').not($li).removeClass('open').find('> .mobile-sub-menu').slideUp(180);
+            $('.mobile-menu-items .mobile-sub-toggle').not($btn).attr('aria-expanded','false').find('i').removeClass('rotated');
+
+            // toggle current
+            $li.toggleClass('open');
+            $sub.stop(true, true).slideToggle(180);
+            $btn.attr('aria-expanded', expanded ? 'false' : 'true');
+            $btn.find('i').toggleClass('rotated');
+        });
+
         // Initialize animations on load
         setTimeout(function() {
             $('.site-header').addClass('loaded');
@@ -334,6 +353,21 @@
             });
         })();
 
+        // Mobile: user icon goes directly to account page
+        $(document).on('click', '.header-actions .header-user, .header-actions .header-user .user-menu-toggle', function(e){
+            if (window.matchMedia('(max-width: 768px)').matches) {
+                var $t = $(this);
+                var url = $t.data('account-url') || $t.attr('href');
+                if (!url && $t.closest('.user-menu').length) {
+                    url = $t.closest('.user-menu').find('.user-menu-toggle').data('account-url');
+                }
+                if (url) {
+                    e.preventDefault();
+                    window.location.href = url;
+                }
+            }
+        });
+
         // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
@@ -400,6 +434,32 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Toggle user menu dropdown (event delegation; runs immediately)
+        (function(){
+          function getMenu(){ return document.querySelector('.user-menu'); }
+          function closeMenu(){ var m=getMenu(); if(!m) return; var t=m.querySelector('.user-menu-toggle'); m.classList.remove('open'); if(t) t.setAttribute('aria-expanded','false'); }
+          document.addEventListener('click', function(e){
+            var btn = e.target.closest('.user-menu-toggle');
+            var menu = getMenu();
+            if(btn && menu){
+              e.preventDefault(); e.stopPropagation();
+              // On mobile, go straight to account page
+              if (window.innerWidth <= 768) {
+                var accountUrl = btn.getAttribute('data-account-url');
+                if (accountUrl) { window.location.href = accountUrl; return; }
+              }
+              var expanded = btn.getAttribute('aria-expanded') === 'true';
+              if(expanded){ closeMenu(); }
+              else { menu.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+              return;
+            }
+            if(menu && !e.target.closest('.user-menu')){ closeMenu(); }
+          });
+          document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
+          // Ensure dropdown overlays any parent
+          var s=document.createElement('style'); s.textContent=".user-menu{position:relative} .user-menu-dropdown{z-index:10000}"; document.head.appendChild(s);
+        })();
 
     });
 

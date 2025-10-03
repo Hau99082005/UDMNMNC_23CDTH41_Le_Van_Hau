@@ -20,9 +20,6 @@
         
         // Initialize video banner
         initVideoBanner();
-        
-        // Initialize loading screen
-        initLoadingScreen();
     });
 
     /**
@@ -297,29 +294,6 @@
         }
     }
 
-    /**
-     * Initialize loading screen
-     */
-    function initLoadingScreen() {
-        // Add loading screen
-        const $loadingScreen = $(`
-            <div class="banner-loading">
-                <div class="loading-spinner"></div>
-            </div>
-        `);
-        
-        $('body').prepend($loadingScreen);
-        
-        // Hide loading screen when page is loaded
-        $(window).on('load', function() {
-            setTimeout(() => {
-                $loadingScreen.addClass('hidden');
-                setTimeout(() => {
-                    $loadingScreen.remove();
-                }, 500);
-            }, 1000);
-        });
-    }
 
     /**
      * Add smooth scrolling

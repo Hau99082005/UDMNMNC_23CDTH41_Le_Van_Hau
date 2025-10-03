@@ -4,8 +4,10 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <?php wp_head(); ?>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body <?php body_class(); ?>>
@@ -37,11 +39,35 @@
                     <button class="search-toggle" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
-                    <?php $account_url = is_user_logged_in() ? admin_url('profile.php') : wp_login_url(); ?>
-                    <a href="<?php echo esc_url($account_url); ?>" class="user-icon topbar-user" aria-label="Tài khoản">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <?php if (function_exists('dln_lang_switcher')) { echo dln_lang_switcher(true); } ?>
+                    <?php 
+                        $acc_page = get_page_by_path('tai-khoan');
+                        $account_url = $acc_page ? get_permalink($acc_page) : ( is_user_logged_in() ? admin_url('profile.php') : wp_login_url() );
+                    ?>
+                    <?php if ( is_user_logged_in() ) : ?>
+                        <div class="user-menu">
+                            <button class="user-icon topbar-user user-menu-toggle" aria-label="Tài khoản" aria-expanded="false" data-account-url="<?php echo esc_attr($account_url); ?>">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="user-menu-dropdown" role="menu" aria-label="User menu">
+                                <li role="none"><a role="menuitem" href="<?php echo esc_url($account_url); ?>"><?php esc_html_e('Tài khoản của tôi','doan'); ?></a></li>
+                                <?php if ( current_user_can('edit_posts') ) : ?>
+                                    <li role="none"><a role="menuitem" href="<?php echo esc_url( admin_url() ); ?>"><?php esc_html_e('Bảng điều khiển','doan'); ?></a></li>
+                                <?php endif; ?>
+                                <li role="none"><a role="menuitem" href="<?php echo esc_url( wp_logout_url( home_url('/') ) ); ?>"><?php esc_html_e('Đăng xuất','doan'); ?></a></li>
+                            </ul>
+                        </div>
+                    <?php else : ?>
+                        <a href="<?php echo esc_url($account_url); ?>" class="user-icon topbar-user" aria-label="Tài khoản">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    <?php endif; ?>
+                    <?php 
+                        if (function_exists('pll_the_languages') && function_exists('dln_poly_switcher')) {
+                            echo dln_poly_switcher(true);
+                        } elseif (function_exists('dln_lang_switcher')) {
+                            echo dln_lang_switcher(true);
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -100,6 +126,26 @@
                     <a href="<?php echo esc_url(home_url('/dang-ky-tu-van')); ?>" class="consultation-btn">
                         <?php esc_html_e('Đăng ký tư vấn','doan'); ?>
                     </a>
+                    
+                    <?php if ( is_user_logged_in() ) : ?>
+                        <div class="user-menu header-user">
+                            <button class="user-icon topbar-user user-menu-toggle" aria-label="Tài khoản" aria-expanded="false" data-account-url="<?php echo esc_attr($account_url); ?>">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="user-menu-dropdown" role="menu" aria-label="User menu">
+                                <li role="none"><a role="menuitem" href="<?php echo esc_url($account_url); ?>"><?php esc_html_e('Tài khoản của tôi','doan'); ?></a></li>
+                                <?php if ( current_user_can('edit_posts') ) : ?>
+                                    <li role="none"><a role="menuitem" href="<?php echo esc_url( admin_url() ); ?>"><?php esc_html_e('Bảng điều khiển','doan'); ?></a></li>
+                                <?php endif; ?>
+                                <li role="none"><a role="menuitem" href="<?php echo esc_url( wp_logout_url( home_url('/') ) ); ?>"><?php esc_html_e('Đăng xuất','doan'); ?></a></li>
+                            </ul>
+                        </div>
+                    <?php else : ?>
+                        <a href="<?php echo esc_url($account_url); ?>" class="user-icon topbar-user header-user" aria-label="Tài khoản">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    <?php endif; ?>
+
                     <button class="menu-toggle" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="hamburger">
                             <span class="hamburger-line"></span>
@@ -135,7 +181,16 @@
             <ul class="mobile-menu-items">
                 <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Trang chủ','doan'); ?></a></li>
                 <li><a href="<?php echo esc_url(home_url('/kham-pha-nhat-ban')); ?>"><?php esc_html_e('Khám phá Nhật Bản','doan'); ?></a></li>
-                <li><a href="<?php echo esc_url(home_url('/lich-khoi-hanh')); ?>"><?php esc_html_e('Lịch khởi hành','doan'); ?></a></li>
+                <li class="has-sub">
+                    <a href="<?php echo esc_url(home_url('/lich-khoi-hanh')); ?>"><?php esc_html_e('Lịch khởi hành','doan'); ?></a>
+                    <button class="mobile-sub-toggle" aria-label="Mở danh mục" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                    <ul class="mobile-sub-menu">
+                        <li><a href="<?php echo esc_url(home_url('/tour-nhat-ban-mua-thu-2025')); ?>"><?php esc_html_e('Tour Nhật Bản Mùa Thu 2025','doan'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/tour-7-ngay-6-dem')); ?>"><?php esc_html_e('Tour 7 ngày 6 đêm','doan'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/tour-6-ngay-5-dem')); ?>"><?php esc_html_e('Tour 6 ngày 5 đêm','doan'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/tour-5-ngay-4-dem')); ?>"><?php esc_html_e('Tour 5 ngày 4 đêm','doan'); ?></a></li>
+                    </ul>
+                </li>
                 <li><a href="<?php echo esc_url(home_url('/hinh-anh-thuc-te')); ?>"><?php esc_html_e('Hình ảnh thực tế','doan'); ?></a></li>
                 <li><a href="<?php echo esc_url(home_url('/dang-ky-tu-van')); ?>" class="mobile-consultation-btn"><?php esc_html_e('Đăng ký tư vấn','doan'); ?></a></li>
             </ul>
@@ -157,7 +212,17 @@
         </div>
     </div>
 
-    <?php if ( ! is_single() && ! is_search() && ! is_page('lich-khoi-hanh') ) : ?>
+    <?php if ( ! is_single() && ! is_search() && ! is_page('lich-khoi-hanh') && ! is_page('dang-ky-tu-van') 
+    && ! is_page('hinh-anh-thuc-te')
+    && ! is_page('kham-pha-nhat-ban')
+    && ! is_page('tour-nhat-ban-mua-thu-2025')
+    && ! is_page('tour-7-ngay-6-dem')
+    && ! is_page('tour-6-ngay-5-dem')
+    && ! is_page('tour-5-ngay-4-dem')
+    && ! is_page_template('page-dang-ky-tu-van.php')  
+    && ! is_page_template('page-tai-khoan.php') 
+    && ! is_page('tai-khoan') 
+     ) : ?>
       
         <section id="image-slider" class="image-slider-section">
             <?php

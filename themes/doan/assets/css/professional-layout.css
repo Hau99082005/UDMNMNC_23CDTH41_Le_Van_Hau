@@ -1,0 +1,718 @@
+/**
+ * Professional Layout System
+ * Modern, clean, and beautiful layout for Du Lịch Việt Nhật
+ */
+
+/* ========================================
+   CONTAINER & WRAPPER IMPROVEMENTS
+   ======================================== */
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+}
+
+@media (min-width: 1536px) {
+    .container {
+        max-width: 1400px;
+        padding: 0 40px;
+    }
+}
+
+.site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-content {
+    flex: 1;
+    padding-top: 0;
+}
+
+/* ========================================
+   MODERN HEADER LAYOUT
+   ======================================== */
+
+.site-header {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-header.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    gap: 40px;
+}
+
+.site-branding {
+    flex-shrink: 0;
+}
+
+.main-navigation {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.primary-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.primary-menu > li > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.primary-menu > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 20px;
+    height: 3px;
+    background: linear-gradient(90deg, #ef4444, #f97316);
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+}
+
+.primary-menu > li > a:hover,
+.primary-menu > li > a.current-menu-item {
+    color: #ef4444;
+    background: #fef2f2;
+}
+
+.primary-menu > li > a:hover::after,
+.primary-menu > li > a.current-menu-item::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.consultation-btn {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.consultation-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    color: white;
+}
+
+/* ========================================
+   SECTION LAYOUTS
+   ======================================== */
+
+.section-padding {
+    padding: 96px 0;
+    position: relative;
+}
+
+.section-padding:first-of-type {
+    padding-top: 80px;
+}
+
+.section-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 64px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 16px;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 5px;
+    background: linear-gradient(90deg, #ef4444 0%, #f97316 100%);
+    border-radius: 3px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.section-subtitle {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin-top: 24px;
+}
+
+/* ========================================
+   PREMIUM GRID SYSTEM
+   ======================================== */
+
+.posts-grid,
+.tours-grid,
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 2 columns at tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .posts-grid,
+    .tours-grid,
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+    }
+}
+
+/* 3 columns at desktop */
+@media (min-width: 1024px) {
+    .posts-grid,
+    .tours-grid,
+    .news-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+}
+
+/* 4 columns at large desktop */
+@media (min-width: 1536px) {
+    .posts-grid,
+    .tours-grid,
+    .news-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 48px;
+    }
+}
+
+/* ========================================
+   ENHANCED CARD LAYOUT
+   ======================================== */
+
+.post-card,
+.tour-card,
+.news-card,
+.destination-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 8px 24px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.post-card::before,
+.tour-card::before,
+.news-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ef4444, #f97316);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.post-card:hover::before,
+.tour-card:hover::before,
+.news-card:hover::before {
+    transform: scaleX(1);
+}
+
+.post-card:hover,
+.tour-card:hover,
+.news-card:hover,
+.destination-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.06),
+        0 24px 48px rgba(0, 0, 0, 0.12);
+    border-color: rgba(239, 68, 68, 0.1);
+}
+
+.post-content,
+.tour-content,
+.news-content,
+.destination-content,
+.tour-info {
+    padding: 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ========================================
+   MODERN FOOTER LAYOUT
+   ======================================== */
+
+.site-footer {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: #d1d5db;
+    margin-top: auto;
+}
+
+.footer-main {
+    padding: 80px 0 40px;
+}
+
+.footer-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 48px;
+    margin-bottom: 60px;
+}
+
+.footer-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-widget .widget-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #ef4444;
+    display: inline-block;
+}
+
+.footer-widget ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-widget a {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+}
+
+.footer-widget a:hover {
+    color: white;
+    transform: translateX(4px);
+}
+
+.footer-bottom {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 24px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.copyright {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.payment-icons {
+    display: flex;
+    gap: 16px;
+    font-size: 28px;
+    color: #6b7280;
+}
+
+.payment-icons i {
+    transition: color 0.2s ease;
+}
+
+.payment-icons i:hover {
+    color: white;
+}
+
+/* ========================================
+   BREADCRUMB LAYOUT
+   ======================================== */
+
+.breadcrumb {
+    padding: 20px 0;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-nav a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-nav a:hover {
+    color: #ef4444;
+}
+
+.breadcrumb-nav span {
+    color: #9ca3af;
+}
+
+.breadcrumb-nav .current {
+    color: #111827;
+    font-weight: 600;
+}
+
+/* ========================================
+   GALLERY LAYOUT
+   ======================================== */
+
+.destinations-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.gallery-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 8px;
+    background: #f9fafb;
+    border-radius: 16px;
+}
+
+.gallery-tab {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6b7280;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-tab:hover {
+    background: white;
+    color: #ef4444;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.gallery-tab.active {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-color: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.gallery-panels {
+    min-height: 400px;
+}
+
+.gallery-panel {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.gallery-panel.active {
+    display: block;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   BACK TO TOP BUTTON
+   ======================================== */
+
+.back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 999;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE LAYOUT
+   ======================================== */
+
+@media (max-width: 1023px) {
+    .main-navigation {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .section-padding {
+        padding: 64px 0;
+    }
+
+    .section-header {
+        margin-bottom: 48px;
+    }
+
+    .posts-grid,
+    .tours-grid,
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .post-content,
+    .tour-content,
+    .news-content {
+        padding: 20px;
+    }
+
+    .header-wrapper {
+        padding: 12px 0;
+    }
+
+    .footer-widgets {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .footer-bottom-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+}
+
+/* ========================================
+   SPACING UTILITIES
+   ======================================== */
+
+.py-large { padding-top: 96px; padding-bottom: 96px; }
+.py-medium { padding-top: 64px; padding-bottom: 64px; }
+.py-small { padding-top: 32px; padding-bottom: 32px; }
+
+.my-large { margin-top: 96px; margin-bottom: 96px; }
+.my-medium { margin-top: 64px; margin-bottom: 64px; }
+.my-small { margin-top: 32px; margin-bottom: 32px; }
+
+/* ========================================
+   NO LOADING SCREENS
+   ======================================== */
+
+/* Remove all loading overlays */
+.preloader,
+.loader,
+.loading-screen,
+.loading-overlay,
+.banner-loading {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Ensure content shows immediately */
+body {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.site-content,
+.site-main {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+}
+
+/* ========================================
+   SMOOTH ENTRANCE ANIMATION (OPTIONAL)
+   ======================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+    .post-card,
+    .tour-card,
+    .news-card {
+        animation: cardEntrance 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+    }
+
+    .post-card:nth-child(1) { animation-delay: 0.05s; }
+    .post-card:nth-child(2) { animation-delay: 0.1s; }
+    .post-card:nth-child(3) { animation-delay: 0.15s; }
+    .post-card:nth-child(4) { animation-delay: 0.2s; }
+    .post-card:nth-child(5) { animation-delay: 0.25s; }
+    .post-card:nth-child(6) { animation-delay: 0.3s; }
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .site-header,
+    .site-footer,
+    .back-to-top,
+    .consultation-btn,
+    .mobile-menu {
+        display: none !important;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    .post-card,
+    .tour-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #e5e7eb;
+    }
+}
+

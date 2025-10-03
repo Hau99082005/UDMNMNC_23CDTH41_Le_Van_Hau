@@ -20,11 +20,14 @@ if (!function_exists('doan_highlight')) {
 ?>
 
 <main id="primary" class="site-main">
-    <section class="section-padding bg-light">
+    <section class="section-padding">
         <div class="container">
             <div class="section-title">
-                <h2><?php printf(esc_html__('Kết quả cho: “%s”', 'dulichvietnhat'), esc_html($search_query)); ?></h2>
-                <p><?php echo esc_html__('Các nội dung khớp với từ khóa bạn tìm.', 'dulichvietnhat'); ?></p>
+                <h2><?php printf(esc_html__('Kết quả tìm kiếm: "%s"', 'dulichvietnhat'), esc_html($search_query)); ?></h2>
+                <p><?php 
+                    $post_count = $wp_query->found_posts;
+                    printf(esc_html__('Tìm thấy %d kết quả phù hợp', 'dulichvietnhat'), $post_count);
+                ?></p>
             </div>
 
             <?php if (have_posts()) : ?>
@@ -76,11 +79,8 @@ if (!function_exists('doan_highlight')) {
                                 </p>
 
                                 <div class="tour-footer">
-                                    <a class="btn btn-outline" href="<?php the_permalink(); ?>">
-                                        <?php echo esc_html__('Xem chi tiết', 'dulichvietnhat'); ?> <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
                                     <a class="btn" href="<?php the_permalink(); ?>">
-                                        <?php echo esc_html__('Đọc tiếp', 'dulichvietnhat'); ?>
+                                        <?php echo esc_html__('Xem chi tiết', 'dulichvietnhat'); ?> <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
