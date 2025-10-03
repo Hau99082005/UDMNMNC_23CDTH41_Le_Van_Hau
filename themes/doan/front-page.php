@@ -139,11 +139,13 @@ get_header(); ?>
                     while ($dest_q->have_posts()): $dest_q->the_post();
                         $slug = get_post_field('post_name', get_the_ID());
                         $is_active = $i === 0 ? ' active' : '';
-                        $tabs[] = '<button type="button" class="gallery-tab' . $is_active . '" data-target="panel-' . esc_attr($slug) . '">' . esc_html(get_the_title()) . '</button>';
+                        $aria_selected = $i === 0 ? 'true' : 'false';
+                        $tabs[] = '<button type="button" role="tab" class="gallery-tab' . $is_active . '" id="tab-' . esc_attr($slug) . '" data-target="panel-' . esc_attr($slug) . '" aria-selected="' . $aria_selected . '" aria-controls="panel-' . esc_attr($slug) . '" tabindex="' . ($i === 0 ? '0' : '-1') . '">' . esc_html(get_the_title()) . '</button>';
                         $imgs = array();
                         if (function_exists('dln_get_gallery_image_ids')) { $ids = dln_get_gallery_image_ids(get_the_ID()); if ($ids) { foreach ($ids as $id) { $imgs[] = wp_get_attachment_image($id, 'large'); } } }
                         if (empty($imgs) && has_post_thumbnail()) { $imgs[] = get_the_post_thumbnail(get_the_ID(), 'large'); }
-                        $panel = '<div class="gallery-panel' . $is_active . '" id="panel-' . esc_attr($slug) . '">';
+                        $hidden = $i === 0 ? 'false' : 'true';
+                        $panel = '<div class="gallery-panel' . $is_active . '" role="tabpanel" id="panel-' . esc_attr($slug) . '" aria-labelledby="tab-' . esc_attr($slug) . '" aria-hidden="' . $hidden . '" tabindex="0">';
                         if ($imgs) { $panel .= '<div class="gallery-grid">' . implode('', $imgs) . '</div>'; } else { $panel .= '<p>' . esc_html__('Chưa có hình ảnh.', 'doan') . '</p>'; }
                         $panel .= '</div>';
                         $panels[] = $panel;

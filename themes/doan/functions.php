@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('_S_VERSION')) {
-    define('_S_VERSION', '1.0.0');
+    define('_S_VERSION', '2.0.0'); // MAJOR version bump - force complete reload
 }
 
 function dulichvietnhat_setup() {
@@ -185,17 +185,24 @@ function register_consultation_post_type() {
 add_action('init', 'register_consultation_post_type');
 
 function dulichvietnhat_scripts() {
-    // Critical CSS - Inline for performance
+    // Critical CSS - Inline for performance + FORCE CLEAR BLUR + NO LOADING
     $critical_css = '
         :root{--primary:#ef4444;--accent:#f97316;--gray-900:#111827;--white:#ffffff;--font-base:Inter,sans-serif}
         *{box-sizing:border-box}
-        body{font-family:var(--font-base);margin:0;padding:0;color:var(--gray-900);background:var(--white)}
+        body,html{font-family:var(--font-base);margin:0;padding:0;color:var(--gray-900);background:var(--white);opacity:1!important;visibility:visible!important}
         .site-header{position:relative;z-index:1000;background:var(--white);box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
-        .post-thumbnail,.tour-thumbnail{position:relative;width:100%;height:0;padding-bottom:62.5%;overflow:hidden}
-        .post-thumbnail img,.tour-thumbnail img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
-        .preloader,.loader,.loading,.banner-loading{display:none!important}
-        body,.site-content,.site-main{opacity:1!important;visibility:visible!important}
+        .post-thumbnail,.tour-thumbnail,.tour-image{position:relative;width:100%;height:0;padding-bottom:62.5%;overflow:hidden}
+        .post-thumbnail img,.tour-thumbnail img,.tour-image img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;opacity:1!important}
+        .tour-image::before,.tour-image::after,.post-thumbnail::before,.post-thumbnail::after{content:none!important;display:none!important}
+        .preloader,.loader,.loading,.loading-screen,.banner-loading,.spinner,[class*="loading"]{display:none!important;opacity:0!important;visibility:hidden!important}
+        body,.site,.site-content,.site-main,main,section,article,img{opacity:1!important;visibility:visible!important;animation:none!important}
     ';
+    
+    // Remove WordPress block library CSS (saves 114KB!)
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('wc-block-style');
+    wp_dequeue_style('global-styles');
     
     // Enqueue only essential styles
     $style_path = get_stylesheet_directory() . '/style.css';
@@ -205,18 +212,35 @@ function dulichvietnhat_scripts() {
     // Add critical CSS inline
     wp_add_inline_style('dulichvietnhat-style', $critical_css);
     
-    // Enqueue essential CSS files that were removed
+    // FontAwesome - CRITICAL - Load in HEAD with highest priority
     wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css', array(), '6.5.0');
-    wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.css', array(), _S_VERSION);
+    
+    // Fallback: Load từ nhiều nguồn để chắc chắn
+    wp_add_inline_style('fontawesome', '
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        .fas,.far,.fab{font-family:"Font Awesome 6 Free","Font Awesome 6 Brands"!important;font-weight:900;display:inline-block!important}
+        .fab{font-weight:400!important}
+    ');
+    
+    // Font Display Fix - Optimize font loading
+    $font_display_fix_path = get_stylesheet_directory() . '/assets/css/font-display-fix.css';
+    if (file_exists($font_display_fix_path)) {
+        wp_enqueue_style('font-display-fix', get_stylesheet_directory_uri() . '/assets/css/font-display-fix.css', array('fontawesome'), filemtime($font_display_fix_path), 'all');
+    }
+    
+    // Use Bootstrap min version instead of full (saves ~100KB)
+    wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), _S_VERSION);
 
+    // CRITICAL CSS - Load normally (NO DEFER) to prevent layout breaking
     $assets = array(
         'header-css'              => '/assets/css/header.css',
         'banner-css'              => '/assets/css/banner.css',
         'featured-posts-css'      => '/assets/css/featured-posts.css',
         'featured-tours-css'      => '/assets/css/featured-tours.css',
         'placeholder-images-css'  => '/assets/css/placeholder-images.css',
-        'tour-pages-css'          =>  '/assets/css/tour-pages.css'
+        'tour-pages-css'          => '/assets/css/tour-pages.css'
     );
+    
     foreach ($assets as $handle => $rel) {
         $path = get_stylesheet_directory() . $rel;
         if (file_exists($path)) {
@@ -225,75 +249,44 @@ function dulichvietnhat_scripts() {
         }
     }
 
-    // Enqueue professional upgrade CSS files
-    $professional_upgrade_path = get_stylesheet_directory() . '/assets/css/professional-upgrade.css';
-    if (file_exists($professional_upgrade_path)) {
-        $professional_upgrade_version = filemtime($professional_upgrade_path);
-        wp_enqueue_style('professional-upgrade', get_stylesheet_directory_uri() . '/assets/css/professional-upgrade.css', array('dulichvietnhat-main'), $professional_upgrade_version);
+    // DEFER ALL ENHANCEMENT CSS - Load after page render
+    $enhancement_styles = array(
+        'professional-upgrade' => '/assets/css/professional-upgrade.css',
+        'responsive-enhancements' => '/assets/css/responsive-enhancements.css',
+        'premium-design' => '/assets/css/premium-design.css',
+        'slider-enhancements' => '/assets/css/slider-enhancements.css',
+        'professional-layout' => '/assets/css/professional-layout.css',
+        'image-fix-override' => '/assets/css/image-fix-override.css',
+        'instant-load' => '/assets/css/instant-load.css',
+        'force-clear-blur' => '/assets/css/force-clear-blur.css',
+        'mobile-first-layout' => '/assets/css/mobile-first-layout.css'
+    );
+    
+    foreach ($enhancement_styles as $handle => $rel) {
+        $path = get_stylesheet_directory() . $rel;
+        if (file_exists($path)) {
+            $ver = filemtime($path);
+            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $rel, array(), $ver, 'all');
+            wp_style_add_data($handle, 'defer', true);
+        }
     }
 
-    // Enqueue responsive enhancements CSS
-    $responsive_enhancements_path = get_stylesheet_directory() . '/assets/css/responsive-enhancements.css';
-    if (file_exists($responsive_enhancements_path)) {
-        $responsive_enhancements_version = filemtime($responsive_enhancements_path);
-        wp_enqueue_style('responsive-enhancements', get_stylesheet_directory_uri() . '/assets/css/responsive-enhancements.css', array('professional-upgrade'), $responsive_enhancements_version);
-    }
-
-    // Enqueue premium design CSS
-    $premium_design_path = get_stylesheet_directory() . '/assets/css/premium-design.css';
-    if (file_exists($premium_design_path)) {
-        $premium_design_version = filemtime($premium_design_path);
-        wp_enqueue_style('premium-design', get_stylesheet_directory_uri() . '/assets/css/premium-design.css', array('responsive-enhancements'), $premium_design_version);
-    }
-
-    // Enqueue slider enhancements CSS
-    $slider_enhancements_path = get_stylesheet_directory() . '/assets/css/slider-enhancements.css';
-    if (file_exists($slider_enhancements_path)) {
-        $slider_enhancements_version = filemtime($slider_enhancements_path);
-        wp_enqueue_style('slider-enhancements', get_stylesheet_directory_uri() . '/assets/css/slider-enhancements.css', array('premium-design'), $slider_enhancements_version);
-    }
-
-    // Enqueue professional layout CSS
-    $professional_layout_path = get_stylesheet_directory() . '/assets/css/professional-layout.css';
-    if (file_exists($professional_layout_path)) {
-        $professional_layout_version = filemtime($professional_layout_path);
-        wp_enqueue_style('professional-layout', get_stylesheet_directory_uri() . '/assets/css/professional-layout.css', array('slider-enhancements'), $professional_layout_version);
-    }
-
-    // Enqueue image fix override CSS
-    $image_fix_path = get_stylesheet_directory() . '/assets/css/image-fix-override.css';
-    if (file_exists($image_fix_path)) {
-        $image_fix_version = filemtime($image_fix_path);
-        wp_enqueue_style('image-fix-override', get_stylesheet_directory_uri() . '/assets/css/image-fix-override.css', array('professional-layout'), $image_fix_version);
-    }
-
-    // Enqueue no loading CSS
-    $no_loading_path = get_stylesheet_directory() . '/assets/css/no-loading.css';
-    if (file_exists($no_loading_path)) {
-        $no_loading_version = filemtime($no_loading_path);
-        wp_enqueue_style('no-loading', get_stylesheet_directory_uri() . '/assets/css/no-loading.css', array('image-fix-override'), $no_loading_version);
-    }
-
-    // Enqueue balanced optimization CSS - Final layer for performance
-    $balanced_opt_path = get_stylesheet_directory() . '/assets/css/balanced-optimization.css';
-    if (file_exists($balanced_opt_path)) {
-        $balanced_opt_version = filemtime($balanced_opt_path);
-        wp_enqueue_style('balanced-optimization', get_stylesheet_directory_uri() . '/assets/css/balanced-optimization.css', array('no-loading'), $balanced_opt_version);
-    }
+    // Balanced optimization đã được gộp vào mobile-first-layout.css
 
     // Enqueue search page CSS for search results
     if (is_search()) {
         $search_page_path = get_stylesheet_directory() . '/assets/css/search-page.css';
         if (file_exists($search_page_path)) {
             $search_page_version = filemtime($search_page_path);
-            wp_enqueue_style('search-page', get_stylesheet_directory_uri() . '/assets/css/search-page.css', array('balanced-optimization'), $search_page_version);
+            wp_enqueue_style('search-page', get_stylesheet_directory_uri() . '/assets/css/search-page.css', array(), $search_page_version);
             
-            // Critical inline CSS to force remove blur
-            $search_critical_css = '
-                body.search .tour-image,body.search .tour-image img,body.search .post-thumbnail,body.search .post-thumbnail img,.search .tour-image,.search .tour-image img,.search .post-thumbnail,.search .post-thumbnail img{filter:none!important;-webkit-filter:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;visibility:visible!important}
-                body.search .tour-image::before,body.search .tour-image::after,body.search .tour-image .overlay,.search .tour-image::before,.search .tour-image::after,.search .tour-image .overlay{content:none!important;display:none!important;opacity:0!important;visibility:hidden!important;background:none!important}
+            // ULTRA CRITICAL inline CSS - HIGHEST PRIORITY to force remove ALL blur/overlay
+            $search_ultra_critical_css = '
+                body.search *,body.search-results *,.search *,.search-results *{filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+                body.search .tour-card,body.search .tour-image,body.search .tour-image *,body.search .tour-image img,body.search .post-thumbnail,body.search .post-thumbnail *,body.search .post-thumbnail img,body.search-results .tour-card,body.search-results .tour-image,body.search-results .tour-image *,body.search-results .tour-image img,body.search-results .post-thumbnail,body.search-results .post-thumbnail *,body.search-results .post-thumbnail img,.search .tour-card,.search .tour-image,.search .tour-image *,.search .tour-image img,.search .post-thumbnail,.search .post-thumbnail *,.search .post-thumbnail img,.search-results .tour-card,.search-results .tour-image,.search-results .tour-image *,.search-results .tour-image img,.search-results .post-thumbnail,.search-results .post-thumbnail *,.search-results .post-thumbnail img{filter:none!important;-webkit-filter:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;visibility:visible!important;transform:none!important;-webkit-transform:none!important;display:block!important}
+                body.search .tour-image::before,body.search .tour-image::after,body.search .tour-image .overlay,body.search .tour-image [class*="overlay"],body.search .tour-image [class*="mask"],body.search .post-thumbnail::before,body.search .post-thumbnail::after,body.search .post-thumbnail .overlay,body.search .post-thumbnail [class*="overlay"],body.search .post-thumbnail [class*="mask"],body.search-results .tour-image::before,body.search-results .tour-image::after,body.search-results .tour-image .overlay,body.search-results .tour-image [class*="overlay"],body.search-results .tour-image [class*="mask"],body.search-results .post-thumbnail::before,body.search-results .post-thumbnail::after,body.search-results .post-thumbnail .overlay,body.search-results .post-thumbnail [class*="overlay"],body.search-results .post-thumbnail [class*="mask"],.search .tour-image::before,.search .tour-image::after,.search .tour-image .overlay,.search .tour-image [class*="overlay"],. .tour-image [class*="mask"],.search .post-thumbnail::before,.search .post-thumbnail::after,.search .post-thumbnail .overlay,.search .post-thumbnail [class*="overlay"],.search .post-thumbnail [class*="mask"],.search-results .tour-image::before,.search-results .tour-image::after,.search-results .tour-image .overlay,.search-results .tour-image [class*="overlay"],.search-results .tour-image [class*="mask"],.search-results .post-thumbnail::before,.search-results .post-thumbnail::after,.search-results .post-thumbnail .overlay,.search-results .post-thumbnail [class*="overlay"],.search-results .post-thumbnail [class*="mask"]{content:none!important;display:none!important;opacity:0!important;visibility:hidden!important;background:none!important;position:absolute!important;width:0!important;height:0!important;z-index:-9999!important}
             ';
-            wp_add_inline_style('search-page', $search_critical_css);
+            wp_add_inline_style('search-page', $search_ultra_critical_css);
         }
     }
 
@@ -302,9 +295,9 @@ function dulichvietnhat_scripts() {
     if (file_exists($icon_fix)) {
         wp_enqueue_style('icon-fix', get_stylesheet_directory_uri() . '/assets/css/icon-fix.css', array('fontawesome'), filemtime($icon_fix));
     }
-    wp_enqueue_style('slick-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css', array(), '1.8.1');
-    wp_enqueue_style('slick-theme-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', array('slick-css'), '1.8.1');
-    wp_enqueue_script('slick-js', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js', array('jquery'), '1.8.1', true);
+    // Slick slider - Load async/defer để không block render
+    wp_enqueue_style('slick-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css', array(), '1.8.1', 'all');
+    wp_enqueue_style('slick-theme-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', array('slick-css'), '1.8.1', 'all');
 
     $news_slider_init = <<<'JS'
 (function($){
@@ -326,6 +319,7 @@ function dulichvietnhat_scripts() {
       adaptiveHeight: false,
       arrows: true,
       dots: true,
+      accessibility: false,
       prevArrow: '<button type="button" class="slick-prev" aria-label="Previous" title="Previous">\n         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n           <path d="M15 18L9 12L15 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>\n         </svg>\n       </button>',
       nextArrow: '<button type="button" class="slick-next" aria-label="Next" title="Next">\n         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n           <path d="M9 6L15 12L9 18" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>\n         </svg>\n       </button>',
       responsive: [
@@ -339,12 +333,40 @@ function dulichvietnhat_scripts() {
 JS;
      wp_add_inline_script('slick-js', $news_slider_init);
 
+    // Load jQuery from WordPress (in footer for better performance)
     wp_enqueue_script('jquery');
-    wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
-    wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.bundle.js', array('jquery'), _S_VERSION, true);
+    
+    // CONDITIONAL JAVASCRIPT LOADING - Only load what's needed
+    
+    // Header JS - Always needed for navigation
     wp_enqueue_script('header-js', get_template_directory_uri() . '/assets/js/header.js', array('jquery'), _S_VERSION, true);
-    wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', array('jquery'), _S_VERSION, true);
+    
+    // Main JS - Always needed
+    wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
+    
+    // Custom JS - Always needed
     wp_enqueue_script('dulichvietnhat-custom-js', get_template_directory_uri() . '/assets/js/custom.js', array('jquery'), _S_VERSION, true);
+    
+    // Bootstrap JS - Only load if needed (modals, dropdowns, etc.)
+    // Most pages don't need Bootstrap JS, only load on specific pages
+    $needs_bootstrap = false;
+    
+    // Check if current page needs Bootstrap JS
+    if (is_singular('tour') || is_page(array('dang-ky-tu-van', 'tai-khoan')) || is_search()) {
+        $needs_bootstrap = true;
+    }
+    
+    // Apply filter to allow other code to enable Bootstrap
+    $needs_bootstrap = apply_filters('dulichvietnhat_needs_bootstrap_js', $needs_bootstrap);
+    
+    if ($needs_bootstrap) {
+        wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.bundle.js', array('jquery'), _S_VERSION, true);
+    }
+    
+    // Banner JS - Only on front page
+    if (is_front_page()) {
+        wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', array('jquery'), _S_VERSION, true);
+    }
 
     wp_localize_script('dulichvietnhat-custom-js', 'dulichvietnhatSettings', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -352,25 +374,153 @@ JS;
         'isMobile' => wp_is_mobile(),
     ));
 
-    // Enqueue Professional Enhancements JS
+    // CONDITIONAL: Professional Enhancements JS - Only if file exists
     $professional_js_path = get_stylesheet_directory() . '/assets/js/professional-enhancements.js';
     if (file_exists($professional_js_path)) {
         wp_enqueue_script('professional-enhancements', get_stylesheet_directory_uri() . '/assets/js/professional-enhancements.js', array('jquery'), filemtime($professional_js_path), true);
     }
 
-    // Enqueue Balanced Optimization JS - Final optimization layer
-    $balanced_js_path = get_stylesheet_directory() . '/assets/js/balanced-optimization.js';
-    if (file_exists($balanced_js_path)) {
-        wp_enqueue_script('balanced-optimization', get_stylesheet_directory_uri() . '/assets/js/balanced-optimization.js', array('jquery'), filemtime($balanced_js_path), true);
-    }
-
-    // Enqueue search page JS for search results
+    // CONDITIONAL: Search page JS - Only on search results
     if (is_search()) {
         $search_page_js_path = get_stylesheet_directory() . '/assets/js/search-page.js';
         if (file_exists($search_page_js_path)) {
             wp_enqueue_script('search-page-js', get_stylesheet_directory_uri() . '/assets/js/search-page.js', array('jquery'), filemtime($search_page_js_path), true);
         }
     }
+
+    // CONDITIONAL: Mobile menu CSS & JS - Always needed for responsive
+    $mobile_menu_css_path = get_stylesheet_directory() . '/assets/css/mobile-menu-pro.css';
+    if (file_exists($mobile_menu_css_path)) {
+        wp_enqueue_style('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/css/mobile-menu-pro.css', array('mobile-first-layout'), filemtime($mobile_menu_css_path));
+    }
+    
+    $mobile_menu_js_path = get_stylesheet_directory() . '/assets/js/mobile-menu-pro.js';
+    if (file_exists($mobile_menu_js_path)) {
+        wp_enqueue_script('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/js/mobile-menu-pro.js', array('jquery'), filemtime($mobile_menu_js_path), true);
+    }
+
+    // Search overlay CSS & JS - HIGHEST PRIORITY
+    $search_overlay_css_path = get_stylesheet_directory() . '/assets/css/search-overlay-fix.css';
+    if (file_exists($search_overlay_css_path)) {
+        wp_enqueue_style('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/css/search-overlay-fix.css', array(), filemtime($search_overlay_css_path));
+    }
+    
+    // Search Overlay Ultra Fix - Load LAST to override everything
+    $search_ultra_fix_path = get_stylesheet_directory() . '/assets/css/search-overlay-ultra-fix.css';
+    if (file_exists($search_ultra_fix_path)) {
+        wp_enqueue_style('search-overlay-ultra-fix', get_stylesheet_directory_uri() . '/assets/css/search-overlay-ultra-fix.css', array('search-overlay-fix'), filemtime($search_ultra_fix_path));
+    }
+    
+    $search_overlay_js_path = get_stylesheet_directory() . '/assets/js/search-overlay-fix.js';
+    if (file_exists($search_overlay_js_path)) {
+        wp_enqueue_script('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/js/search-overlay-fix.js', array('jquery'), filemtime($search_overlay_js_path), true);
+    }
+
+    // Gallery accessibility - Load on front page and pages with gallery
+    $gallery_a11y_js_path = get_stylesheet_directory() . '/assets/js/gallery-accessibility.js';
+    if (file_exists($gallery_a11y_js_path)) {
+        // Always load on front page (has gallery tabs)
+        wp_enqueue_script('gallery-accessibility', get_stylesheet_directory_uri() . '/assets/js/gallery-accessibility.js', array(), filemtime($gallery_a11y_js_path), true);
+    }
+
+    // Gallery tabs CSS fix
+    $gallery_tabs_fix_path = get_stylesheet_directory() . '/assets/css/gallery-tabs-fix.css';
+    if (file_exists($gallery_tabs_fix_path)) {
+        wp_enqueue_style('gallery-tabs-fix', get_stylesheet_directory_uri() . '/assets/css/gallery-tabs-fix.css', array(), filemtime($gallery_tabs_fix_path), 'all');
+    }
+    
+    // Mobile responsive fix - user icon and banner
+    $mobile_responsive_fix_path = get_stylesheet_directory() . '/assets/css/mobile-responsive-fix.css';
+    if (file_exists($mobile_responsive_fix_path)) {
+        wp_enqueue_style('mobile-responsive-fix', get_stylesheet_directory_uri() . '/assets/css/mobile-responsive-fix.css', array(), filemtime($mobile_responsive_fix_path), 'all');
+    }
+    
+    // FORCE ICONS VISIBLE - Emergency fix for all icons
+    $force_icons_path = get_stylesheet_directory() . '/assets/css/force-icons-visible.css';
+    if (file_exists($force_icons_path)) {
+        wp_enqueue_style('force-icons-visible', get_stylesheet_directory_uri() . '/assets/css/force-icons-visible.css', array('fontawesome'), filemtime($force_icons_path), 'all');
+    }
+    
+    // Professional Responsive Layout - Like dulichvietnhat.vn
+    $responsive_pro_path = get_stylesheet_directory() . '/assets/css/responsive-layout-pro.css';
+    if (file_exists($responsive_pro_path)) {
+        wp_enqueue_style('responsive-layout-pro', get_stylesheet_directory_uri() . '/assets/css/responsive-layout-pro.css', array(), filemtime($responsive_pro_path), 'all');
+    }
+    
+    // FINAL FIX ALL - One CSS to fix everything (HIGHEST PRIORITY)
+    $final_fix_path = get_stylesheet_directory() . '/assets/css/final-fix-all.css';
+    if (file_exists($final_fix_path)) {
+        wp_enqueue_style('final-fix-all', get_stylesheet_directory_uri() . '/assets/css/final-fix-all.css', array(), filemtime($final_fix_path), 'all');
+    }
+    
+    // Floating Contact Buttons Fix - Responsive
+    $floating_contact_fix = get_stylesheet_directory() . '/assets/css/floating-contact-fix.css';
+    if (file_exists($floating_contact_fix)) {
+        wp_enqueue_style('floating-contact-fix', get_stylesheet_directory_uri() . '/assets/css/floating-contact-fix.css', array(), filemtime($floating_contact_fix), 'all');
+    }
+
+    // CONDITIONAL: Slick slider fixes - Only if Slick is used (front page with news slider)
+    if (is_front_page()) {
+    $fix_slick_aria_path = get_stylesheet_directory() . '/assets/js/fix-slick-aria.js';
+    if (file_exists($fix_slick_aria_path)) {
+        wp_enqueue_script('fix-slick-aria', get_stylesheet_directory_uri() . '/assets/js/fix-slick-aria.js', array(), filemtime($fix_slick_aria_path), true);
+        }
+    }
+
+    // Accessibility buttons - Always needed
+    $a11y_buttons_path = get_stylesheet_directory() . '/assets/js/accessibility-buttons.js';
+    if (file_exists($a11y_buttons_path)) {
+        wp_enqueue_script('accessibility-buttons', get_stylesheet_directory_uri() . '/assets/js/accessibility-buttons.js', array(), filemtime($a11y_buttons_path), true);
+    }
+
+    // FORM ACCESSIBILITY - Load on ALL pages to ensure all forms have labels
+    $form_a11y_path = get_stylesheet_directory() . '/assets/js/form-accessibility.js';
+    if (file_exists($form_a11y_path)) {
+        // Load with no dependencies and in footer
+        wp_enqueue_script('form-accessibility', get_stylesheet_directory_uri() . '/assets/js/form-accessibility.js', array(), filemtime($form_a11y_path), true);
+        
+        // Add inline script to ensure it runs immediately
+        $inline_fix = "
+        (function(){
+            function quickFix(){
+                document.querySelectorAll('.jvcf-form input:not([type=\"hidden\"]):not([type=\"submit\"]), .jvcf-form textarea, .jvcf-form select').forEach(function(input){
+                    if(!input.id){input.id='input-'+Math.random().toString(36).substr(2,9);}
+                    if(!input.getAttribute('aria-label')&&!document.querySelector('label[for=\"'+input.id+'\"]')){
+                        var label=input.placeholder||input.name||'Input field';
+                        input.setAttribute('aria-label',label);
+                    }
+                });
+            }
+            if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',quickFix);}else{quickFix();}
+            setTimeout(quickFix,500);setTimeout(quickFix,1000);setTimeout(quickFix,2000);
+        })();
+        ";
+        wp_add_inline_script('form-accessibility', $inline_fix, 'before');
+    }
+
+    // Enqueue color contrast fix CSS - WCAG AA compliant
+    $color_contrast_path = get_stylesheet_directory() . '/assets/css/color-contrast-fix.css';
+    if (file_exists($color_contrast_path)) {
+        wp_enqueue_style('color-contrast-fix', get_stylesheet_directory_uri() . '/assets/css/color-contrast-fix.css', array(), filemtime($color_contrast_path), 'all');
+    }
+    
+    // Enqueue form accessibility fix CSS - WCAG 2.1 Level AA
+    $form_a11y_css_path = get_stylesheet_directory() . '/assets/css/form-accessibility-fix.css';
+    if (file_exists($form_a11y_css_path)) {
+        wp_enqueue_style('form-accessibility-fix', get_stylesheet_directory_uri() . '/assets/css/form-accessibility-fix.css', array(), filemtime($form_a11y_css_path), 'all');
+    }
+    
+    // Enqueue modal text fix CSS - Ensure text is visible in modals/popups
+    $modal_text_fix_path = get_stylesheet_directory() . '/assets/css/modal-text-fix.css';
+    if (file_exists($modal_text_fix_path)) {
+        wp_enqueue_style('modal-text-fix', get_stylesheet_directory_uri() . '/assets/css/modal-text-fix.css', array(), filemtime($modal_text_fix_path), 'all');
+    }
+    
+    // TEMPORARY DISABLE no-loading-final.css - It's breaking search overlay
+    // $no_loading_final_path = get_stylesheet_directory() . '/assets/css/no-loading-final.css';
+    // if (file_exists($no_loading_final_path)) {
+    //     wp_enqueue_style('no-loading-final', get_stylesheet_directory_uri() . '/assets/css/no-loading-final.css', array(), filemtime($no_loading_final_path), 'all');
+    // }
 
     // Only enqueue comment reply if needed
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -414,6 +564,47 @@ JS;
     }
 }
 add_action('wp_enqueue_scripts', 'dulichvietnhat_scripts', 100);
+
+// DEFER ONLY NON-CRITICAL CSS - Keep layout CSS normal to prevent breaking
+add_filter('style_loader_tag', function($html, $handle, $href, $media) {
+    // Critical styles that must load normally (NO DEFER)
+    $critical_styles = array(
+        'fontawesome',              // Icons must show immediately
+        'dulichvietnhat-style',
+        'dulichvietnhat-main',
+        'bootstrap-css',
+        'header-css',
+        'banner-css',
+        'featured-posts-css',
+        'featured-tours-css',
+        'tour-pages-css',
+        'mobile-menu-pro',
+        'search-overlay-fix',
+        'search-overlay-ultra-fix',
+        'gallery-tabs-fix',
+        'modal-text-fix'
+    );
+    
+    // Skip critical styles - load normally
+    if (in_array($handle, $critical_styles)) {
+        return $html;
+    }
+    
+    // Only defer optional/enhancement styles
+    $defer_styles = array(
+        'slick-css',
+        'slick-theme-css',
+        'icon-fix',
+        'search-page'
+    );
+    
+    if (in_array($handle, $defer_styles)) {
+        // Use preload + onload trick
+        return '<link rel="preload" as="style" href="' . esc_url($href) . '" onload="this.onload=null;this.rel=\'stylesheet\'" media="print"><noscript><link rel="stylesheet" href="' . esc_url($href) . '"></noscript>';
+    }
+    
+    return $html;
+}, 10, 4);
 
 /* Force-load tour pages stylesheet as the very last CSS to avoid being overridden */
 add_action('wp_enqueue_scripts', function(){
@@ -581,6 +772,9 @@ if (defined('JETPACK__VERSION')) {
 if (class_exists('WooCommerce')) {
     require get_template_directory() . '/inc/woocommerce.php';
 require get_template_directory() . '/inc/performance-optimizer.php';
+require get_template_directory() . '/inc/seo-optimizer.php';
+require get_template_directory() . '/inc/accessibility-optimizer.php';
+require get_template_directory() . '/inc/ultra-performance.php';
 }
 
 /**
@@ -793,6 +987,30 @@ function dulichvietnhat_kill_thumbnail_overlays_css() {
 }
 add_action('wp_head', 'dulichvietnhat_kill_thumbnail_overlays_css', 999);
 
+// ULTRA CRITICAL - Force show search overlay + gallery tabs clickable in <head>
+add_action('wp_head', function() {
+    ?>
+    <style id="emergency-fix-all">
+    /* Search Overlay */
+    .search-overlay.active{display:flex!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;opacity:1!important;visibility:visible!important;z-index:999999!important;background:rgba(0,0,0,0.85)!important;align-items:center!important;justify-content:center!important}
+    .search-overlay.active .search-overlay-content{display:block!important;visibility:visible!important;opacity:1!important;background:#ffffff!important;border-radius:20px!important;width:90%!important;max-width:600px!important;padding:0!important;position:relative!important;z-index:1000000!important}
+    .search-overlay.active .search-header{display:flex!important;visibility:visible!important;opacity:1!important;padding:24px 28px!important;border-bottom:1px solid #f3f4f6!important}
+    .search-overlay.active .search-header h3{display:block!important;visibility:visible!important;opacity:1!important;color:#1f2937!important;font-size:24px!important;font-weight:700!important;margin:0!important}
+    .search-overlay.active .search-close{display:flex!important;visibility:visible!important;width:44px!important;height:44px!important;background:#f3f4f6!important;border:none!important;border-radius:10px!important;color:#6b7280!important;cursor:pointer!important}
+    .search-overlay.active .search-form-wrapper{display:block!important;visibility:visible!important;opacity:1!important;padding:28px!important;background:#ffffff!important}
+    .search-overlay.active .search-form{display:block!important;visibility:visible!important;opacity:1!important}
+    .search-overlay.active .search-field,
+    .search-overlay.active input[type="search"]{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;padding:16px 20px!important;font-size:16px!important;border:2px solid #e5e7eb!important;border-radius:12px!important;background:#f9fafb!important;color:#1f2937!important}
+    .search-overlay.active .search-submit{display:inline-block!important;margin-top:16px!important;padding:12px 32px!important;background:#ef4444!important;color:#fff!important;border:none!important;border-radius:10px!important}
+    
+    /* Gallery Tabs - FORCE CLICKABLE */
+    .gallery-tab{cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:100!important;user-select:none!important}
+    .gallery-panel{display:none!important}
+    .gallery-panel.active{display:block!important;opacity:1!important;visibility:visible!important}
+    </style>
+    <?php
+}, 1);
+
 function dulichvietnhat_strip_overlays_dom() {
     ?>
     <script>
@@ -828,6 +1046,132 @@ function dulichvietnhat_strip_overlays_dom() {
     <?php
 }
 add_action('wp_footer', 'dulichvietnhat_strip_overlays_dom', 9999);
+
+// Ultra aggressive form accessibility fix - Run in footer
+add_action('wp_footer', function() {
+    ?>
+    <script>
+    (function() {
+        'use strict';
+        
+        function ultraFixFormLabels() {
+            // Find ALL inputs without labels
+            const inputs = document.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea, select');
+            let fixed = 0;
+            
+            inputs.forEach(function(input) {
+                // Skip if already has label or aria-label
+                if (input.getAttribute('aria-label') || input.getAttribute('aria-labelledby')) {
+                    return;
+                }
+                
+                // Check if has associated label
+                if (input.id && document.querySelector('label[for="' + input.id + '"]')) {
+                    return;
+                }
+                
+                // Generate ID if missing
+                if (!input.id) {
+                    input.id = 'auto-id-' + Math.random().toString(36).substr(2, 9);
+                }
+                
+                // Determine label text
+                let labelText = '';
+                const name = input.name || '';
+                const type = input.type || '';
+                
+                // Smart label detection
+                if (name.includes('travel_date') || name.includes('date') || type === 'date') {
+                    labelText = 'Ngày khởi hành';
+                } else if (name.includes('name') || name.includes('full_name')) {
+                    labelText = 'Họ và tên';
+                } else if (name.includes('email')) {
+                    labelText = 'Email';
+                } else if (name.includes('phone') || name.includes('tel') || type === 'tel') {
+                    labelText = 'Số điện thoại';
+                } else if (name.includes('message') || input.tagName === 'TEXTAREA') {
+                    labelText = 'Tin nhắn';
+                } else if (name.includes('subject')) {
+                    labelText = 'Tiêu đề';
+                } else if (input.placeholder) {
+                    labelText = input.placeholder;
+                } else if (name) {
+                    labelText = name.replace(/_/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                } else {
+                    labelText = 'Thông tin';
+                }
+                
+                // Add aria-label
+                input.setAttribute('aria-label', labelText);
+                
+                // Add aria-required if required
+                if (input.required || input.hasAttribute('required')) {
+                    input.setAttribute('aria-required', 'true');
+                }
+                
+                // Add visible label if parent allows
+                const parent = input.parentElement;
+                if (parent && !parent.querySelector('label[for="' + input.id + '"]')) {
+                    const label = document.createElement('label');
+                    label.setAttribute('for', input.id);
+                    label.textContent = labelText;
+                    label.style.display = 'block';
+                    label.style.marginBottom = '6px';
+                    label.style.fontWeight = '600';
+                    label.style.fontSize = '14px';
+                    label.style.color = '#374151';
+                    
+                    if (input.required) {
+                        const req = document.createElement('span');
+                        req.textContent = ' *';
+                        req.style.color = '#ef4444';
+                        label.appendChild(req);
+                    }
+                    
+                    parent.insertBefore(label, input);
+                    fixed++;
+                }
+            });
+            
+            if (fixed > 0) {
+                console.log('✓ Form Accessibility: Fixed ' + fixed + ' inputs');
+            }
+        }
+        
+        // Run immediately
+        ultraFixFormLabels();
+        
+        // Run multiple times to catch dynamic forms
+        setTimeout(ultraFixFormLabels, 300);
+        setTimeout(ultraFixFormLabels, 800);
+        setTimeout(ultraFixFormLabels, 1500);
+        setTimeout(ultraFixFormLabels, 3000);
+        
+        // Monitor DOM changes
+        if (typeof MutationObserver !== 'undefined') {
+            const observer = new MutationObserver(function(mutations) {
+                let hasNewInputs = false;
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT' || node.querySelector('input, textarea, select'))) {
+                            hasNewInputs = true;
+                        }
+                    });
+                });
+                if (hasNewInputs) {
+                    setTimeout(ultraFixFormLabels, 100);
+                }
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+    })();
+    </script>
+    <?php
+}, 9999);
 
 add_action('after_setup_theme', function () {
     $domains = array();

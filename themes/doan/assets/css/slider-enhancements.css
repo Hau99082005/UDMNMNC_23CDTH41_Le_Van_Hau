@@ -7,15 +7,88 @@
    HOME CAROUSEL IMPROVEMENTS
    ======================================== */
 
+/* ========== Banner: bỏ nền tím/đen phía sau ========== */
+/* Các container slider không có nền */
 #homeCarousel,
 #image-slider,
 .image-slider-section {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    background: #000;
-    margin: 0;
+  background: transparent !important;
 }
+
+/* Mục .carousel-item đang có gradient tím – bỏ đi */
+.carousel-item {
+  background: transparent !important;
+}
+
+/* Nếu còn lớp phủ (overlay) làm tối, có thể tắt luôn */
+.carousel-item::after {
+  background: none !important;
+}
+
+/* ========== Làm dots nhỏ lại (MetaSlider + Slick) ========== */
+/* MetaSlider dots */
+#image-slider .metaslider .flex-control-paging {
+  gap: 6px !important;   /* thu hẹp khoảng cách */
+  bottom: 12px;          /* nâng/ha thấp nếu cần */
+}
+#image-slider .metaslider .flex-control-paging a {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.5);
+  transform: none !important;
+}
+#image-slider .metaslider .flex-control-paging a.flex-active,
+#image-slider .metaslider .flex-control-paging a:hover {
+  background: #ff6b35;
+  border-color: #ff6b35;
+  transform: none !important;  /* không phóng to */
+}
+
+/* Slick dots (phòng trường hợp slider dùng Slick ở khu vực khác) */
+/* Slick dots */
+.slick-dots {
+    bottom: -45px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;          /* khoảng cách nhỏ hơn */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .slick-dots li,
+  .slick-dots li button {
+    width: 8px;        /* nhỏ lại */
+    height: 8px;       /* nhỏ lại */
+    margin: 0;
+  }
+  
+  .slick-dots li button {
+    padding: 0;
+    border-radius: 50%;
+    background: #d1d5db;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  
+  .slick-dots li button::before { display: none; }
+  
+  /* Không phóng to khi hover */
+  .slick-dots li:hover button {
+    background: #9ca3af;
+    transform: none;   /* bỏ scale */
+  }
+  
+  /* Active giữ tròn, không kéo dài thành viên thuốc */
+  .slick-dots li.slick-active button {
+    width: 8px;        /* không còn 32px */
+    height: 8px;
+    border-radius: 50%;
+    background: #ff6b35;
+    border-color: #ff6b35;
+  }
 
 .carousel,
 .carousel-inner {
@@ -29,7 +102,7 @@
     height: 0;
     padding-bottom: 42%;  /* 21:9 cinematic aspect ratio */
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background:transparent;
 }
 
 .carousel-item img {

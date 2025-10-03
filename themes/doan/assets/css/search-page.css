@@ -2,22 +2,44 @@
    SEARCH PAGE OPTIMIZATION - PROFESSIONAL LAYOUT
    ======================================== */
 
-/* FORCE REMOVE ALL BLUR/OVERLAY - HIGHEST PRIORITY */
+/* ULTRA FORCE REMOVE ALL BLUR/OVERLAY/OPACITY - HIGHEST PRIORITY!!! */
+body.search *,
+body.search-results *,
+.search *,
+.search-results * {
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+body.search .tour-card,
 body.search .tour-image,
+body.search .tour-image *,
 body.search .tour-image img,
 body.search .post-thumbnail,
+body.search .post-thumbnail *,
 body.search .post-thumbnail img,
+body.search-results .tour-card,
 body.search-results .tour-image,
+body.search-results .tour-image *,
 body.search-results .tour-image img,
 body.search-results .post-thumbnail,
+body.search-results .post-thumbnail *,
 body.search-results .post-thumbnail img,
+.search .tour-card,
 .search .tour-image,
+.search .tour-image *,
 .search .tour-image img,
 .search .post-thumbnail,
+.search .post-thumbnail *,
 .search .post-thumbnail img,
+.search-results .tour-card,
 .search-results .tour-image,
+.search-results .tour-image *,
 .search-results .tour-image img,
 .search-results .post-thumbnail,
+.search-results .post-thumbnail *,
 .search-results .post-thumbnail img {
     filter: none !important;
     -webkit-filter: none !important;
@@ -25,25 +47,59 @@ body.search-results .post-thumbnail img,
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     visibility: visible !important;
+    transform: none !important;
+    -webkit-transform: none !important;
 }
 
 body.search .tour-image::before,
 body.search .tour-image::after,
 body.search .tour-image .overlay,
+body.search .tour-image [class*="overlay"],
+body.search .tour-image [class*="mask"],
+body.search .post-thumbnail::before,
+body.search .post-thumbnail::after,
+body.search .post-thumbnail .overlay,
+body.search .post-thumbnail [class*="overlay"],
+body.search .post-thumbnail [class*="mask"],
 body.search-results .tour-image::before,
 body.search-results .tour-image::after,
 body.search-results .tour-image .overlay,
+body.search-results .tour-image [class*="overlay"],
+body.search-results .tour-image [class*="mask"],
+body.search-results .post-thumbnail::before,
+body.search-results .post-thumbnail::after,
+body.search-results .post-thumbnail .overlay,
+body.search-results .post-thumbnail [class*="overlay"],
+body.search-results .post-thumbnail [class*="mask"],
 .search .tour-image::before,
 .search .tour-image::after,
 .search .tour-image .overlay,
+.search .tour-image [class*="overlay"],
+.search .tour-image [class*="mask"],
+.search .post-thumbnail::before,
+.search .post-thumbnail::after,
+.search .post-thumbnail .overlay,
+.search .post-thumbnail [class*="overlay"],
+.search .post-thumbnail [class*="mask"],
 .search-results .tour-image::before,
 .search-results .tour-image::after,
-.search-results .tour-image .overlay {
+.search-results .tour-image .overlay,
+.search-results .tour-image [class*="overlay"],
+.search-results .tour-image [class*="mask"],
+.search-results .post-thumbnail::before,
+.search-results .post-thumbnail::after,
+.search-results .post-thumbnail .overlay,
+.search-results .post-thumbnail [class*="overlay"],
+.search-results .post-thumbnail [class*="mask"] {
     content: none !important;
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     background: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
 }
 
 /* Search Page Layout */
@@ -131,10 +187,16 @@ body.search .tour-image img {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    display: block;
+    display: block !important;
     transition: transform 0.4s ease;
     filter: none !important;
+    -webkit-filter: none !important;
     opacity: 1 !important;
+    visibility: visible !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: scale(1) !important;
+    -webkit-transform: scale(1) !important;
 }
 
 body.search .tour-card:hover .tour-image img {

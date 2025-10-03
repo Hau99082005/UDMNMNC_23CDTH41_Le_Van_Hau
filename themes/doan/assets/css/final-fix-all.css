@@ -1,0 +1,154 @@
+/* ========================================
+   FINAL FIX ALL - One file to fix everything
+   ======================================== */
+
+/* SEARCH OVERLAY - Fix trang trắng */
+.search-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+}
+
+.search-overlay.active {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.search-overlay-content {
+    background: #ffffff !important;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    padding: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.search-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.search-header h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.search-close {
+    width: 44px;
+    height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.search-form-wrapper {
+    padding: 24px;
+}
+
+.search-field,
+.search-overlay input[type="search"] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f9fafb;
+}
+
+/* ICONS - Force visible */
+.fas, .far, .fab {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+    font-weight: 900;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+.fab {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 767px) {
+    /* Header mobile */
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .header-actions {
+        display: flex !important;
+        gap: 10px;
+    }
+    
+    .user-icon,
+    .search-toggle {
+        display: flex !important;
+        width: 42px;
+        height: 42px;
+        background: #f3f4f6;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Banner mobile */
+    #image-slider {
+        height: 250px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .banner-slide {
+        height: 250px !important;
+    }
+    
+    /* Tour grid - 1 column */
+    .tour-grid,
+    .tours-grid,
+    .posts-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    /* Gallery tabs mobile */
+    .gallery-tabs {
+        flex-direction: row !important;
+        gap: 10px !important;
+        justify-content: center !important;
+    }
+    
+    .gallery-tab {
+        padding: 12px 24px !important;
+        font-size: 13px !important;
+        flex: 1 !important;
+        max-width: 180px !important;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .gallery-grid img {
+        height: 240px !important;
+    }
+}
+

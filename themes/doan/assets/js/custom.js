@@ -66,8 +66,7 @@ jQuery(document).ready(function($) {
         $(this).toggleClass('active').siblings('.sub-menu').slideToggle(200);
     });
 
-    // Initialize tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+    // Tooltips completely removed - not needed
 
     // Add smooth scrolling to all links
     $('a[href*="#"]:not([href="#"])').on('click', function() {

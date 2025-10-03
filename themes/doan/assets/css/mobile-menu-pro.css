@@ -1,0 +1,495 @@
+/* ========================================
+   PROFESSIONAL MOBILE MENU
+   Hamburger menu (3 gạch) chuyên nghiệp
+   ======================================== */
+
+/* ========================================
+   HAMBURGER BUTTON - 3 GẠCH
+   ======================================== */
+
+.menu-toggle {
+    position: relative;
+    display: none; /* Ẩn trên desktop */
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+/* Hiện trên mobile */
+@media (max-width: 991px) {
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Ẩn navigation desktop */
+    .main-navigation {
+        display: none;
+    }
+}
+
+/* Hamburger Icon - 3 gạch */
+.hamburger {
+    position: relative;
+    width: 28px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 3px;
+    background: #1f2937;
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: center;
+}
+
+/* Animated state when menu is open */
+.menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+}
+
+.menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
+}
+
+/* Hover effect */
+.menu-toggle:hover .hamburger-line {
+    background: #ef4444;
+}
+
+.menu-toggle:active {
+    transform: scale(0.95);
+}
+
+/* ========================================
+   MOBILE MENU OVERLAY
+   ======================================== */
+
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   MOBILE MENU PANEL
+   ======================================== */
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 400px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+/* Mobile Menu Header */
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #f3f4f6;
+    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+}
+
+.mobile-logo img {
+    max-height: 40px;
+    width: auto;
+}
+
+.mobile-site-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.mobile-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.mobile-menu-close,
+.mobile-actions .search-toggle {
+    width: 44px;
+    height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    position: relative;
+}
+
+.mobile-menu-close:hover,
+.mobile-actions .search-toggle:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.mobile-menu-close:active,
+.mobile-actions .search-toggle:active {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0.95);
+}
+
+/* Mobile Menu Content */
+.mobile-menu-content {
+    flex: 1;
+    padding: 24px 0;
+    overflow-y: auto;
+}
+
+/* Mobile Menu Items */
+.mobile-menu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-menu-items li {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.mobile-menu-items > li > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mobile-menu-items > li > a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 60%;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    border-radius: 0 4px 4px 0;
+    transition: width 0.3s ease;
+}
+
+.mobile-menu-items > li > a:active,
+.mobile-menu-items > li > a.active {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.mobile-menu-items > li > a:active::before,
+.mobile-menu-items > li > a.active::before {
+    width: 4px;
+}
+
+/* Sub-menu Toggle */
+.mobile-sub-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobile-sub-toggle:active {
+    background: #f3f4f6;
+    border-radius: 8px;
+}
+
+.mobile-sub-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.mobile-sub-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+/* Mobile Sub-menu */
+.mobile-sub-menu {
+    display: none !important;
+    background: #f9fafb;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-sub-menu.active,
+.mobile-sub-menu[style*="display: block"] {
+    display: block !important;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-sub-menu li a {
+    display: block;
+    padding: 14px 24px 14px 48px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mobile-sub-menu li a::before {
+    content: '›';
+    position: absolute;
+    left: 32px;
+    color: #9ca3af;
+    font-weight: 700;
+}
+
+.mobile-sub-menu li a:active {
+    background: #ffffff;
+    color: #ef4444;
+}
+
+/* Mobile Consultation Button */
+.mobile-consultation-btn {
+    display: block;
+    margin: 20px 24px;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #ffffff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-consultation-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* ========================================
+   MOBILE HEADER IMPROVEMENTS
+   ======================================== */
+
+@media (max-width: 991px) {
+    .site-header {
+        padding: 10px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .site-branding {
+        flex: 1;
+    }
+    
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Hide desktop consultation button on mobile */
+    .header-actions .consultation-btn {
+        display: none;
+    }
+    
+    /* User icon smaller on mobile */
+    .header-actions .user-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* ========================================
+   BODY SCROLL LOCK WHEN MENU OPEN
+   ======================================== */
+
+body.mobile-menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* ========================================
+   SMOOTH ANIMATIONS
+   ======================================== */
+
+/* Fade in menu items */
+.mobile-menu.active .mobile-menu-items > li {
+    animation: fadeInLeft 0.4s ease forwards;
+}
+
+.mobile-menu.active .mobile-menu-items > li:nth-child(1) { animation-delay: 0.1s; }
+.mobile-menu.active .mobile-menu-items > li:nth-child(2) { animation-delay: 0.15s; }
+.mobile-menu.active .mobile-menu-items > li:nth-child(3) { animation-delay: 0.2s; }
+.mobile-menu.active .mobile-menu-items > li:nth-child(4) { animation-delay: 0.25s; }
+.mobile-menu.active .mobile-menu-items > li:nth-child(5) { animation-delay: 0.3s; }
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+/* Focus states */
+.menu-toggle:focus-visible,
+.mobile-menu-close:focus-visible {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+}
+
+.mobile-menu-items a:focus-visible {
+    outline: 2px solid #ef4444;
+    outline-offset: -2px;
+}
+
+/* Screen reader text */
+.screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+/* Small phones */
+@media (max-width: 375px) {
+    .mobile-menu {
+        width: 90%;
+        max-width: 320px;
+    }
+    
+    .mobile-menu-items > li > a {
+        padding: 16px 20px;
+        font-size: 15px;
+    }
+}
+
+/* Large phones & tablets */
+@media (min-width: 576px) and (max-width: 991px) {
+    .mobile-menu {
+        width: 400px;
+    }
+}
+
+/* Desktop - Hide mobile menu completely */
+@media (min-width: 992px) {
+    .mobile-menu,
+    .mobile-menu-overlay,
+    .menu-toggle {
+        display: none !important;
+    }
+}
+
+/* ========================================
+   PERFORMANCE
+   ======================================== */
+
+/* GPU acceleration */
+.mobile-menu,
+.mobile-menu-overlay,
+.hamburger-line {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu,
+    .mobile-menu-overlay,
+    .hamburger-line,
+    .mobile-menu-items li {
+        transition: none !important;
+        animation: none !important;
+    }
+}

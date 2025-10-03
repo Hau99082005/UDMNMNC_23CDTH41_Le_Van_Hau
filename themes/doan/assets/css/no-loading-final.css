@@ -1,0 +1,182 @@
+/* ========================================
+   NO LOADING - FORCE REMOVE ALL LOADING SCREENS
+   Loại bỏ hoàn toàn mọi loading để cải thiện performance
+   ======================================== */
+
+/* FORCE HIDE ALL LOADING ELEMENTS */
+.preloader,
+.loader,
+.loading,
+.loading-screen,
+.loading-overlay,
+.loading-spinner,
+.loading-wrapper,
+.loading-container,
+.banner-loading,
+.page-loader,
+.site-loader,
+.spinner,
+.spinner-border,
+.spinner-grow,
+.sk-loading,
+.sk-spinner,
+.lds-ring,
+.lds-spinner,
+[class*="loading"],
+[class*="preload"],
+[class*="spinner"],
+[class*="loader"],
+[id*="loading"],
+[id*="preload"],
+[id*="loader"],
+[data-loading],
+[data-spinner] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
+}
+
+/* FORCE BODY/HTML TO BE VISIBLE IMMEDIATELY (Except overlays/modals) */
+body,
+html,
+.site,
+.site-content,
+.site-main,
+main,
+section,
+article,
+header,
+footer,
+nav {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Don't remove animations from ALL elements - breaks overlays */
+body,
+html,
+.site,
+.site-content,
+.site-main {
+    animation: none !important;
+    -webkit-animation: none !important;
+}
+
+/* Remove loading classes from body */
+body.loading,
+body.preload,
+body.is-loading,
+body.page-loading,
+html.loading,
+html.preload {
+    overflow: auto !important;
+}
+
+/* Remove loading body classes */
+body.loading::before,
+body.loading::after,
+body.preload::before,
+body.preload::after,
+html.loading::before,
+html.loading::after {
+    display: none !important;
+}
+
+/* Force images to load immediately (no lazy loading animations) */
+img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+}
+
+img[loading="lazy"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Remove skeleton loaders */
+.skeleton,
+.skeleton-loader,
+.skeleton-box,
+.skeleton-text,
+.skeleton-image,
+[class*="skeleton"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* No fade-in animations on page load */
+@keyframes fadeIn,
+@keyframes fadeInUp,
+@keyframes fadeInDown,
+@keyframes slideIn,
+@keyframes loading {
+    from, to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Remove WordPress admin bar loading */
+#wpadminbar .spinner {
+    display: none !important;
+}
+
+/* Remove WooCommerce loading */
+.woocommerce .blockUI,
+.woocommerce .loader,
+.woocommerce .loading {
+    display: none !important;
+}
+
+/* Remove AJAX loading */
+.ajax-loading,
+.ajax-loader,
+[class*="ajax-load"] {
+    display: none !important;
+}
+
+/* Prevent any element from being hidden during load (EXCEPT search overlay) */
+/* REMOVED - This was breaking search overlay and modals */
+
+/* Critical: Ensure content is visible from start (BUT keep transitions for modals) */
+body > *:not(.search-overlay):not(.modal):not([class*="overlay"]) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+}
+
+/* Keep transitions for interactive elements */
+.search-overlay,
+.modal,
+[class*="overlay"],
+button,
+a,
+input,
+.search-overlay *,
+.modal * {
+    transition-duration: initial !important;
+    transition-delay: initial !important;
+}
+
+/* Performance: Remove smooth scroll during initial load */
+html {
+    scroll-behavior: auto !important;
+}
+
+/* After page fully loaded, restore smooth scroll */
+html.loaded {
+    scroll-behavior: smooth !important;
+}
+
+/* After page loaded, restore animations */
+html.loaded * {
+    animation-duration: initial !important;
+    transition-duration: initial !important;
+}
+

@@ -1,0 +1,177 @@
+/* ========================================
+   FORCE ALL ICONS VISIBLE - EMERGENCY FIX
+   Đảm bảo TẤT CẢ icons hiển thị
+   ======================================== */
+
+/* FORCE FontAwesome icons to display */
+.fas,
+.far,
+.fab,
+.fa,
+.fa-solid,
+.fa-regular,
+.fa-brands,
+i[class^="fa-"],
+i[class*=" fa-"],
+i[class^="fab "],
+i[class*=" fab "],
+i[class^="fas "],
+i[class*=" fas "],
+i[class^="far "],
+i[class*=" far "] {
+    display: inline-block !important;
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Brands icons (fab) */
+.fab,
+i.fab {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* Solid icons (fas) */
+.fas,
+i.fas {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
+
+/* Regular icons (far) */
+.far,
+i.far {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 400 !important;
+}
+
+/* Payment Icons - FORCE visible */
+.payment-icons,
+.payment-icons * {
+    display: flex !important;
+    gap: 12px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.payment-icons i,
+.fa-cc-visa,
+.fa-cc-mastercard,
+.fa-cc-discover,
+.fa-cc-paypal,
+.fa-cc-jcb {
+    display: inline-block !important;
+    font-size: 32px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #6b7280 !important;
+}
+
+/* Social Icons - FORCE visible */
+.social-icons,
+.social-icons * {
+    display: flex !important;
+    gap: 14px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.social-btn,
+.social-btn * {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.social-btn i,
+.fa-facebook-f,
+.fa-instagram,
+.fa-youtube {
+    display: inline-block !important;
+    font-size: 18px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #ffffff !important;
+}
+
+/* Floating Contact Icons - FORCE visible */
+.floating-contact,
+.floating-contact * {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.contact-btn,
+.contact-btn * {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.contact-btn i,
+.fa-phone,
+.fa-whatsapp,
+.fa-comment-dots {
+    display: inline-block !important;
+    font-size: 20px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #ffffff !important;
+}
+
+/* Header/TopBar Icons */
+.user-icon i,
+.search-toggle i,
+.fa-user,
+.fa-search {
+    display: inline-block !important;
+    font-size: 18px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Back to top icon */
+.back-to-top i,
+.fa-arrow-up {
+    display: inline-block !important;
+    font-size: 20px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #ffffff !important;
+}
+
+/* Menu icons */
+.fa-chevron-down,
+.fa-bars,
+.fa-times {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure Font Awesome CSS is loaded */
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2") format("woff2");
+}
+
+

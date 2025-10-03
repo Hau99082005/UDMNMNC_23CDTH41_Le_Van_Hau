@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-    <meta charset="<?php bloginfo('charset'); ?>">
+<meta name="description" content="Khám phá Nhật Bản cùng chúng tôi: tour du lịch, văn hóa, ẩm thực và trải nghiệm độc đáo. Đặt tour Nhật Bản giá tốt, lịch trình phong phú.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
+    
+    <!-- Preconnect to external domains for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Load fonts ASYNC with font-display swap for better performance -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'" media="print">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- FontAwesome CSS - Load ngay trong HEAD -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- Preload critical FontAwesome fonts -->
+    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-solid-900.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2" crossorigin="anonymous">
+    
     <?php wp_head(); ?>
 </head>
 
@@ -36,7 +51,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="top-bar-actions">
-                    <button class="search-toggle" aria-label="Search">
+                    <button type="button" class="search-toggle" aria-label="Search" onclick="(function(e){e.preventDefault();e.stopPropagation();var o=document.getElementById('search-overlay');if(o){o.style.display='flex';o.style.opacity='1';o.style.visibility='visible';o.classList.add('active');setTimeout(function(){var f=o.querySelector('.search-field, input[type=search]');if(f)f.focus();},150);}return false;})(event)">
                         <i class="fas fa-search"></i>
                     </button>
                     <?php 
@@ -173,7 +188,7 @@
                 </a>
             </div>
             <div class="mobile-actions">
-                <button class="search-toggle" aria-label="Search"><i class="fas fa-search"></i></button>
+                <button type="button" class="search-toggle" aria-label="Search" onclick="(function(e){e.preventDefault();e.stopPropagation();var o=document.getElementById('search-overlay');if(o){o.style.display='flex';o.style.opacity='1';o.style.visibility='visible';o.classList.add('active');}return false;})(event)"><i class="fas fa-search"></i></button>
                 <button class="mobile-menu-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -198,15 +213,15 @@
     </div>
 
 
-    <div class="search-overlay">
-        <div class="search-overlay-content">
-            <div class="search-header">
-                <h3><?php esc_html_e('Search', 'doan'); ?></h3>
-                <button class="search-close">
-                    <i class="fas fa-times"></i>
+    <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-labelledby="search-heading" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.3s ease;">
+        <div class="search-overlay-content" style="display:block;background:#ffffff;border-radius:20px;width:90%;max-width:600px;padding:0;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative;">
+            <div class="search-header" style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px;border-bottom:1px solid #f3f4f6;background:#ffffff;">
+                <h3 id="search-heading" style="font-size:24px;font-weight:700;color:#1f2937;margin:0;display:block;"><?php esc_html_e('Tìm kiếm', 'doan'); ?></h3>
+                <button type="button" class="search-close" aria-label="<?php esc_attr_e('Close search', 'doan'); ?>" title="<?php esc_attr_e('Close', 'doan'); ?>" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#f3f4f6;border:none;border-radius:10px;color:#6b7280;cursor:pointer;font-size:20px;" onclick="var o=document.getElementById('search-overlay');o.style.display='none';o.style.opacity='0';o.style.visibility='hidden';o.classList.remove('active');">
+                    <i class="fas fa-times" aria-hidden="true" style="font-size:20px;"></i>
                 </button>
             </div>
-            <div class="search-form-wrapper">
+            <div class="search-form-wrapper" style="padding:28px;display:block;background:#ffffff;">
                 <?php get_search_form(); ?>
             </div>
         </div>
