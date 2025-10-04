@@ -1,0 +1,302 @@
+/* Responsive Styles for VJLinks Theme
+   Supports: Mobile, Tablet, Desktop, Large Screens
+   Author: VJLinks Team
+   Version: 1.0
+*/
+
+/* Base Responsive Settings */
+:root {
+    --mobile-padding: 15px;
+    --tablet-padding: 30px;
+    --desktop-padding: 50px;
+}
+
+/* General Responsive Rules */
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Large Desktop (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+    
+    /* Header for large screens */
+    .site-header {
+        padding: 20px 0;
+    }
+    
+    /* Navigation for large screens */
+    .main-navigation ul li {
+        margin-right: 25px;
+    }
+    
+    /* Banner for large screens */
+    .hero-banner {
+        min-height: 600px;
+    }
+    
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+    
+    /* Footer for large screens */
+    .site-footer {
+        padding: 60px 0;
+    }
+}
+
+/* Desktop (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+    
+    /* Header for desktop */
+    .site-header {
+        padding: 15px 0;
+    }
+    
+    /* Navigation for desktop */
+    .main-navigation ul li {
+        margin-right: 20px;
+    }
+    
+    /* Banner for desktop */
+    .hero-banner {
+        min-height: 500px;
+    }
+    
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+    
+    /* Footer for desktop */
+    .site-footer {
+        padding: 50px 0;
+    }
+}
+
+/* Tablet (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 var(--tablet-padding);
+    }
+    
+    /* Header for tablet */
+    .site-header {
+        padding: 12px 0;
+    }
+    
+    /* Navigation for tablet */
+    .main-navigation ul li {
+        margin-right: 15px;
+    }
+    
+    /* Banner for tablet */
+    .hero-banner {
+        min-height: 400px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    /* Footer for tablet */
+    .site-footer {
+        padding: 40px 0;
+    }
+    
+    /* Grid adjustments for tablet */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    /* Tour cards for tablet */
+    .tour-card {
+        margin-bottom: 30px;
+    }
+}
+
+/* Mobile (up to 767px) */
+@media (max-width: 767px) {
+    .container {
+        width: 100%;
+        padding: 0 var(--mobile-padding);
+    }
+    
+    /* Header for mobile */
+    .site-header {
+        padding: 10px 0;
+    }
+    
+    /* Logo for mobile */
+    .site-branding img {
+        max-height: 40px;
+    }
+    
+    /* Mobile menu button */
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Navigation for mobile */
+    .main-navigation ul {
+        display: none;
+    }
+    
+    .main-navigation.toggled ul {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        z-index: 999;
+    }
+    
+    .main-navigation.toggled ul li {
+        display: block;
+        margin: 0;
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    /* Banner for mobile */
+    .hero-banner {
+        min-height: 300px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    /* Footer for mobile */
+    .site-footer {
+        padding: 30px 0;
+        text-align: center;
+    }
+    
+    .footer-widget {
+        margin-bottom: 30px;
+    }
+    
+    /* Grid adjustments for mobile */
+    .col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* Tour cards for mobile */
+    .tour-card {
+        margin-bottom: 20px;
+    }
+    
+    /* Hide some elements on mobile */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Show mobile elements */
+    .mobile-only {
+        display: block !important;
+    }
+    
+    /* Adjust spacing for mobile */
+    .section {
+        padding: 30px 0;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    /* Fix form elements on mobile */
+    input, select, textarea {
+        width: 100%;
+    }
+    
+    /* Fix buttons on mobile */
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Small Mobile (up to 575px) */
+@media (max-width: 575px) {
+    /* Extra small device adjustments */
+    .hero-content h1 {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Adjust card layouts */
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    /* Adjust spacing */
+    .mb-4 {
+        margin-bottom: 15px !important;
+    }
+    
+    .py-5 {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    header, footer, .sidebar, .comments-area, .navigation, .share-buttons {
+        display: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        color: #000;
+        background: #fff;
+    }
+    
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+    
+    .entry-content {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}

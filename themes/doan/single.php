@@ -172,48 +172,6 @@ if (have_posts()) : while (have_posts()) : the_post();
       </div>
     </section>
 
-    <?php
-    // Related posts by first category
-    if ($primary_cat) :
-      $related = new WP_Query([
-        'post_type'      => 'post',
-        'posts_per_page' => 4,
-        'cat'            => (int) $primary_cat->term_id,
-        'post__not_in'   => [get_the_ID()],
-        'no_found_rows'  => true,
-      ]);
-      if ($related->have_posts()) : ?>
-        <section class="section-padding bg-light related-posts">
-          <div class="container">
-            <div class="section-title">
-              <h2><?php echo esc_html__('Bài viết liên quan', 'dulichvietnhat'); ?></h2>
-            </div>
-            <div class="tour-grid">
-              <?php while ($related->have_posts()) : $related->the_post(); ?>
-                <article id="rel-<?php the_ID(); ?>" <?php post_class('tour-card'); ?>>
-                  <a class="tour-image" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>">
-                    <?php if (has_post_thumbnail()) {
-                      the_post_thumbnail('large', ['loading' => 'lazy']);
-                    } else { ?>
-                      <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/placeholder-800x500.jpg'); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy" />
-                    <?php } ?>
-                  </a>
-                  <div class="tour-info">
-                    <h3 class="tour-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <div class="tour-meta">
-                      <span><i class="fa-regular fa-calendar"></i> <?php echo esc_html(get_the_date()); ?></span>
-                      <span><i class="fa-regular fa-user"></i> <?php echo esc_html(get_the_author()); ?></span>
-                    </div>
-                    <div class="tour-footer">
-                      <a class="btn btn-outline" href="<?php the_permalink(); ?>"><?php echo esc_html__('Xem chi tiết', 'dulichvietnhat'); ?></a>
-                    </div>
-                  </div>
-                </article>
-              <?php endwhile; wp_reset_postdata(); ?>
-            </div>
-          </div>
-        </section>
-      <?php endif; endif; ?>
 
     <?php comments_template(); ?>
   </article>

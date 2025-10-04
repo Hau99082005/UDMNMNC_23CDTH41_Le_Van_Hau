@@ -13,6 +13,45 @@ body.search-results *,
     -webkit-backdrop-filter: none !important;
 }
 
+/* FORCE REMOVE ALL DARK OVERLAYS FROM SEARCH PAGE */
+body.search .tour-image,
+body.search .tour-image *,
+body.search .tour-image img,
+body.search .tour-image::before,
+body.search .tour-image::after,
+body.search .tour-image img::before,
+body.search .tour-image img::after {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* REMOVE ALL OVERLAY ELEMENTS */
+body.search .tour-image .overlay,
+body.search .tour-image [class*="overlay"],
+body.search .tour-image [class*="mask"],
+body.search .tour-image [class*="dark"],
+body.search .tour-image [class*="black"],
+body.search .tour-image [class*="gradient"] {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
+}
+
 body.search .tour-card,
 body.search .tour-image,
 body.search .tour-image *,
@@ -179,8 +218,29 @@ body.search .tour-image {
     height: 220px;
     overflow: hidden;
     display: block;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
 }
+
+/* FORCE REMOVE ALL OVERLAYS FROM TOUR IMAGE */
+body.search .tour-image::before,
+body.search .tour-image::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
+}
+
 
 body.search .tour-image img {
     width: 100%;
@@ -197,10 +257,130 @@ body.search .tour-image img {
     -webkit-backdrop-filter: none !important;
     transform: scale(1) !important;
     -webkit-transform: scale(1) !important;
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* FORCE REMOVE ALL OVERLAYS FROM TOUR IMAGE IMG */
+body.search .tour-image img::before,
+body.search .tour-image img::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
+}
+
+
+/* Remove all overlays from tour image */
+body.search .tour-image .overlay,
+body.search .tour-image [class*="overlay"],
+body.search .tour-image [class*="mask"],
+body.search .tour-image [class*="dark"],
+body.search .tour-image [class*="black"],
+body.search .tour-image [class*="gradient"] {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
+}
+
+/* FORCE REMOVE ALL OVERLAYS FROM SEARCH PAGE */
+body.search .tour-image,
+body.search .tour-image *,
+body.search .tour-image img,
+body.search .tour-image a,
+body.search .tour-image a * {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* Force image brightness and remove all filters */
+body.search .tour-image img {
+    filter: none !important;
+    -webkit-filter: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* FORCE REMOVE ALL OVERLAYS FROM SEARCH PAGE */
+body.search .tour-image,
+body.search .tour-image *,
+body.search .tour-image img,
+body.search .tour-image a,
+body.search .tour-image a * {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
 }
 
 body.search .tour-card:hover .tour-image img {
     transform: scale(1.05);
+}
+
+/* FORCE REMOVE ALL OVERLAYS FROM SEARCH PAGE */
+body.search .tour-image,
+body.search .tour-image *,
+body.search .tour-image img,
+body.search .tour-image a,
+body.search .tour-image a * {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* FORCE REMOVE ALL OVERLAYS FROM SEARCH PAGE */
+body.search .tour-image,
+body.search .tour-image *,
+body.search .tour-image img,
+body.search .tour-image a,
+body.search .tour-image a * {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
 }
 
 /* Tour Duration Badge */

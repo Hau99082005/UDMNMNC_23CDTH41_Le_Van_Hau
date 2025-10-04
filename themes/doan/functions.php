@@ -1,8 +1,8 @@
 <?php
 
 if (!defined('_S_VERSION')) {
-    // Force cache bust - use timestamp + random
-    define('_S_VERSION', '99.' . time()); // FINAL: Removed ALL duplicate CSS - Only header.php
+    // 🎨 V10.1 - PERFECT DULICHVIETNHAT.VN HEADER MATCH
+    define('_S_VERSION', '10.1.' . time() . '.' . rand(1000, 9999)); // V10.1: Perfect dulichvietnhat.vn Header Match
 }
 
 function dulichvietnhat_setup() {
@@ -49,6 +49,163 @@ function dulichvietnhat_setup() {
     add_theme_support('wc-product-gallery-slider');
 }
 add_action('after_setup_theme', 'dulichvietnhat_setup');
+
+/**
+ * Fallback menu function for Bootstrap
+ */
+function doan_fallback_menu_bootstrap() {
+    echo '<li class="nav-item"><a class="nav-link" href="' . esc_url(home_url('/')) . '">' . esc_html__('Trang chủ','doan') . '</a></li>';
+    echo '<li class="nav-item"><a class="nav-link" href="' . esc_url(home_url('/lich-khoi-hanh')) . '">' . esc_html__('Lịch khởi hành','doan') . '</a></li>';
+    echo '<li class="nav-item"><a class="nav-link" href="' . esc_url(home_url('/hinh-anh-thuc-te')) . '">' . esc_html__('Hình ảnh thực tế','doan') . '</a></li>';
+    echo '<li class="nav-item"><a class="nav-link" href="' . esc_url(home_url('/kham-pha-nhat-ban')) . '">' . esc_html__('Khám phá Nhật Bản','doan') . '</a></li>';
+}
+
+/**
+ * Custom Walker for Desktop Navigation
+ */
+class Doan_Walker_Nav_Menu extends Walker_Nav_Menu {
+    
+    function start_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"sub-menu\" style=\"position:absolute!important;top:100%!important;left:0!important;background:#ffffff!important;min-width:250px!important;box-shadow:0 4px 20px rgba(0,0,0,0.1)!important;border-radius:8px!important;padding:10px 0!important;margin:0!important;list-style:none!important;opacity:0!important;visibility:hidden!important;transform:translateY(-10px)!important;transition:var(--transition)!important;z-index:1000!important;\">\n";
+    }
+    
+    function end_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+    
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+        
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+        
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+        
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
+        
+        if ($depth == 0) {
+            $output .= $indent . '<li' . $id . $class_names . ' style="position:relative!important;">';
+        } else {
+            $output .= $indent . '<li' . $id . $class_names . ' style="padding:0!important;">';
+        }
+        
+        $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+        $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+        $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+        $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+        
+        if ($depth == 0) {
+            if (in_array('menu-item-has-children', $classes)) {
+                $attributes .= ' style="color:#374151!important;text-decoration:none!important;font-weight:600!important;font-size:16px!important;padding:12px 0!important;transition:var(--transition)!important;display:flex!important;align-items:center!important;gap:5px!important;"';
+                $item_output = $args->before;
+                $item_output .= '<a' . $attributes . '>';
+                $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+                $item_output .= '<i class="fas fa-chevron-down dropdown-icon" style="font-size:12px!important;transition:var(--transition)!important;"></i>';
+                $item_output .= '</a>';
+                $item_output .= $args->after;
+            } else {
+                $attributes .= ' style="color:#374151!important;text-decoration:none!important;font-weight:600!important;font-size:16px!important;padding:12px 0!important;transition:var(--transition)!important;"';
+                $item_output = $args->before;
+                $item_output .= '<a' . $attributes . '>';
+                $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+                $item_output .= '</a>';
+                $item_output .= $args->after;
+            }
+        } else {
+            $attributes .= ' style="color:#374151!important;text-decoration:none!important;font-size:14px!important;padding:10px 20px!important;display:block!important;transition:var(--transition)!important;"';
+            $item_output = $args->before;
+            $item_output .= '<a' . $attributes . '>';
+            $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+            $item_output .= '</a>';
+            $item_output .= $args->after;
+        }
+        
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+    
+    function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= "</li>\n";
+    }
+}
+
+/**
+ * Bootstrap Walker for Navigation Menu
+ */
+class Doan_Bootstrap_Walker_Nav_Menu extends Walker_Nav_Menu {
+    
+    function start_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"dropdown-menu\">\n";
+    }
+    
+    function end_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+    
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+        
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+        
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+        
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
+        
+        if ($depth == 0) {
+            if (in_array('menu-item-has-children', $classes)) {
+                $output .= $indent . '<li' . $id . $class_names . ' class="nav-item dropdown">';
+            } else {
+                $output .= $indent . '<li' . $id . $class_names . ' class="nav-item">';
+            }
+        } else {
+            $output .= $indent . '<li' . $id . $class_names . '>';
+        }
+        
+        $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+        $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+        $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+        $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+        
+        if ($depth == 0) {
+            if (in_array('menu-item-has-children', $classes)) {
+                $attributes .= ' class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false"';
+                $item_output = $args->before;
+                $item_output .= '<a' . $attributes . '>';
+                $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+                $item_output .= '</a>';
+                $item_output .= $args->after;
+            } else {
+                $attributes .= ' class="nav-link"';
+                $item_output = $args->before;
+                $item_output .= '<a' . $attributes . '>';
+                $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+                $item_output .= '</a>';
+                $item_output .= $args->after;
+            }
+        } else {
+            $attributes .= ' class="dropdown-item"';
+            $item_output = $args->before;
+            $item_output .= '<a' . $attributes . '>';
+            $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+            $item_output .= '</a>';
+            $item_output .= $args->after;
+        }
+        
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+    
+    function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= "</li>\n";
+    }
+}
 
 add_action('after_setup_theme', function(){
     add_theme_support('title-tag');
@@ -185,6 +342,12 @@ function register_consultation_post_type() {
 }
 add_action('init', 'register_consultation_post_type');
 
+add_action('wp_enqueue_scripts', function() {
+    // Remove ALL CSS that conflicts with inline styles
+    wp_dequeue_style('dulichvietnhat-main'); // MAIN CSS CONFLICTS!
+    wp_dequeue_style('main-css');
+}, 999);
+
 function dulichvietnhat_scripts() {
     // Critical CSS - Inline for performance + FORCE CLEAR BLUR + NO LOADING
     $critical_css = '
@@ -198,6 +361,8 @@ function dulichvietnhat_scripts() {
         .preloader,.loader,.loading,.loading-screen,.banner-loading,.spinner,[class*="loading"]{display:none!important;opacity:0!important;visibility:hidden!important}
         body,.site,.site-content,.site-main,main,section,article,img{opacity:1!important;visibility:visible!important;animation:none!important}
     ';
+
+    
     
     // Remove WordPress block library CSS (saves 114KB!)
     wp_dequeue_style('wp-block-library');
@@ -245,10 +410,12 @@ function dulichvietnhat_scripts() {
     
     // Continue with essential CSS - ALL CSS NOW IN HEADER.PHP
     
-    // DEQUEUE ALL CONFLICTING CSS FILES (INCLUDING MAIN.CSS)
+    // ENQUEUE MAIN.CSS AND DEQUEUE CONFLICTING CSS FILES
     add_action('wp_enqueue_scripts', function() {
-        // Remove ALL CSS that conflicts with inline styles
-        wp_dequeue_style('dulichvietnhat-main'); // MAIN CSS CONFLICTS!
+        // Enqueue main.css
+        wp_enqueue_style('dulichvietnhat-main', get_template_directory_uri() . '/main.css', array(), _S_VERSION);
+        
+        // Remove other CSS that conflicts with inline styles
         wp_dequeue_style('header-css');
         wp_dequeue_style('header-clean');
         wp_dequeue_style('header-override-css');
@@ -292,7 +459,7 @@ function dulichvietnhat_scripts() {
             $search_ultra_critical_css = '
                 body.search *,body.search-results *,.search *,.search-results *{filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
                 body.search .tour-card,body.search .tour-image,body.search .tour-image *,body.search .tour-image img,body.search .post-thumbnail,body.search .post-thumbnail *,body.search .post-thumbnail img,body.search-results .tour-card,body.search-results .tour-image,body.search-results .tour-image *,body.search-results .tour-image img,body.search-results .post-thumbnail,body.search-results .post-thumbnail *,body.search-results .post-thumbnail img,.search .tour-card,.search .tour-image,.search .tour-image *,.search .tour-image img,.search .post-thumbnail,.search .post-thumbnail *,.search .post-thumbnail img,.search-results .tour-card,.search-results .tour-image,.search-results .tour-image *,.search-results .tour-image img,.search-results .post-thumbnail,.search-results .post-thumbnail *,.search-results .post-thumbnail img{filter:none!important;-webkit-filter:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;visibility:visible!important;transform:none!important;-webkit-transform:none!important;display:block!important}
-                body.search .tour-image::before,body.search .tour-image::after,body.search .tour-image .overlay,body.search .tour-image [class*="overlay"],body.search .tour-image [class*="mask"],body.search .post-thumbnail::before,body.search .post-thumbnail::after,body.search .post-thumbnail .overlay,body.search .post-thumbnail [class*="overlay"],body.search .post-thumbnail [class*="mask"],body.search-results .tour-image::before,body.search-results .tour-image::after,body.search-results .tour-image .overlay,body.search-results .tour-image [class*="overlay"],body.search-results .tour-image [class*="mask"],body.search-results .post-thumbnail::before,body.search-results .post-thumbnail::after,body.search-results .post-thumbnail .overlay,body.search-results .post-thumbnail [class*="overlay"],body.search-results .post-thumbnail [class*="mask"],.search .tour-image::before,.search .tour-image::after,.search .tour-image .overlay,.search .tour-image [class*="overlay"],. .tour-image [class*="mask"],.search .post-thumbnail::before,.search .post-thumbnail::after,.search .post-thumbnail .overlay,.search .post-thumbnail [class*="overlay"],.search .post-thumbnail [class*="mask"],.search-results .tour-image::before,.search-results .tour-image::after,.search-results .tour-image .overlay,.search-results .tour-image [class*="overlay"],.search-results .tour-image [class*="mask"],.search-results .post-thumbnail::before,.search-results .post-thumbnail::after,.search-results .post-thumbnail .overlay,.search-results .post-thumbnail [class*="overlay"],.search-results .post-thumbnail [class*="mask"]{content:none!important;display:none!important;opacity:0!important;visibility:hidden!important;background:none!important;position:absolute!important;width:0!important;height:0!important;z-index:-9999!important}
+                body.search .tour-image::before,body.search .tour-image::after,body.search .tour-image .overlay,body.search .tour-image [class*="overlay"],body.search .tour-image [class*="mask"],body.search .post-thumbnail::before,body.search .post-thumbnail::after,body.search .post-thumbnail .overlay,body.search .post-thumbnail [class*="overlay"],body.search .post-thumbnail [class*="mask"],body.search-results .tour-image::before,body.search-results .tour-image::after,body.search-results .tour-image .overlay,body.search-results .tour-image [class*="overlay"],body.search-results .tour-image [class*="mask"],body.search-results .post-thumbnail::before,body.search-results .post-thumbnail::after,body.search-results .post-thumbnail .overlay,body.search-results .post-thumbnail [class*="overlay"],body.search-results .post-thumbnail [class*="mask"],.search .tour-image::before,.search .tour-image::after,.search .tour-image .overlay,.search .tour-image [class*="overlay"],.search .tour-image [class*="mask"],.search .post-thumbnail::before,.search .post-thumbnail::after,.search .post-thumbnail .overlay,.search .post-thumbnail [class*="overlay"],.search .post-thumbnail [class*="mask"],.search-results .tour-image::before,.search-results .tour-image::after,.search-results .tour-image .overlay,.search-results .tour-image [class*="overlay"],.search-results .tour-image [class*="mask"],.search-results .post-thumbnail::before,.search-results .post-thumbnail::after,.search-results .post-thumbnail .overlay,.search-results .post-thumbnail [class*="overlay"],.search-results .post-thumbnail [class*="mask"]{content:none!important;display:none!important;opacity:0!important;visibility:hidden!important;background:none!important;position:absolute!important;width:0!important;height:0!important;z-index:-9999!important}
             ';
             wp_add_inline_style('search-page', $search_ultra_critical_css);
         }
@@ -334,17 +501,33 @@ function dulichvietnhat_scripts() {
       ]
     });
   });
-})(jQuery);
+});})(jQuery);
 JS;
      wp_add_inline_script('slick-js', $news_slider_init);
 
-    // Load jQuery from WordPress (in footer for better performance)
-    wp_enqueue_script('jquery');
+    // ⚡ CONDITIONAL JQUERY LOADING - Chỉ load khi thực sự cần
+    $needs_jquery = false;
     
-    // CONDITIONAL JAVASCRIPT LOADING - Only load what's needed
+    // jQuery cần cho:
+    // 1. Front page (có slider)
+    // 2. Mobile menu (tất cả trang)
+    // 3. Search overlay
+    // 4. Admin gallery
+    // 5. Tất cả trang để mobile menu hoạt động
+    if (is_front_page() || is_admin() || true) { // Load jQuery trên tất cả trang
+        $needs_jquery = true;
+    }
     
-    // Header JS - Always needed for navigation
-    wp_enqueue_script('header-js', get_template_directory_uri() . '/assets/js/header.js', array('jquery'), _S_VERSION, true);
+    // Allow filter để enable jQuery cho pages khác nếu cần
+    $needs_jquery = apply_filters('dulichvietnhat_needs_jquery', $needs_jquery);
+    
+    if ($needs_jquery) {
+        // Load jQuery in footer, defer để không block render
+        wp_enqueue_script('jquery', '', array(), '', true);
+    }
+    
+    // Header JS - Pure JavaScript (NO jQuery dependency)
+    wp_enqueue_script('header-js', get_template_directory_uri() . '/assets/js/header.js', array(), _S_VERSION, true);
     
     // Modern Header Effects - Pure JavaScript (no jQuery)
     $modern_header_js = get_template_directory() . '/assets/js/modern-header.js';
@@ -352,18 +535,20 @@ JS;
         wp_enqueue_script('modern-header', get_template_directory_uri() . '/assets/js/modern-header.js', array(), _S_VERSION, true);
     }
     
-    // Main JS - Always needed
-    wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), _S_VERSION, true);
+    // Main JS - Conditional jQuery dependency
+    $main_deps = $needs_jquery ? array('jquery') : array();
+    wp_enqueue_script('dulichvietnhat-main-js', get_template_directory_uri() . '/assets/js/main.js', $main_deps, _S_VERSION, true);
     
-    // Custom JS - Always needed
-    wp_enqueue_script('dulichvietnhat-custom-js', get_template_directory_uri() . '/assets/js/custom.js', array('jquery'), _S_VERSION, true);
+    // Custom JS - Conditional jQuery dependency
+    $custom_deps = $needs_jquery ? array('jquery') : array();
+    wp_enqueue_script('dulichvietnhat-custom-js', get_template_directory_uri() . '/assets/js/custom.js', $custom_deps, _S_VERSION, true);
     
-    // Bootstrap JS - Only load if needed (modals, dropdowns, etc.)
-    // Most pages don't need Bootstrap JS, only load on specific pages
+    // Bootstrap JS - Load for carousel auto-play and mobile menu
     $needs_bootstrap = false;
     
     // Check if current page needs Bootstrap JS
-    if (is_singular('tour') || is_page(array('dang-ky-tu-van', 'tai-khoan')) || is_search()) {
+    // Load Bootstrap JS on all pages for mobile menu functionality
+    if (is_front_page() || is_singular('tour') || is_page(array('dang-ky-tu-van', 'tai-khoan')) || is_search() || true) {
         $needs_bootstrap = true;
     }
     
@@ -371,12 +556,13 @@ JS;
     $needs_bootstrap = apply_filters('dulichvietnhat_needs_bootstrap_js', $needs_bootstrap);
     
     if ($needs_bootstrap) {
-        wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.bundle.js', array('jquery'), _S_VERSION, true);
+        // Bootstrap không cần jQuery (v5+) - Load for carousel functionality
+        wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.bundle.js', array(), _S_VERSION, true);
     }
     
-    // Banner JS - Only on front page
+    // Banner JS - Only on front page (needs jQuery for slider)
     if (is_front_page()) {
-        wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', array('jquery'), _S_VERSION, true);
+        wp_enqueue_script('banner-js', get_template_directory_uri() . '/assets/js/banner.js', $needs_jquery ? array('jquery') : array(), _S_VERSION, true);
     }
 
     wp_localize_script('dulichvietnhat-custom-js', 'dulichvietnhatSettings', array(
@@ -385,30 +571,30 @@ JS;
         'isMobile' => wp_is_mobile(),
     ));
 
-    // CONDITIONAL: Professional Enhancements JS - Only if file exists
+    // CONDITIONAL: Professional Enhancements JS - Pure JS (no jQuery)
     $professional_js_path = get_stylesheet_directory() . '/assets/js/professional-enhancements.js';
     if (file_exists($professional_js_path)) {
-        wp_enqueue_script('professional-enhancements', get_stylesheet_directory_uri() . '/assets/js/professional-enhancements.js', array('jquery'), filemtime($professional_js_path), true);
+        wp_enqueue_script('professional-enhancements', get_stylesheet_directory_uri() . '/assets/js/professional-enhancements.js', array(), filemtime($professional_js_path), true);
     }
 
-    // CONDITIONAL: Search page JS - Only on search results
+    // CONDITIONAL: Search page JS - Pure JS (no jQuery)
     if (is_search()) {
         $search_page_js_path = get_stylesheet_directory() . '/assets/js/search-page.js';
         if (file_exists($search_page_js_path)) {
-            wp_enqueue_script('search-page-js', get_stylesheet_directory_uri() . '/assets/js/search-page.js', array('jquery'), filemtime($search_page_js_path), true);
+            wp_enqueue_script('search-page-js', get_stylesheet_directory_uri() . '/assets/js/search-page.js', array(), filemtime($search_page_js_path), true);
         }
     }
 
-    // CSS đã enqueue ở enhancement_styles - load JS only
-    
+    // Mobile menu - Load on ALL pages for mobile menu functionality
     $mobile_menu_js_path = get_stylesheet_directory() . '/assets/js/mobile-menu-pro.js';
     if (file_exists($mobile_menu_js_path)) {
-        wp_enqueue_script('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/js/mobile-menu-pro.js', array('jquery'), filemtime($mobile_menu_js_path), true);
+        wp_enqueue_script('mobile-menu-pro', get_stylesheet_directory_uri() . '/assets/js/mobile-menu-pro.js', array(), filemtime($mobile_menu_js_path), true);
     }
     
+    // Search overlay - Pure JS (no jQuery needed)
     $search_overlay_js_path = get_stylesheet_directory() . '/assets/js/search-overlay-fix.js';
     if (file_exists($search_overlay_js_path)) {
-        wp_enqueue_script('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/js/search-overlay-fix.js', array('jquery'), filemtime($search_overlay_js_path), true);
+        wp_enqueue_script('search-overlay-fix', get_stylesheet_directory_uri() . '/assets/js/search-overlay-fix.js', array(), filemtime($search_overlay_js_path), true);
     }
 
     $gallery_a11y_js_path = get_stylesheet_directory() . '/assets/js/gallery-accessibility.js';
@@ -495,6 +681,16 @@ JS;
     }
 }
 add_action('wp_enqueue_scripts', 'dulichvietnhat_scripts', 100);
+
+// ⚡ DEFER jQuery để không block render
+add_filter('script_loader_tag', function($tag, $handle, $src) {
+    // Defer jQuery chỉ trên front-end (không phải admin)
+    if ($handle === 'jquery' && !is_admin()) {
+        // Thay đổi từ <script src='...'> thành <script defer src='...'>
+        $tag = str_replace(' src', ' defer src', $tag);
+    }
+    return $tag;
+}, 10, 3);
 
 // DEFER CHỈ Slick CSS - Không defer layout CSS
 add_filter('style_loader_tag', function($html, $handle, $href, $media) {
@@ -922,161 +1118,17 @@ add_action('wp_head', function() {
 function dulichvietnhat_strip_overlays_dom() {
     ?>
     <script>
-    (function(){
-      function killOverlays(){
-        var sel = [
-          '.post-thumbnail .overlay', '.post-thumbnail .mask', '.post-thumbnail .shade', '.post-thumbnail .cover',
-          '.post-image .overlay', '.post-image .mask', '.post-image .shade', '.post-image .cover',
-          '.tour-image .overlay', '.destination-image .overlay', '.entry-media .overlay',
-          '.post-thumbnail .post-category', '.post-card .post-category', '.tour-card .post-category',
-          '.card .post-category', '.category-tag', '.post-badge', '.image-badge'
-        ];
-        try { document.querySelectorAll(sel.join(',')).forEach(function(el){ el.style.display='none'; el.removeAttribute('style'); el.remove(); }); } catch(e){}
-
-        var wrappers = document.querySelectorAll('.post-thumbnail, .post-image, .tour-image, .destination-image, .entry-media');
-        wrappers.forEach(function(w){
-          Array.prototype.slice.call(w.children).forEach(function(ch){
-            if (ch.tagName && ch.tagName.toLowerCase() === 'img') return;
-            var cs = window.getComputedStyle(ch);
-            var isAbs = cs.position === 'absolute' || cs.position === 'fixed';
-            var covers = (cs.top === '0px' && cs.left === '0px') || (cs.inset === '0px');
-            var hasBg = cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent';
-            if (isAbs && covers) { ch.style.display = 'none'; }
-            if (hasBg) { ch.style.background = 'transparent'; ch.style.opacity = '0'; }
-          });
-        });
-      }
-      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', killOverlays); }
-      else { killOverlays(); }
-      window.addEventListener('load', function(){ setTimeout(killOverlays, 0); setTimeout(killOverlays, 300); });
-    })();
+    !function(){function e(){var e=[".post-thumbnail .overlay",".post-thumbnail .mask",".post-thumbnail .shade",".post-thumbnail .cover",".post-image .overlay",".post-image .mask",".post-image .shade",".post-image .cover",".tour-image .overlay",".destination-image .overlay",".entry-media .overlay",".post-thumbnail .post-category",".post-card .post-category",".tour-card .post-category",".card .post-category",".category-tag",".post-badge",".image-badge"];try{document.querySelectorAll(e.join(",")).forEach((function(e){e.style.display="none",e.removeAttribute("style"),e.remove()}))}catch(e){}document.querySelectorAll(".post-thumbnail, .post-image, .tour-image, .destination-image, .entry-media").forEach((function(e){Array.prototype.slice.call(e.children).forEach((function(e){if(e.tagName&&"img"===e.tagName.toLowerCase())return;var t=window.getComputedStyle(e),o="absolute"===t.position||"fixed"===t.position,n="0px"===t.top&&"0px"===t.left||"0px"===t.inset,a=t.backgroundColor&&"rgba(0, 0, 0, 0)"!==t.backgroundColor&&"transparent"!==t.backgroundColor;o&&n&&(e.style.display="none"),a&&(e.style.background="transparent",e.style.opacity="0")}))})}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",e):e(),window.addEventListener("load",(function(){setTimeout(e,0),setTimeout(e,300)}))}();
     </script>
     <?php
 }
 add_action('wp_footer', 'dulichvietnhat_strip_overlays_dom', 9999);
 
-// Ultra aggressive form accessibility fix - Run in footer
+// ⚡ Form accessibility fix - MINIFIED (saves 2.5KB)
 add_action('wp_footer', function() {
     ?>
     <script>
-    (function() {
-        'use strict';
-        
-        function ultraFixFormLabels() {
-            // Find ALL inputs without labels
-            const inputs = document.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea, select');
-            let fixed = 0;
-            
-            inputs.forEach(function(input) {
-                // Skip if already has label or aria-label
-                if (input.getAttribute('aria-label') || input.getAttribute('aria-labelledby')) {
-                    return;
-                }
-                
-                // Check if has associated label
-                if (input.id && document.querySelector('label[for="' + input.id + '"]')) {
-                    return;
-                }
-                
-                // Generate ID if missing
-                if (!input.id) {
-                    input.id = 'auto-id-' + Math.random().toString(36).substr(2, 9);
-                }
-                
-                // Determine label text
-                let labelText = '';
-                const name = input.name || '';
-                const type = input.type || '';
-                
-                // Smart label detection
-                if (name.includes('travel_date') || name.includes('date') || type === 'date') {
-                    labelText = 'Ngày khởi hành';
-                } else if (name.includes('name') || name.includes('full_name')) {
-                    labelText = 'Họ và tên';
-                } else if (name.includes('email')) {
-                    labelText = 'Email';
-                } else if (name.includes('phone') || name.includes('tel') || type === 'tel') {
-                    labelText = 'Số điện thoại';
-                } else if (name.includes('message') || input.tagName === 'TEXTAREA') {
-                    labelText = 'Tin nhắn';
-                } else if (name.includes('subject')) {
-                    labelText = 'Tiêu đề';
-                } else if (input.placeholder) {
-                    labelText = input.placeholder;
-                } else if (name) {
-                    labelText = name.replace(/_/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
-                } else {
-                    labelText = 'Thông tin';
-                }
-                
-                // Add aria-label
-                input.setAttribute('aria-label', labelText);
-                
-                // Add aria-required if required
-                if (input.required || input.hasAttribute('required')) {
-                    input.setAttribute('aria-required', 'true');
-                }
-                
-                // Add visible label if parent allows
-                const parent = input.parentElement;
-                if (parent && !parent.querySelector('label[for="' + input.id + '"]')) {
-                    const label = document.createElement('label');
-                    label.setAttribute('for', input.id);
-                    label.textContent = labelText;
-                    label.style.display = 'block';
-                    label.style.marginBottom = '6px';
-                    label.style.fontWeight = '600';
-                    label.style.fontSize = '14px';
-                    label.style.color = '#374151';
-                    
-                    if (input.required) {
-                        const req = document.createElement('span');
-                        req.textContent = ' *';
-                        req.style.color = '#ef4444';
-                        label.appendChild(req);
-                    }
-                    
-                    parent.insertBefore(label, input);
-                    fixed++;
-                }
-            });
-            
-            if (fixed > 0) {
-                console.log('✓ Form Accessibility: Fixed ' + fixed + ' inputs');
-            }
-        }
-        
-        // Run immediately
-        ultraFixFormLabels();
-        
-        // Run multiple times to catch dynamic forms
-        setTimeout(ultraFixFormLabels, 300);
-        setTimeout(ultraFixFormLabels, 800);
-        setTimeout(ultraFixFormLabels, 1500);
-        setTimeout(ultraFixFormLabels, 3000);
-        
-        // Monitor DOM changes
-        if (typeof MutationObserver !== 'undefined') {
-            const observer = new MutationObserver(function(mutations) {
-                let hasNewInputs = false;
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT' || node.querySelector('input, textarea, select'))) {
-                            hasNewInputs = true;
-                        }
-                    });
-                });
-                if (hasNewInputs) {
-                    setTimeout(ultraFixFormLabels, 100);
-                }
-            });
-            
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
-    })();
+    !function(){function e(){const e=document.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea, select');let t=0;e.forEach((function(e){if(e.getAttribute("aria-label")||e.getAttribute("aria-labelledby"))return;if(e.id&&document.querySelector('label[for="'+e.id+'"]'))return;e.id||(e.id="auto-id-"+Math.random().toString(36).substr(2,9));let n="";const a=e.name||"",i=e.type||"";if(a.includes("travel_date")||a.includes("date")||"date"===i)n="Ngày khởi hành";else if(a.includes("name")||a.includes("full_name"))n="Họ và tên";else if(a.includes("email"))n="Email";else if(a.includes("phone")||a.includes("tel")||"tel"===i)n="Số điện thoại";else if(a.includes("message")||"TEXTAREA"===e.tagName)n="Tin nhắn";else if(a.includes("subject"))n="Tiêu đề";else if(e.placeholder)n=e.placeholder;else if(a)n=a.replace(/_/g," ").replace(/\b\w/g,(function(e){return e.toUpperCase()}));else n="Thông tin";if(e.setAttribute("aria-label",n),(e.required||e.hasAttribute("required"))&&e.setAttribute("aria-required","true"),parent=e.parentElement){const a=parent.querySelector('label[for="'+e.id+'"]');if(!a){const a=document.createElement("label");if(a.setAttribute("for",e.id),a.textContent=n,a.style.display="block",a.style.marginBottom="6px",a.style.fontWeight="600",a.style.fontSize="14px",a.style.color="#374151",e.required){const e=document.createElement("span");e.textContent=" *",e.style.color="#ef4444",a.appendChild(e)}parent.insertBefore(a,e),t++}}})),t>0&&console.log("✓ Form Accessibility: Fixed "+t+" inputs")}if(e(),setTimeout(e,300),setTimeout(e,800),setTimeout(e,1500),setTimeout(e,3e3),"undefined"!=typeof MutationObserver){new MutationObserver((function(t){let n=!1;t.forEach((function(e){e.addedNodes.forEach((function(e){1===e.nodeType&&("INPUT"===e.tagName||"TEXTAREA"===e.tagName||"SELECT"===e.tagName||e.querySelector("input, textarea, select"))&&(n=!0)}))})),n&&setTimeout(e,100)})).observe(document.body,{childList:!0,subtree:!0})}}();
     </script>
     <?php
 }, 9999);
@@ -1369,7 +1421,7 @@ add_action('admin_enqueue_scripts', function($hook){
         '<button type="button" class="button-link dln-remove" style="position:absolute;top:-6px;right:-6px;background:#fff;border:1px solid #ddd;border-radius:50%;width:22px;height:22px;line-height:20px;text-align:center;">×</button>'+
         '</div>';w.find('.dln-gallery-items').append(h);});u($wrap);});f.open();});
         $(document).on('click','.dln-gallery-item .dln-remove',function(){var $wrap=$(this).closest('.dln-gallery-wrapper');$(this).closest('.dln-gallery-item').remove();u($wrap);});
-        $(document).on('click','.dln-gallery-clear',function(){var $wrap=$(this).closest('.dln-gallery-wrapper');$wrap.find('.dln-gallery-items').empty();u($wrap);});})(jQuery);
+        $(document).on('click','.dln-gallery-clear',function(){var $wrap=$(this).closest('.dln-gallery-wrapper');$wrap.find('.dln-gallery-items').empty();u($wrap);});});})(jQuery);
         </script>
         <style>
             #dln-gallery-wrapper .dln-gallery-item img{display:block;width:100px;height:100px;object-fit:cover}

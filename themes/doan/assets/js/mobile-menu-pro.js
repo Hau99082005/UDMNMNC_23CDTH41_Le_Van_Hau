@@ -7,8 +7,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Mobile Menu: Initializing...');
     
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    // Support both old and new Bootstrap navbar structure
+    const menuToggle = document.querySelector('.menu-toggle') || document.querySelector('.navbar-toggler');
+    const mobileMenu = document.querySelector('.mobile-menu') || document.querySelector('.navbar-collapse');
     const mobileMenuClose = document.querySelector('.mobile-menu-close');
     const overlay = document.querySelector('.mobile-menu-overlay');
     
@@ -17,12 +18,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Opening menu...');
         
         if (mobileMenu) {
-            mobileMenu.classList.add('active');
-            // FORCE show menu
-            mobileMenu.style.setProperty('transform', 'translateX(0)', 'important');
-            mobileMenu.style.setProperty('opacity', '1', 'important');
-            mobileMenu.style.setProperty('visibility', 'visible', 'important');
-            mobileMenu.style.setProperty('display', 'block', 'important');
+            // Check if it's Bootstrap navbar-collapse
+            if (mobileMenu.classList.contains('navbar-collapse')) {
+                mobileMenu.classList.add('show');
+                mobileMenu.style.setProperty('display', 'block', 'important');
+            } else {
+                // Old mobile menu structure
+                mobileMenu.classList.add('active');
+                mobileMenu.style.setProperty('transform', 'translateX(0)', 'important');
+                mobileMenu.style.setProperty('opacity', '1', 'important');
+                mobileMenu.style.setProperty('visibility', 'visible', 'important');
+                mobileMenu.style.setProperty('display', 'block', 'important');
+            }
         }
         
         if (overlay) {
@@ -33,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (menuToggle) {
             menuToggle.classList.add('active');
+            // Set aria-expanded for Bootstrap
+            menuToggle.setAttribute('aria-expanded', 'true');
         }
         
         document.body.classList.add('mobile-menu-open');
@@ -44,10 +53,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to close menu
     function closeMenu() {
         console.log('Closing menu...');
-        if (mobileMenu) mobileMenu.classList.remove('active');
+        
+        if (mobileMenu) {
+            // Check if it's Bootstrap navbar-collapse
+            if (mobileMenu.classList.contains('navbar-collapse')) {
+                mobileMenu.classList.remove('show');
+                mobileMenu.style.setProperty('display', 'none', 'important');
+            } else {
+                // Old mobile menu structure
+                mobileMenu.classList.remove('active');
+            }
+        }
+        
         if (overlay) overlay.classList.remove('active');
-        if (menuToggle) menuToggle.classList.remove('active');
+        if (menuToggle) {
+            menuToggle.classList.remove('active');
+            // Set aria-expanded for Bootstrap
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }
+        
         document.body.classList.remove('mobile-menu-open');
+        document.body.style.overflow = '';
+        console.log('✅ Menu closed successfully');
     }
     
     // Hamburger button click
@@ -55,7 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('Hamburger clicked');
-            const isActive = mobileMenu && mobileMenu.classList.contains('active');
+            
+            // Check if it's Bootstrap navbar-collapse
+            const isActive = mobileMenu && (
+                mobileMenu.classList.contains('active') || 
+                mobileMenu.classList.contains('show')
+            );
+            
             if (isActive) {
                 closeMenu();
             } else {
